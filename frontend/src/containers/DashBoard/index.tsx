@@ -1,5 +1,3 @@
-// @flow
-import * as React from "react";
 import ContentRoute from "../../components/ContentRoute";
 import Navigation from "../../components/Navbar";
 import routes from "../../consts/routes";
@@ -11,9 +9,9 @@ export const DashBoard = (props: Props) => {
         return result;
     };
     return (
-        <div className="flex">
+        <div className="flex w-full bg-blue-600">
             <Navigation />
-            <div className="text-4xl">{renderContent()}</div>
+            <div className="text-4xl text-center ">{renderContent()}</div>
         </div>
     );
 };

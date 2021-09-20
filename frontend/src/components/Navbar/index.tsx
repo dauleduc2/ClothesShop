@@ -1,23 +1,26 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import routes from "../../consts/routes";
+import navigationRoutes from "../../consts/routes";
 interface NavigationProps {}
 
 const Navigation: React.FunctionComponent<NavigationProps> = () => {
     const renderSelection = () => {
         let result;
-        result = routes.map((route) => (
-            <li className="mb-4 rounded-lg">
-                <NavLink
-                    to={route.to}
-                    exact={route.exact}
-                    className="flex items-center gap-4 px-4 py-3 text-sm font-light text-gray-700 rounded-lg"
-                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
-                >
-                    {route.buttonName}
-                </NavLink>
-            </li>
-        ));
+        result = navigationRoutes.map((route) => {
+            const { icon: IconComponent } = route;
+            return (
+                <li className="mb-4 rounded-lg">
+                    <NavLink
+                        to={route.to}
+                        exact={route.exact}
+                        className="flex items-center gap-4 px-4 py-3 text-sm font-light text-gray-700 rounded-lg"
+                        activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                    >
+                        <IconComponent />
+                        {route.buttonName}
+                    </NavLink>
+                </li>
+            );
+        });
 
         return result;
     };
