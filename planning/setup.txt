@@ -1,0 +1,10 @@
+
+backend
+- connection backend and database
+- validator helper
+- file upload helper : multer
+- dotenv
+front end
+- setup redux
+- axios
+- router
