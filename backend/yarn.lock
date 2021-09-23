@@ -1311,6 +1311,11 @@ joi-objectid@^4.0.2:
   resolved "https://registry.yarnpkg.com/joi-objectid/-/joi-objectid-4.0.2.tgz#a4065aa91431bbc6959a57f7b4d1dd10bd95a4b7"
   integrity sha512-OjYM+wK/JGo2bSb9ADEyzxxROJPZYtrqIwBbywpJ2a98oKlbLtWTKvpzmrnXzou69Ey9EsjHsFvZYzpjeCdKuA==
 
+joi-password@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/joi-password/-/joi-password-1.6.0.tgz#aacdf72b1d0ad47446154d3ba7923b1e5993f72d"
+  integrity sha512-TwpH/5iyuC8d7vroJKPCLNIGPvKghTPCOJEH4NT9d00s3FLFENKs6x8qLna21M97d79S1EWJutnxhIk4X5MECQ==
+
 joi@*, joi@^17.4.2:
   version "17.4.2"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.4.2.tgz#02f4eb5cf88e515e614830239379dcbbe28ce7f7"
