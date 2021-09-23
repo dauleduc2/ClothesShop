@@ -6,10 +6,10 @@ import { Product } from "./Product";
 @Entity()
 export class OrderItem {
     @ManyToOne((type) => OrderList, (orderList) => orderList.orderID)
-    orderID: string; //???
+    orderID: string;
 
     @ManyToOne((type) => Product, (product) => product.productID)
-    productID: string; //???
+    productID: string;
 
     @Column()
     amount: number;

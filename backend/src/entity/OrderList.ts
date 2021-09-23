@@ -5,7 +5,7 @@ import { User } from "./User";
 @Entity()
 export class OrderList {
     @ManyToOne((type) => User, (user) => user.userID)
-    userID: string; //???
+    userID: string;
 
     @PrimaryGeneratedColumn("uuid")
     orderID: string;
