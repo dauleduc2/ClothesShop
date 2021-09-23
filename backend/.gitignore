@@ -6,6 +6,5 @@ tmp/
 temp/
 # env
 **/**.env.**
-src/config
 # image files
 uploads/*.*
