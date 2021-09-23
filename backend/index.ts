@@ -1,11 +1,20 @@
-//dotenv set up file
-const path = require("path");
-require("dotenv").config({
-  path: path.resolve(__dirname, `./config/.env.${process.env.NODE_ENV}`),
+import dbStartUp from "./src/startup/db";
+import * as express from "express";
+import * as path from "path";
+import * as dotenv from "dotenv";
+import middlewareConfig from "./src/startup/middleware";
+import routeConfig from "./src/startup/routes";
+import "reflect-metadata";
+//dotenv config
+dotenv.config({
+    path: path.resolve(__dirname, `./src/config/.env.${process.env.NODE_ENV}`),
 });
 //startup
-const express = require("express");
 const app = express();
-require("./src/startup/middleware")(app);
+middlewareConfig(app);
+dbStartUp();
+routeConfig(app);
 
-export type AppType = ReturnType<typeof app>;
+//listen
+const port = process.env.PORT || 27017;
+app.listen(port, () => console.log(`listen on port ${port}...`));

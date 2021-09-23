@@ -1,11 +1,10 @@
-import { AppType } from "./../../index";
+import { Application } from "express";
+import * as express from "express";
+import * as cors from "cors";
+import * as cookieParser from "cookie-parser";
 
-const express = require("express");
-
-module.exports = function (app: AppType) {
-  const cors = require("cors");
-  const cookieParser = require("cookie-parser");
-  app.use(cors({ origin: process.env.client_url, credentials: true }));
+export default function (app: Application) {
+  app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
   app.use(cookieParser());
   app.use(express.static("public"));
-};
+}
