@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 @Entity()
 export class Color {
     @PrimaryGeneratedColumn("uuid")
-    colorID: string;
+    ID: string;
 
     @Column()
     color: string;

@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 @Entity()
 export class Image {
     @PrimaryGeneratedColumn("uuid")
-    imageID: string;
+    ID: string;
 
     @Column()
     imageLink: string;

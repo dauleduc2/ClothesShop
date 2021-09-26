@@ -4,11 +4,11 @@ import { User } from "./User";
 //product model
 @Entity()
 export class OrderList {
-    @ManyToOne((type) => User, (user) => user.userID)
-    userID: string;
+    @ManyToOne((type) => User, (user) => user.ID)
+    user: string;
 
     @PrimaryGeneratedColumn("uuid")
-    orderID: string;
+    ID: string;
 
     @Column("tinyint")
     status: string;

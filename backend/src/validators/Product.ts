@@ -2,13 +2,17 @@ import * as Joi from "joi";
 import { Product } from "../entity/Product";
 
 const ProductSchema = Joi.object<Product>({
-    productID: Joi.string().max(50).required(),
+    ID: Joi.string().max(50).required(),
     name: Joi.string().max(255).required(),
-    amount: Joi.number().required(),
+    quantity: Joi.number().required(),
     description: Joi.string().max(1020).required(),
     price: Joi.number().required(),
     status: Joi.number().max(50).required(),
     createDate: Joi.date().required(),
+    sizes: Joi.array().items(Joi.string()),
+    colors: Joi.array().items(Joi.string()),
+    types: Joi.array().items(Joi.string()),
+    images: Joi.array().items(Joi.string()),
 });
 
 export default ProductSchema;

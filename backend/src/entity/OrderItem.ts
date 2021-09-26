@@ -1,21 +1,24 @@
-import { Entity, Column, Double, ManyToOne } from "typeorm";
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { IsDate } from "class-validator";
 import { OrderList } from "./OrderList";
 import { Product } from "./Product";
 //product model
 @Entity()
 export class OrderItem {
-    @ManyToOne((type) => OrderList, (orderList) => orderList.orderID)
-    orderID: string;
+    @PrimaryGeneratedColumn("uuid")
+    ID: string;
 
-    @ManyToOne((type) => Product, (product) => product.productID)
-    productID: string;
+    @ManyToOne((type) => OrderList, (orderList) => orderList.ID)
+    order: string;
+
+    @ManyToOne((type) => Product, (product) => product.ID)
+    product: string;
 
     @Column()
     amount: number;
 
     @Column()
-    price: Double;
+    price: number;
 
     @Column({
         type: "datetime",

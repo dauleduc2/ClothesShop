@@ -5,10 +5,12 @@ import { IsDate, IsEmail } from "class-validator";
 @Entity()
 export class User {
     @PrimaryGeneratedColumn("uuid")
-    userID: string;
+    ID: string;
 
-    @Column()
-    username: string;
+    // @Column({
+    //     unique: true,
+    // })
+    // username: string;
 
     @Column()
     password: string;
@@ -16,16 +18,25 @@ export class User {
     @Column()
     fullName: string;
 
+    @Column()
+    avatar: string;
+
     @Column({
         unique: true,
     })
     @IsEmail()
     email: string;
 
-    @Column("tinyint")
+    @Column({
+        type: "tinyint",
+        default: 0,
+    })
     userStatus: number;
 
-    @Column("tinyint")
+    @Column({
+        type: "tinyint",
+        default: 0,
+    })
     role: number;
 
     @Column({
