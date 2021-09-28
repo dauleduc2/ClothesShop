@@ -9,10 +9,10 @@ import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../Repository/UserRepository";
 import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
-import { authMiddleware } from "../middlewares/authMiddleware";
+import { authenMiddleware } from "../middlewares/authenMiddleware";
 const router = express.Router();
 //GET me
-router.get("/me", authMiddleware, async (req: Request, res: Response) => {
+router.get("/me", authenMiddleware, async (req: Request, res: Response) => {
     return res
         .status(200)
         .send(dataHelper.getResponseForm(null, "get current user information"));
@@ -29,7 +29,7 @@ router.get("/:username", async (req: Request, res: Response) => {
 //GET logout
 router.get(
     "/me/logout",
-    authMiddleware,
+    authenMiddleware,
     async (req: Request, res: Response) => {
         res.cookie("x-auth-token", "", {
             maxAge: -1,
@@ -82,13 +82,14 @@ router.post(
     "/register",
     multerErrorMiddleware(upload.single("image")),
     async (req: Request, res: Response) => {
-        const { password, email, fullName, username } = req.body;
+        const { password, email, fullName, username, role } = req.body;
         let user = new User();
         user.password = password;
         user.email = email;
         user.fullName = fullName;
         user.username = username;
         user.avatar = req.file.path;
+        // user.role = role;
         //validate user
         const { error } = validateUser(user);
         if (error)

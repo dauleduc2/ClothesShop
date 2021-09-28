@@ -5,6 +5,7 @@ import { TypeRepository } from "../Repository/TypeRepository";
 import { Type } from "../entity/Type";
 import validateType from "../validators/Type";
 import * as dataHelper from "../utils/dataHelper";
+
 const router = express.Router();
 
 //POST get all type
