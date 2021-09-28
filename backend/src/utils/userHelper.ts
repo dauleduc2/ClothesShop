@@ -10,6 +10,7 @@ export const genToken = async (user: User) => {
             avatar: user.avatar,
             userStatus: user.userStatus,
             createDate: user.createDate,
+            username: user.username,
         },
         process.env.JWTSECRETKEY
     );

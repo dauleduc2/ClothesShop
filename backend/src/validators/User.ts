@@ -3,7 +3,7 @@ import * as Joi from "joi";
 import { JoiPassword } from "joi-password";
 const UserSchema = Joi.object<User>({
     ID: Joi.string().max(50),
-    // username: Joi.string().max(255).required(),
+    username: Joi.string().max(255).required(),
     password: JoiPassword.string().noWhiteSpaces().required(),
     fullName: Joi.string().max(255).required(),
     email: Joi.string().email().max(255).required(),

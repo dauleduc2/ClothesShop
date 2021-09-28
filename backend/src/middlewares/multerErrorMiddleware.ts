@@ -7,7 +7,7 @@ export function multerErrorMiddleware(multerAction: any) {
             if (err instanceof multer.MulterError) {
                 return res.status(418).send(Buffer.from(err.message));
             } else if (err) {
-                return res.status(400).send("Something failed");
+                return res.status(400).send(err);
             }
             next();
         });

@@ -9,7 +9,7 @@ export const DashBoard = (props: Props) => {
         return result;
     };
     return (
-        <div className="flex w-full bg-blue-600">
+        <div className="flex w-full text-white bg-gradient-to-bl from-light-blue-500 to-light-blue-700">
             <Navigation />
             <div className="text-4xl text-center ">{renderContent()}</div>
         </div>

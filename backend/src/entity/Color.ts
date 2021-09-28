@@ -2,9 +2,9 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 //size model
 @Entity()
 export class Color {
-    @PrimaryGeneratedColumn("uuid")
-    ID: string;
+    @PrimaryGeneratedColumn()
+    ID: number;
 
     @Column()
-    color: string;
+    name: string;
 }

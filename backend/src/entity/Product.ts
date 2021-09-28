@@ -50,7 +50,7 @@ export class Product {
     @JoinTable()
     colors: Color[];
 
-    @ManyToMany((type) => Image)
+    @ManyToMany((type) => Image, { cascade: true })
     @JoinTable()
     images: Image[];
 }

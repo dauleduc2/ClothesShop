@@ -11,12 +11,22 @@ import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
 import { authMiddleware } from "../middlewares/authMiddleware";
 const router = express.Router();
+//GET me
 router.get("/me", authMiddleware, async (req: Request, res: Response) => {
-    return res.send(
-        dataHelper.getResponseForm(null, "get current user information")
-    );
+    return res
+        .status(200)
+        .send(dataHelper.getResponseForm(null, "get current user information"));
 });
+//GET get user by username
+router.get("/:username", async (req: Request, res: Response) => {
+    const { username } = req.params;
+    //get connection
+    const userRepo = await getCustomRepository(UserRepository);
+    const user = await userRepo.findByUsername(username);
 
+    res.status(200).send(dataHelper.getResponseForm(user, "get user success"));
+});
+//GET logout
 router.get(
     "/me/logout",
     authMiddleware,
@@ -24,22 +34,27 @@ router.get(
         res.cookie("x-auth-token", "", {
             maxAge: -1,
         });
-        return res.send(dataHelper.getResponseForm(null, "logout success!"));
+        return res
+            .status(200)
+            .send(dataHelper.getResponseForm(null, "logout success!"));
     }
 );
-
+//POST login
 router.post("/login", async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     //get connection
     const userRepo = await getCustomRepository(UserRepository);
-    const user: User = await userRepo.findByEmail(email);
-    //check valid email
+    const user: User = await userRepo.findByUsername(username);
+    //check valid username
     if (!user)
         return res
-            .status(401)
+            .status(400)
             .send(
-                dataHelper.getResponseForm(null, "email or password is invalid")
+                dataHelper.getResponseForm(
+                    null,
+                    "username or password is invalid"
+                )
             );
     //check valid password
     const isValidPassword = await bcrypt.compare(password, user.password);
@@ -47,7 +62,10 @@ router.post("/login", async (req: Request, res: Response) => {
         return res
             .status(400)
             .send(
-                dataHelper.getResponseForm(null, "email or password is invalid")
+                dataHelper.getResponseForm(
+                    null,
+                    "username or password is invalid"
+                )
             );
     //set token to cookie
     const token = await userHelper.genToken(user);
@@ -59,20 +77,24 @@ router.post("/login", async (req: Request, res: Response) => {
         .send(dataHelper.getResponseForm(null, "login access...!"));
 });
 
+//POST register user
 router.post(
     "/register",
     multerErrorMiddleware(upload.single("image")),
     async (req: Request, res: Response) => {
-        const { password, email, fullName } = req.body;
+        const { password, email, fullName, username } = req.body;
         let user = new User();
         user.password = password;
         user.email = email;
         user.fullName = fullName;
+        user.username = username;
         user.avatar = req.file.path;
         //validate user
         const { error } = validateUser(user);
         if (error)
-            return res.send(dataHelper.getResponseForm(null, error.details));
+            return res
+                .status(400)
+                .send(dataHelper.getResponseForm(null, error.details));
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         //check is esxisted user
@@ -87,6 +109,16 @@ router.post(
                     )
                 );
 
+        isExistedUser = await userRepo.findByUsername(username);
+        if (isExistedUser)
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        "This username already existed"
+                    )
+                );
         //add user
         const result: User = await userRepo.addNewUser(user);
         //gen token
