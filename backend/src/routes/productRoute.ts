@@ -14,6 +14,8 @@ import { SizeRepository } from "../Repository/SizeRepository";
 import { ColorRepository } from "../Repository/ColorRepository";
 import { TypeRepository } from "../Repository/TypeRepository";
 import { Image } from "../entity/Image";
+import { authenMiddleware } from "../middlewares/authenMiddleware";
+import { authorMiddleware } from "../middlewares/authorMiddleware";
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
@@ -22,7 +24,12 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.post(
     "/",
-    multerErrorMiddleware(upload.array("images", 5)),
+    [
+        authenMiddleware,
+        authorMiddleware,
+        multerErrorMiddleware(upload.array("images", 5)),
+    ],
+
     async (req: Request, res: Response) => {
         const {
             name,

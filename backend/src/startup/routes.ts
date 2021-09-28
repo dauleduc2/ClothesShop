@@ -6,20 +6,14 @@ import userRouter from "../routes/userRoute";
 import colorRouter from "../routes/colorRoute";
 import sizeRouter from "../routes/sizeRoute";
 import typeRouter from "../routes/typeRoute";
-import { authenMiddleware } from "../middlewares/authenMiddleware";
-import { authorMiddleware } from "../middlewares/authorMiddleware";
 
 export default function (app: Application) {
     app.use(express.json());
     app.use(helmet());
     app.use(express.static(process.cwd() + "/public/"));
-    app.use(
-        "/api/product",
-        [authenMiddleware, authorMiddleware],
-        productRouter
-    );
+    app.use("/api/product", productRouter);
     app.use("/api/user", userRouter);
-    app.use("/api/color", [authenMiddleware, authorMiddleware], colorRouter);
-    app.use("/api/size", [authenMiddleware, authorMiddleware], sizeRouter);
-    app.use("/api/type", [authenMiddleware, authorMiddleware], typeRouter);
+    app.use("/api/color", colorRouter);
+    app.use("/api/size", sizeRouter);
+    app.use("/api/type", typeRouter);
 }

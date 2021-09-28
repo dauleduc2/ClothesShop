@@ -4,6 +4,8 @@ import { getCustomRepository } from "typeorm";
 import { ColorRepository } from "../Repository/ColorRepository";
 import { Color } from "../entity/Color";
 import validateColor from "../validators/Color";
+import { authenMiddleware } from "../middlewares/authenMiddleware";
+import { authorMiddleware } from "../middlewares/authorMiddleware";
 import * as dataHelper from "../utils/dataHelper";
 
 const router = express.Router();
@@ -17,33 +19,39 @@ router.get("/", async (req: Request, res: Response) => {
         .send(dataHelper.getResponseForm(colorList, "get all color success!"));
 });
 
-router.post("/", async (req: Request, res: Response) => {
-    const { name } = req.body;
-    let newColor = new Color();
-    newColor.name = name;
-    //validate
-    const { error } = validateColor(newColor);
-    if (error)
+router.post(
+    "/",
+    [authenMiddleware, authorMiddleware],
+    async (req: Request, res: Response) => {
+        const { name } = req.body;
+        let newColor = new Color();
+        newColor.name = name;
+        //validate
+        const { error } = validateColor(newColor);
+        if (error)
+            return res
+                .status(400)
+                .send(dataHelper.getResponseForm(null, error.details));
+        //get connection
+        const colorRepo = await getCustomRepository(ColorRepository);
+        //check duplicate
+        const isDuplicate = await colorRepo.findByName(newColor.name);
+        if (isDuplicate)
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        "this color already have in store"
+                    )
+                );
+        //add color
+        await colorRepo.addNewColor(newColor);
         return res
-            .status(400)
-            .send(dataHelper.getResponseForm(null, error.details));
-    //get connection
-    const colorRepo = await getCustomRepository(ColorRepository);
-    //check duplicate
-    const isDuplicate = await colorRepo.findByName(newColor.name);
-    if (isDuplicate)
-        return res
-            .status(400)
+            .status(200)
             .send(
-                dataHelper.getResponseForm(
-                    null,
-                    "this color already have in store"
-                )
+                dataHelper.getResponseForm(newColor, "add new color success!")
             );
-    //add color
-    await colorRepo.addNewColor(newColor);
-    return res
-        .status(200)
-        .send(dataHelper.getResponseForm(newColor, "add new color success!"));
-});
+    }
+);
 export default router;
