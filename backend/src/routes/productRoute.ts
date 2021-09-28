@@ -4,6 +4,8 @@ import { Type } from "./../entity/Type";
 import { multerErrorMiddleware } from "./../middlewares/multerErrorMiddleware";
 import { Request, Response } from "express";
 import upload from "../utils/multerHelper";
+// import  from "../middlewares/multerErrorMiddleware";
+import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 import * as express from "express";
 import { Product } from "../entity/Product";
 import validateProduct from "../validators/Product";

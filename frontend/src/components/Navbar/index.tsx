@@ -8,7 +8,7 @@ const Navigation: React.FunctionComponent<NavigationProps> = () => {
         result = navigationRoutes.map((route) => {
             const { icon: IconComponent } = route;
             return (
-                <li className="mb-4 rounded-lg">
+                <li className="mb-4 rounded-lg" key={route.buttonName}>
                     <NavLink
                         to={route.to}
                         exact={route.exact}
