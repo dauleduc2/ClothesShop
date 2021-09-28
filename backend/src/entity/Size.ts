@@ -2,9 +2,11 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 //size model
 @Entity()
 export class Size {
-    @PrimaryGeneratedColumn("uuid")
-    sizeID: string;
+    @PrimaryGeneratedColumn()
+    ID: number;
 
-    @Column()
-    sizeName: string;
+    @Column({
+        unique: true,
+    })
+    name: string;
 }

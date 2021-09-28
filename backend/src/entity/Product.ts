@@ -2,8 +2,8 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    Double,
-    OneToMany,
+    ManyToMany,
+    JoinTable,
 } from "typeorm";
 import { IsDate } from "class-validator";
 import { Size } from "./Size";
@@ -14,7 +14,7 @@ import { Image } from "./Image";
 @Entity()
 export class Product {
     @PrimaryGeneratedColumn("uuid")
-    productID: string;
+    ID: string;
 
     @Column()
     name: string;
@@ -26,7 +26,7 @@ export class Product {
     description: string;
 
     @Column()
-    price: Double;
+    price: number;
 
     @Column("tinyint")
     status: number;
@@ -38,15 +38,19 @@ export class Product {
     @IsDate()
     createDate: Date;
 
-    @OneToMany((type) => Size, (size) => size.sizeID)
+    @ManyToMany((type) => Size)
+    @JoinTable()
     sizes: Size[];
 
-    @OneToMany((type) => Type, (type) => type.typeID)
+    @ManyToMany((type) => Type)
+    @JoinTable()
     types: Type[];
 
-    @OneToMany((type) => Color, (color) => color.colorID)
+    @ManyToMany((type) => Color)
+    @JoinTable()
     colors: Color[];
 
-    @OneToMany((type) => Image, (image) => image.imageID)
+    @ManyToMany((type) => Image, { cascade: true })
+    @JoinTable()
     images: Image[];
 }

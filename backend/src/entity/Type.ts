@@ -2,9 +2,11 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 //type model
 @Entity()
 export class Type {
-    @PrimaryGeneratedColumn("uuid")
-    typeID: string;
+    @PrimaryGeneratedColumn()
+    ID: number;
 
-    @Column()
-    nameOfType: string;
+    @Column({
+        unique: true,
+    })
+    name: string;
 }
