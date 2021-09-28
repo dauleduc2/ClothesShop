@@ -1,8 +1,7 @@
 import * as React from "react";
-import InputField from "../common/InputField";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
-import TextField from "@mui/material/TextField";
+import { TextField } from "@mui/material";
 interface LoginProps {}
 interface LoginField {
     username: String;
@@ -26,39 +25,24 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         <div className="flex items-center justify-center w-full h-screen">
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col p-4 text-white"
+                className="flex flex-col w-6/12 max-w-sm p-4 text-white"
             >
                 <TextField
                     id="username"
                     label="Username"
                     variant="standard"
                     className="text-white"
+                    fullWidth
                     {...register("username")}
                 />
                 <TextField
                     id="password"
+                    fullWidth
                     label="Password"
                     variant="standard"
                     {...register("password")}
                 />
-                {/* <InputField
-                    label="Username"
-                    field="username"
-                    register={register}
-                />
-                <InputField
-                    label="Password"
-                    field="password"
-                    type="password"
-                    register={register}
-                /> */}
                 <div className="w-full mt-4">
-                    {/* <button
-                        className="w-full px-5 py-3 text-sm font-medium text-white transition-all bg-blue-400 rounded hover:bg-blue-600 active:bg-grey-900 focus:outline-none focus:border-purple-200"
-                        type="submit"
-                    >
-                        Button
-                    </button> */}
                     <LoadingButton
                         onClick={handleClick}
                         loading={loading}
@@ -66,6 +50,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                         variant="contained"
                         className="w-full"
                         color="primary"
+                        type="submit"
                     >
                         Send
                     </LoadingButton>
