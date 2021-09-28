@@ -5,13 +5,17 @@ type Props = {};
 export const DashBoard = (props: Props) => {
     const renderContent = () => {
         let result;
-        result = routes.map((route) => <ContentRoute route={route} />);
+        result = routes.map((route) => (
+            <ContentRoute route={route} key={route.buttonName} />
+        ));
         return result;
     };
     return (
-        <div className="flex w-full text-white bg-gradient-to-bl from-light-blue-500 to-light-blue-700">
+        <div className="flex w-full bg-gradient-to-t from-blue-500 to-purple-600">
             <Navigation />
-            <div className="text-4xl text-center ">{renderContent()}</div>
+            <div className="w-full h-full text-4xl text-center text-white">
+                {renderContent()}
+            </div>
         </div>
     );
 };

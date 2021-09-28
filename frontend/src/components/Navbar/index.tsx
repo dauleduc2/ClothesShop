@@ -8,12 +8,15 @@ const Navigation: React.FunctionComponent<NavigationProps> = () => {
         result = navigationRoutes.map((route) => {
             const { icon: IconComponent } = route;
             return (
-                <li className="mb-4 rounded-lg">
+                <li
+                    className="mb-4 text-gray-700 rounded-lg "
+                    key={route.buttonName}
+                >
                     <NavLink
                         to={route.to}
                         exact={route.exact}
-                        className="flex items-center gap-4 px-4 py-3 text-sm font-light text-gray-700 rounded-lg"
-                        activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                        className="flex items-center gap-4 px-4 py-3 text-sm font-semibold rounded-lg "
+                        activeClassName="bg-gradient-to-tr from-lightBlue-500 to-lightBlue-600 text-white shadow-md"
                     >
                         <IconComponent />
                         {route.buttonName}
@@ -33,11 +36,10 @@ const Navigation: React.FunctionComponent<NavigationProps> = () => {
                     href="https://www.facebook.com/"
                     className="inline-block w-full mt-2 text-center"
                 >
-                    <div className="text-3xl">Clothes Shop</div>
+                    <div className="text-2xl font-bold">Clothes Shop</div>
                 </a>
                 <div className="flex flex-col">
                     <hr className="min-w-full my-4" />
-
                     <ul className="flex flex-col min-w-full list-none">
                         {renderSelection()}
                     </ul>
