@@ -1,7 +1,6 @@
 import { Size } from "./../entity/Size";
 import { Color } from "./../entity/Color";
 import { Type } from "./../entity/Type";
-import { multerErrorMiddleware } from "./../middlewares/multerErrorMiddleware";
 import { Request, Response } from "express";
 import upload from "../utils/multerHelper";
 // import  from "../middlewares/multerErrorMiddleware";
