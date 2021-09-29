@@ -19,6 +19,7 @@ const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
         result = routes.navigationRoutes.map((route) => {
             const { icon: IconComponent } = route;
             return (
+
                 <li
                     className="mb-4 text-gray-700 rounded-lg "
                     key={route.buttonName}
