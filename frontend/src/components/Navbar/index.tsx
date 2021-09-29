@@ -1,16 +1,28 @@
 import { NavLink } from "react-router-dom";
-import navigationRoutes from "../../consts/routes";
-interface NavigationProps {}
+import * as routes from "../../consts/routes";
+interface NavigationProps {
+    isOpenning: boolean;
+    onCloseSideBar: Function;
+    isMobile: boolean;
+}
 
-const Navigation: React.FunctionComponent<NavigationProps> = () => {
+const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
+    const { isOpenning, isMobile, onCloseSideBar } = props;
+    const onHandleSelectionClick = () => {
+        if (isMobile) {
+            onCloseSideBar();
+        }
+    };
+
     const renderSelection = () => {
         let result;
-        result = navigationRoutes.map((route) => {
+        result = routes.navigationRoutes.map((route) => {
             const { icon: IconComponent } = route;
             return (
                 <li
                     className="mb-4 text-gray-700 rounded-lg "
                     key={route.buttonName}
+                    onClick={onHandleSelectionClick}
                 >
                     <NavLink
                         to={route.to}
@@ -24,12 +36,13 @@ const Navigation: React.FunctionComponent<NavigationProps> = () => {
                 </li>
             );
         });
-
         return result;
     };
     return (
         <div
-            className={`h-screen top-0 md:left-0 overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-xl bg-white w-64 z-10 py-4 px-6 transition-all duration-300`}
+            className={`h-screen ${
+                isOpenning ? "-ml-0" : "-ml-64"
+            } top-0 md:left-0 overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-xl bg-white w-64 fixed lg:static z-10 py-4 px-6 transition-all duration-300`}
         >
             <div className="relative flex-col items-stretch min-h-full px-0 flex-nowrap">
                 <a

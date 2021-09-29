@@ -7,6 +7,7 @@ import validateColor from "../validators/Color";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import * as dataHelper from "../utils/dataHelper";
+import { User } from "../entity/User";
 
 const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
