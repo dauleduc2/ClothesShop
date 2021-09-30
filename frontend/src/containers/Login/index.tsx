@@ -6,6 +6,7 @@ import "./style.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import * as validateHelper from "../../utils/validateHelper";
+import axiosClient from "../../axios/config";
 interface LoginProps {}
 interface LoginField {
     username: string;
@@ -43,10 +44,23 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         //return
         return errorList;
     };
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: LoginField) => {
         setErrorList(validation(data));
-        console.log(errorList);
-        if (!errorList) window.alert("submitting...");
+        if (errorList !== {}) {
+            // const response: any = await axiosClient
+            //     .post("/api/user/login", {
+            //         username: data.username,
+            //         password: data.password,
+            //     })
+            //     .catch((error) => {
+            //         const { message } = error.response.data.detail;
+            //         window.alert(message);
+            //     });
+            // if (response) {
+            //     window.alert(response.data.detail.message);
+            // }
+            window.alert("submitted");
+        }
     };
 
     return (

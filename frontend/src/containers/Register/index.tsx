@@ -4,6 +4,7 @@ import { TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import * as validateHelper from "../../utils/validateHelper";
 import { useState } from "react";
+import axiosClient from "../../axios/config";
 interface RegisterProps {}
 interface RegisterField {
     username: string;
@@ -60,8 +61,25 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
         return errorList;
     };
     //on submit
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: RegisterField) => {
         setErrorList(validation(data));
+        if (errorList !== {}) {
+            // const response: any = await axiosClient
+            //     .post("/api/user/register", {
+            //         username: data.username,
+            //         password: data.password,
+            //         email: data.email,
+            //         fullName: data.fullName,
+            //     })
+            //     .catch((error) => {
+            //         const { message } = error.response.data.detail;
+            //         window.alert(message);
+            //     });
+            // if (response) {
+            //     window.alert(response.data.detail.message);
+            // }
+            window.alert("submitted");
+        }
     };
     return (
         <div className="flex flex-col items-center justify-center w-full overflow-y-auto h-contentHeight">

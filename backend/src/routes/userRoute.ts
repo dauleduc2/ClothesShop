@@ -88,7 +88,7 @@ router.post(
         user.email = email;
         user.fullName = fullName;
         user.username = username;
-        user.avatar = req.file.path;
+        // user.avatar = req.file.path;
         // user.role = role;
         //validate user
         const { error } = validateUser(user);
