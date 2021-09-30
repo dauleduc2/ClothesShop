@@ -30,7 +30,7 @@ export const DashBoard = (props: Props) => {
         dispatch(UIListAction.setSideBarOpenning(false));
     };
     return (
-        <div className="flex w-full bg-gradient-to-t from-blue-100 to-blue-200">
+        <div className="flex w-full bg-sky-800">
             <Navigation
                 isOpenning={isOpenning}
                 onCloseSideBar={onCloseSideBar}
