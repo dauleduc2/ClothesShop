@@ -1,20 +1,29 @@
-import * as React from "react";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import * as validateHelper from "../../utils/validateHelper";
+import { useState } from "react";
 interface RegisterProps {}
 interface RegisterField {
-    username: String;
-    password: String;
-    confirmPassword: String;
-    email: String;
-    fullName: String;
+    username: string;
+    password: string;
+    confirmPassword: string;
+    email: string;
+    fullName: string;
 }
-
+interface ErrorField {
+    username?: string;
+    password?: string;
+    confirmPassword?: string;
+    email?: string;
+    fullName?: string;
+}
 const Register: React.FunctionComponent<RegisterProps> = () => {
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorList, setErrorList] = useState<ErrorField>();
     const { handleSubmit, register } = useForm<RegisterField>();
+
     function handleClick() {
         document.getElementById("submitButton")?.click();
         setLoading(true);
@@ -22,10 +31,38 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
             setLoading(false);
         }, 5000);
     }
-    const onSubmit = (data: any) => {
-        console.log(data);
-    };
+    //validation
+    const validation = (data: RegisterField): ErrorField => {
+        let errorList: ErrorField = {};
+        //email validation
+        if (!validateHelper.validateEmail(data.email))
+            errorList.email = "Invalid email";
+        if (!data.email) errorList.email = "Required";
+        //full name
+        if (!validateHelper.length(data.fullName, 3, 255))
+            errorList.fullName = "The number of character must between 3 - 255";
+        if (!data.fullName) errorList.fullName = "Required";
+        //username
+        if (!validateHelper.length(data.username, 6, 255))
+            errorList.username = "The number of character must between 6 - 255";
+        if (!data.username) errorList.username = "Required";
+        //password
+        if (!validateHelper.length(data.password, 6, 255))
+            errorList.password = "The number of character must between 6 - 255";
+        if (!data.password) errorList.password = "Required";
+        //confirmPassword
+        if (data.password !== data.confirmPassword)
+            errorList.confirmPassword =
+                "Confirm password must be the same as password";
+        if (!data.confirmPassword) errorList.confirmPassword = "Required";
 
+        //return
+        return errorList;
+    };
+    //on submit
+    const onSubmit = (data: any) => {
+        setErrorList(validation(data));
+    };
     return (
         <div className="flex flex-col items-center justify-center w-full overflow-y-auto h-contentHeight">
             <Typography
@@ -46,6 +83,8 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                     variant="standard"
                     className="mb-5"
                     fullWidth
+                    error={errorList?.email ? true : false}
+                    helperText={errorList?.email}
                     {...register("email")}
                 />
                 <TextField
@@ -54,6 +93,8 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                     variant="standard"
                     className="mb-5"
                     fullWidth
+                    error={errorList?.fullName ? true : false}
+                    helperText={errorList?.fullName}
                     {...register("fullName")}
                 />
                 <TextField
@@ -62,6 +103,8 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                     variant="standard"
                     className="mb-5"
                     fullWidth
+                    error={errorList?.username ? true : false}
+                    helperText={errorList?.username}
                     {...register("username")}
                 />
                 <TextField
@@ -70,6 +113,9 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                     label="Password"
                     variant="standard"
                     className="mb-5"
+                    error={errorList?.password ? true : false}
+                    helperText={errorList?.password}
+                    type="password"
                     {...register("password")}
                 />
                 <TextField
@@ -78,6 +124,9 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                     label="Confirm password"
                     variant="standard"
                     className="mb-5"
+                    type="password"
+                    error={errorList?.confirmPassword ? true : false}
+                    helperText={errorList?.confirmPassword}
                     {...register("confirmPassword")}
                 />
                 <div className="w-full mt-4">
