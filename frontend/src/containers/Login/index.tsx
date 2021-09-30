@@ -4,24 +4,49 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { TextField, Typography } from "@mui/material";
 import "./style.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import * as validateHelper from "../../utils/validateHelper";
 interface LoginProps {}
 interface LoginField {
-    username: String;
-    password: String;
+    username: string;
+    password: string;
 }
-
+interface ErrorField extends Object {
+    username?: string;
+    password?: string;
+}
 const Login: React.FunctionComponent<LoginProps> = () => {
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorList, setErrorList] = useState<ErrorField | undefined>(
+        undefined
+    );
     const { handleSubmit, register } = useForm<LoginField>();
     function handleClick() {
         document.getElementById("submitButton")?.click();
         setLoading(true);
         setInterval(() => {
             setLoading(false);
-        }, 5000);
+        }, 2000);
     }
-    const onSubmit = (data: any) => {
-        console.log(data);
+    //validation
+    const validation = (data: LoginField): ErrorField => {
+        let errorList: ErrorField = {};
+        //username
+        if (!validateHelper.length(data.username, 6, 255))
+            errorList.username = "The number of character must between 6 - 255";
+        if (!data.username) errorList.username = "Required";
+        //password
+        if (!validateHelper.length(data.password, 6, 255))
+            errorList.password = "The number of character must between 6 - 255";
+        if (!data.password) errorList.password = "Required";
+
+        //return
+        return errorList;
+    };
+    const onSubmit = async (data: any) => {
+        setErrorList(validation(data));
+        console.log(errorList);
+        if (!errorList) window.alert("submitting...");
     };
 
     return (
@@ -44,6 +69,8 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                     variant="standard"
                     className="mb-5"
                     fullWidth
+                    error={errorList?.username ? true : false}
+                    helperText={errorList?.username}
                     {...register("username")}
                 />
                 <TextField
@@ -52,6 +79,9 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                     label="Password"
                     variant="standard"
                     className="mb-5"
+                    type="password"
+                    error={errorList?.password ? true : false}
+                    helperText={errorList?.password}
                     {...register("password")}
                 />
                 <div className="w-full mt-4">
