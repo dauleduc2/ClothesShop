@@ -8,6 +8,8 @@ module.exports = {
             colors: { sky: colors.sky, lightBlue: colors.lightBlue },
             spacing: {
                 contentHeight: "calc(100vh - 64px )",
+                120: "30rem",
+                180: "45rem",
             },
         },
     },
