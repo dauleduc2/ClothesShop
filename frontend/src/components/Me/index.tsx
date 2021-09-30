@@ -13,7 +13,7 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen shadow-md">
+        <div className="flex items-center justify-center overflow-y-auto shadow-md h-contentHeight">
             <div className="mr-4">
                 <div className="p-10 mb-4 text-3xl font-semibold text-left bg-gray-100 rounded-t text-sky-800">
                     <p>Information</p>

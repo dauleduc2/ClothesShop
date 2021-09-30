@@ -30,18 +30,18 @@ export const DashBoard = (props: Props) => {
         dispatch(UIListAction.setSideBarOpenning(false));
     };
     return (
-        <div className="flex w-full bg-sky-800">
+        <div className="flex w-full bg-gradient-to-t from-blue-100 to-blue-300">
             <Navigation
                 isOpenning={isOpenning}
                 onCloseSideBar={onCloseSideBar}
                 isMobile={isMobile}
             />
-            <div className="flex flex-col w-full h-screen text-4xl text-center">
+            <div className="flex flex-col w-full h-screen text-4xl text-center ">
                 <ShopBar />
                 <div className="">{renderContent()}</div>
             </div>
             <div
-                className={`fixed w-screen h-screen bg-gray-700 opacity-75 gray-layer ${
+                className={`fixed w-screen h-screen  gray-layer ${
                     isOpenning && isMobile ? "visible" : "hidden"
                 } `}
                 onClick={onCloseSideBar}
