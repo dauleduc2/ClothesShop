@@ -1,7 +1,11 @@
 interface HomePageProps {}
 
 const HomePage: React.FunctionComponent<HomePageProps> = () => {
-    return <div className="text-4xl">home page</div>;
+    return (
+        <div className="overflow-y-auto text-4xl h-contentHeight">
+            this is homepage
+        </div>
+    );
 };
 
 export default HomePage;

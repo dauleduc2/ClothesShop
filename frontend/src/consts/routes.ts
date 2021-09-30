@@ -1,9 +1,12 @@
 import CategoryPage from "../components/Category";
 import HomePage from "../components/HomePage";
 import MePage from "../components/Me";
+
+import LoginPage from "../containers/Login";
 import HomeIcon from "@mui/icons-material/Home";
 import CategoryIcon from "@mui/icons-material/Category";
 import PersonIcon from "@mui/icons-material/Person";
+import Register from "../containers/Register";
 interface Route {
     to: string;
     exact: boolean;
@@ -13,7 +16,7 @@ interface Route {
 }
 type routeList = Route[];
 
-const navigationRoutes: routeList = [
+export const navigationRoutes: routeList = [
     {
         to: "/",
         exact: true,
@@ -29,12 +32,29 @@ const navigationRoutes: routeList = [
         icon: CategoryIcon,
     },
     {
-        to: "/me",
+        to: "/user/me",
         exact: true,
         buttonName: "Me",
         component: MePage,
         icon: PersonIcon,
     },
+    {
+        to: "/user/login",
+        exact: true,
+        buttonName: "Login",
+        component: LoginPage,
+        icon: PersonIcon,
+    },
+
 ];
 
-export default navigationRoutes;
+const anotherRoute: routeList = [
+    {
+        to: "/user/register",
+        exact: true,
+        buttonName: "Register",
+        component: Register,
+    },
+];
+
+export const finalRoute: routeList = [...anotherRoute, ...navigationRoutes];
