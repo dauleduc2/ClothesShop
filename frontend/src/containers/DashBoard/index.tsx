@@ -7,10 +7,13 @@ import { RootState } from "../../redux/config/config";
 import { useMediaQuery } from "@mui/material";
 import { UIListAction } from "../../redux/reducers/UI";
 import { useEffect } from "react";
+import AutoLoginWrapper from "../../common/Auth/AutoLoginWrapper";
 type Props = {};
 export const DashBoard = (props: Props) => {
     const isMobile = useMediaQuery("(max-width:640px)");
     const dispatch = useDispatch();
+
+    //userEffect for mobile side bar
     useEffect(() => {
         if (isMobile) {
             dispatch(UIListAction.setSideBarOpenning(false));
@@ -38,10 +41,10 @@ export const DashBoard = (props: Props) => {
             />
             <div className="flex flex-col w-full h-screen text-4xl text-center ">
                 <ShopBar />
-                <div className="">{renderContent()}</div>
+                <AutoLoginWrapper>{renderContent()}</AutoLoginWrapper>
             </div>
             <div
-                className={`fixed w-screen h-screen  gray-layer ${
+                className={`fixed w-screen h-screen gray-layer bg-gray-700 opacity-80 ${
                     isOpenning && isMobile ? "visible" : "hidden"
                 } `}
                 onClick={onCloseSideBar}

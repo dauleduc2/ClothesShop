@@ -10,13 +10,37 @@ import { UserRepository } from "../Repository/UserRepository";
 import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
+import RequestWithUser from "../interfaces/requestWithUser";
+import * as _ from "lodash";
 const router = express.Router();
 //GET me
-router.get("/me", authenMiddleware, async (req: Request, res: Response) => {
-    return res
-        .status(200)
-        .send(dataHelper.getResponseForm(null, "get current user information"));
-});
+router.get(
+    "/me",
+    authenMiddleware,
+    async (req: RequestWithUser, res: Response) => {
+        const { ID } = req.user;
+        //get connection
+        const userRepo = await getCustomRepository(UserRepository);
+        const user = await userRepo.findByID(ID);
+
+        return res
+            .status(200)
+            .send(
+                dataHelper.getResponseForm(
+                    _.pick(user, [
+                        "username",
+                        "fullName",
+                        "avatar",
+                        "email",
+                        "userStatus",
+                        "role",
+                        "createDate",
+                    ]),
+                    "get current user information success"
+                )
+            );
+    }
+);
 //GET get user by username
 router.get("/:username", async (req: Request, res: Response) => {
     const { username } = req.params;
@@ -83,6 +107,10 @@ router.post(
     multerErrorMiddleware(upload.single("image")),
     async (req: Request, res: Response) => {
         const { password, email, fullName, username, role } = req.body;
+        let duplicateField = {
+            username: false,
+            email: false,
+        };
         let user = new User();
         user.password = password;
         user.email = email;
@@ -101,27 +129,29 @@ router.post(
         //check is esxisted user
         let isExistedUser = await userRepo.findByEmail(email);
         if (isExistedUser)
-            return res
-                .status(400)
-                .send(
-                    dataHelper.getResponseForm(
-                        null,
-                        "This email already existed"
-                    )
-                );
+            duplicateField = {
+                ...duplicateField,
+                email: true,
+            };
 
         isExistedUser = await userRepo.findByUsername(username);
         if (isExistedUser)
+            duplicateField = {
+                ...duplicateField,
+                username: true,
+            };
+        if (duplicateField.email === true || duplicateField.username === true)
             return res
                 .status(400)
                 .send(
                     dataHelper.getResponseForm(
-                        null,
-                        "This username already existed"
+                        duplicateField,
+                        "Duplicate information"
                     )
                 );
         //add user
         const result: User = await userRepo.addNewUser(user);
+        console.log(result);
         //gen token
         const token = userHelper.genToken(result);
         //set token to cookie

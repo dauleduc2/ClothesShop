@@ -14,7 +14,7 @@ const UserSchema = Joi.object<User>({
 });
 
 const validateUser = (user: User) => {
-    return UserSchema.validate(user);
+    return UserSchema.validate(user, { abortEarly: false });
 };
 
 export default validateUser;

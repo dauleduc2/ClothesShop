@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import * as validateHelper from "../../utils/validateHelper";
 import { useState } from "react";
 import axiosClient from "../../axios/config";
+import * as _ from "lodash";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 interface RegisterProps {}
 interface RegisterField {
     username: string;
@@ -20,17 +23,18 @@ interface ErrorField {
     email?: string;
     fullName?: string;
 }
+interface duplicateError {
+    username?: string;
+    email?: string;
+}
 const Register: React.FunctionComponent<RegisterProps> = () => {
     const [loading, setLoading] = useState(false);
     const [errorList, setErrorList] = useState<ErrorField>();
     const { handleSubmit, register } = useForm<RegisterField>();
-
+    const history = useHistory();
     function handleClick() {
         document.getElementById("submitButton")?.click();
         setLoading(true);
-        setInterval(() => {
-            setLoading(false);
-        }, 5000);
     }
     //validation
     const validation = (data: RegisterField): ErrorField => {
@@ -62,24 +66,49 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     };
     //on submit
     const onSubmit = async (data: RegisterField) => {
-        setErrorList(validation(data));
-        if (errorList !== {}) {
-            // const response: any = await axiosClient
-            //     .post("/api/user/register", {
-            //         username: data.username,
-            //         password: data.password,
-            //         email: data.email,
-            //         fullName: data.fullName,
-            //     })
-            //     .catch((error) => {
-            //         const { message } = error.response.data.detail;
-            //         window.alert(message);
-            //     });
-            // if (response) {
-            //     window.alert(response.data.detail.message);
-            // }
-            window.alert("submitted");
+        const validateResult = validation(data);
+        setErrorList(validateResult);
+        if (_.isEqual(validateResult, {})) {
+            const response: any = await axiosClient
+                .post("/api/user/register", {
+                    username: data.username,
+                    password: data.password,
+                    email: data.email,
+                    fullName: data.fullName,
+                })
+                .catch((error) => {
+                    // const message = error.response?.data.detail.message;
+                    const data = error.response?.data;
+
+                    if (data) {
+                        const message = data.detail.message;
+                        const responseData = data.data;
+                        let duplicateError: duplicateError = {};
+                        if (message) {
+                            if (responseData[0].username === true)
+                                duplicateError.username =
+                                    "The username is already existed";
+
+                            if (responseData[0].email === true)
+                                duplicateError.email =
+                                    "The email is already existed";
+                            setErrorList({
+                                ...errorList,
+                                ...duplicateError,
+                            });
+                        } else {
+                            toast.warning(
+                                "There something wrong during connect to server!"
+                            );
+                        }
+                    }
+                });
+            if (response) {
+                toast.success("Register success!");
+                history.push("/user/login");
+            }
         }
+        setLoading(false);
     };
     return (
         <div className="flex flex-col items-center justify-center w-full overflow-y-auto h-contentHeight">

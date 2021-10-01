@@ -7,6 +7,11 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import * as validateHelper from "../../utils/validateHelper";
 import axiosClient from "../../axios/config";
+import * as _ from "lodash";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userListAction } from "../../redux/reducers/user";
 interface LoginProps {}
 interface LoginField {
     username: string;
@@ -22,13 +27,13 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         undefined
     );
     const { handleSubmit, register } = useForm<LoginField>();
+    const history = useHistory();
+    const dispatch = useDispatch();
     function handleClick() {
         document.getElementById("submitButton")?.click();
         setLoading(true);
-        setInterval(() => {
-            setLoading(false);
-        }, 2000);
     }
+
     //validation
     const validation = (data: LoginField): ErrorField => {
         let errorList: ErrorField = {};
@@ -45,22 +50,31 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         return errorList;
     };
     const onSubmit = async (data: LoginField) => {
-        setErrorList(validation(data));
-        if (errorList !== {}) {
-            // const response: any = await axiosClient
-            //     .post("/api/user/login", {
-            //         username: data.username,
-            //         password: data.password,
-            //     })
-            //     .catch((error) => {
-            //         const { message } = error.response.data.detail;
-            //         window.alert(message);
-            //     });
-            // if (response) {
-            //     window.alert(response.data.detail.message);
-            // }
-            window.alert("submitted");
+        const validateResult = validation(data);
+        setErrorList(validateResult);
+        if (_.isEqual(validateResult, {})) {
+            const response: any = await axiosClient
+                .post("/api/user/login", {
+                    username: data.username,
+                    password: data.password,
+                })
+                .catch((error) => {
+                    const message = error.response?.data.detail.message;
+                    if (message) {
+                        toast.warning(message);
+                    } else {
+                        toast.warning(
+                            "There something wrong during connect to server!"
+                        );
+                    }
+                });
+            if (response) {
+                dispatch(userListAction.setLogin(true));
+                toast.success("Login success!");
+                history.push("/user/me");
+            }
         }
+        setLoading(false);
     };
 
     return (
