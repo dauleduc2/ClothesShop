@@ -3,7 +3,7 @@ import Navigation from "../../components/Navbar";
 import * as routes from "../../consts/routes";
 import ShopBar from "../ShopBar";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/config/config";
+import { RootState } from "../../redux";
 import { useMediaQuery } from "@mui/material";
 import { UIListAction } from "../../redux/reducers/UI";
 import { useEffect } from "react";

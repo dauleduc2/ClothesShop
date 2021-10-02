@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     UserState,
-    UserAction,
     UserLoginPayload,
     SetIsLoginPayload,
 } from "../../common/interfaces/user";
@@ -24,7 +23,7 @@ export const user = createSlice({
     name: "user",
     initialState,
     reducers: {
-        resetState: (state: UserState, action: UserAction) => {
+        resetState: () => {
             return {
                 ...initialState,
             };
