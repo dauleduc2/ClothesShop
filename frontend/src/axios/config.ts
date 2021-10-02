@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import database from "../consts/database";
 
-const axiosClient = axios.create({
+const axiosClient: AxiosInstance = axios.create({
     baseURL: database,
     withCredentials: true,
 });

@@ -7,7 +7,7 @@ const TypeSchema = Joi.object<Type>({
 });
 
 const validateType = (type: Type) => {
-    return TypeSchema.validate(type);
+    return TypeSchema.validate(type, { abortEarly: false });
 };
 
 export default validateType;

@@ -6,4 +6,8 @@ const ImageSchema = Joi.object<Image>({
     ID: Joi.string().max(50),
 });
 
-export default ImageSchema;
+const validateImage = (ImageData: Image) => {
+    return ImageSchema.validate(ImageData, { abortEarly: false });
+};
+
+export default validateImage;

@@ -7,7 +7,7 @@ const SizeSchema = Joi.object<Size>({
 });
 
 const validateSize = (size: Size) => {
-    return SizeSchema.validate(size);
+    return SizeSchema.validate(size, { abortEarly: false });
 };
 
 export default validateSize;
