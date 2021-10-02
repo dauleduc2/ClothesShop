@@ -1,7 +1,7 @@
 import CategoryPage from "../components/Category";
 import HomePage from "../components/HomePage";
-import MePage from "../components/Me";
 
+import MePage from "../containers/Me";
 import LoginPage from "../containers/Login";
 import HomeIcon from "@mui/icons-material/Home";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -45,7 +45,6 @@ export const navigationRoutes: routeList = [
         component: LoginPage,
         icon: PersonIcon,
     },
-
 ];
 
 const anotherRoute: routeList = [
