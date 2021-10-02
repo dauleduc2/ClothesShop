@@ -32,6 +32,8 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
         },
         reValidateMode: "onChange",
     });
+
+    const [fileImage, setFileImage] = React.useState<any>(userInfo.avatarUrl);
     const onSubmit = (data: updateField) => {
         if (data.avatar[0]) {
             setFileImage(URL.createObjectURL(data.avatar[0]));
@@ -41,11 +43,10 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
         setTimeout(() => setIsSubmit(false), 5000);
     };
 
-    const [fileImage, setFileImage] = React.useState<any>(userInfo.avatarUrl);
     const image = watch("avatar");
 
     React.useEffect(() => {
-        if (image) {
+        if (image && image.length > 0) {
             setFileImage(URL.createObjectURL(image[0]));
         }
     }, [image]);
