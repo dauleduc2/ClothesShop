@@ -58,7 +58,13 @@ router.post(
         if (error)
             return res
                 .status(400)
-                .send(dataHelper.getResponseForm(null, error.details));
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.details,
+                        "validation error"
+                    )
+                );
 
         //get connection
         const connection = await Promise.all<any>([
@@ -78,6 +84,7 @@ router.post(
                 .status(400)
                 .send(
                     dataHelper.getResponseForm(
+                        null,
                         null,
                         "This name of product already have in store"
                     )
@@ -112,7 +119,7 @@ router.post(
         const result = await productRepo.addNewProduct(newProduct);
 
         res.status(200).send(
-            dataHelper.getResponseForm(result, "add new product success!")
+            dataHelper.getResponseForm(result, null, "add new product success!")
         );
     }
 );

@@ -17,7 +17,9 @@ router.get("/", async (req: Request, res: Response) => {
     const sizeList = await sizeRepo.getAllSize();
     return res
         .status(200)
-        .send(dataHelper.getResponseForm(sizeList, "get all size success!"));
+        .send(
+            dataHelper.getResponseForm(sizeList, null, "get all size success!")
+        );
 });
 
 //POST add new size
@@ -33,7 +35,13 @@ router.post(
         if (error)
             return res
                 .status(400)
-                .send(dataHelper.getResponseForm(null, error.details));
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.details,
+                        "validation error"
+                    )
+                );
 
         //get connection
         const sizeRepo = await getCustomRepository(SizeRepository);
@@ -45,6 +53,7 @@ router.post(
                 .send(
                     dataHelper.getResponseForm(
                         null,
+                        null,
                         "this size already have in store"
                     )
                 );
@@ -52,7 +61,13 @@ router.post(
         await sizeRepo.addNewSize(newSize);
         return res
             .status(200)
-            .send(dataHelper.getResponseForm(newSize, "add new size success!"));
+            .send(
+                dataHelper.getResponseForm(
+                    newSize,
+                    null,
+                    "add new size success!"
+                )
+            );
     }
 );
 export default router;
