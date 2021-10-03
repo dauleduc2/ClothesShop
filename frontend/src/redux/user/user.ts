@@ -4,6 +4,7 @@ import {
     UserLoginPayload,
     SetIsLoginPayload,
 } from "../../common/interfaces/user";
+import { userThunk } from "./userThunk";
 
 const initialState: UserState = {
     isLogin: false,
@@ -43,6 +44,26 @@ export const user = createSlice({
                 isLogin: action.payload,
             };
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(
+            userThunk.getCurrentUser.fulfilled,
+            (state, { payload }) => {
+                const newState = { ...state };
+                newState.isLogin = true;
+                newState.user = {
+                    ID: payload.ID,
+                    avatar: payload.avatar,
+                    createDate: payload.createDate,
+                    email: payload.email,
+                    fullname: payload.fullname,
+                    role: payload.role,
+                    userStatus: payload.userStatus,
+                    username: payload.username,
+                };
+                return newState;
+            }
+        );
     },
 });
 export const userListAction = { ...user.actions };

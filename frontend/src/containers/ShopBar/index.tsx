@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import { UIListAction } from "../../redux/reducers/UI";
+import { UIListAction } from "../../redux/UI/UI";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 const Search = styled("div")(({ theme }) => ({
