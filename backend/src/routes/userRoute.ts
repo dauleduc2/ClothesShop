@@ -36,6 +36,7 @@ router.get(
                         "role",
                         "createDate",
                     ]),
+                    null,
                     "get current user information success"
                 )
             );
@@ -48,7 +49,9 @@ router.get("/:username", async (req: Request, res: Response) => {
     const userRepo = await getCustomRepository(UserRepository);
     const user = await userRepo.findByUsername(username);
 
-    res.status(200).send(dataHelper.getResponseForm(user, "get user success"));
+    res.status(200).send(
+        dataHelper.getResponseForm(user, null, "get user success")
+    );
 });
 //GET logout
 router.get(
@@ -60,7 +63,7 @@ router.get(
         });
         return res
             .status(200)
-            .send(dataHelper.getResponseForm(null, "logout success!"));
+            .send(dataHelper.getResponseForm(null, null, "logout success!"));
     }
 );
 //POST login
@@ -77,6 +80,7 @@ router.post("/login", async (req: Request, res: Response) => {
             .send(
                 dataHelper.getResponseForm(
                     null,
+                    null,
                     "username or password is invalid"
                 )
             );
@@ -88,6 +92,7 @@ router.post("/login", async (req: Request, res: Response) => {
             .send(
                 dataHelper.getResponseForm(
                     null,
+                    null,
                     "username or password is invalid"
                 )
             );
@@ -98,7 +103,7 @@ router.post("/login", async (req: Request, res: Response) => {
     });
     return res
         .status(200)
-        .send(dataHelper.getResponseForm(null, "login access...!"));
+        .send(dataHelper.getResponseForm(null, null, "login access...!"));
 });
 
 //POST register user
@@ -123,7 +128,13 @@ router.post(
         if (error)
             return res
                 .status(400)
-                .send(dataHelper.getResponseForm(null, error.details));
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.details,
+                        "validation error"
+                    )
+                );
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         //check is esxisted user
@@ -146,6 +157,7 @@ router.post(
                 .send(
                     dataHelper.getResponseForm(
                         duplicateField,
+                        null,
                         "Duplicate information"
                     )
                 );
@@ -160,7 +172,9 @@ router.post(
         });
         return res
             .status(200)
-            .send(dataHelper.getResponseForm(null, "register success...!"));
+            .send(
+                dataHelper.getResponseForm(null, null, "register success...!")
+            );
     }
 );
 export default router;

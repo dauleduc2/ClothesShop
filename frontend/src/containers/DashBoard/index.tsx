@@ -5,7 +5,7 @@ import ShopBar from "../ShopBar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { useMediaQuery } from "@mui/material";
-import { UIListAction } from "../../redux/reducers/UI";
+import { UIListAction } from "../../redux/UI/UI";
 import { useEffect } from "react";
 import AutoLoginWrapper from "../../common/Auth/AutoLoginWrapper";
 type Props = {};

@@ -17,7 +17,13 @@ router.get("/", async (req: Request, res: Response) => {
     const colorList = await colorRepo.getAllColor();
     return res
         .status(200)
-        .send(dataHelper.getResponseForm(colorList, "get all color success!"));
+        .send(
+            dataHelper.getResponseForm(
+                colorList,
+                null,
+                "get all color success!"
+            )
+        );
 });
 
 router.post(
@@ -32,7 +38,13 @@ router.post(
         if (error)
             return res
                 .status(400)
-                .send(dataHelper.getResponseForm(null, error.details));
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.details,
+                        "Validation error"
+                    )
+                );
         //get connection
         const colorRepo = await getCustomRepository(ColorRepository);
         //check duplicate
@@ -43,6 +55,7 @@ router.post(
                 .send(
                     dataHelper.getResponseForm(
                         null,
+                        null,
                         "this color already have in store"
                     )
                 );
@@ -51,7 +64,11 @@ router.post(
         return res
             .status(200)
             .send(
-                dataHelper.getResponseForm(newColor, "add new color success!")
+                dataHelper.getResponseForm(
+                    newColor,
+                    null,
+                    "add new color success!"
+                )
             );
     }
 );
