@@ -1,17 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+    OneToMany,
+} from "typeorm";
 import { IsDate } from "class-validator";
 import { User } from "./User";
+import { OrderItem } from "./OrderItem";
 //product model
 @Entity()
 export class OrderList {
-    @ManyToOne((type) => User, (user) => user.ID)
+    @ManyToOne((type) => User, (user) => user.ID, { nullable: false })
     user: string;
 
     @PrimaryGeneratedColumn("uuid")
     ID: string;
 
     @Column("tinyint")
-    status: string;
+    status: number;
 
     @Column({
         type: "datetime",
@@ -19,4 +26,9 @@ export class OrderList {
     })
     @IsDate()
     createDate: Date;
+
+    @OneToMany((type) => OrderItem, (orderItem) => orderItem.order, {
+        cascade: true,
+    })
+    orderItem: OrderItem[];
 }

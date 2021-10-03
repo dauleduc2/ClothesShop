@@ -16,7 +16,7 @@ export class ProductRepository extends Repository<Product> {
     }
 
     async findByID(ID: string) {
-        const product = await this.findOne({ ID }).catch((err) => err);
+        const product: Product = await this.findOne({ ID }).catch((err) => err);
         return product;
     }
 }

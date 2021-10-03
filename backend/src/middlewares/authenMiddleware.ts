@@ -11,7 +11,7 @@ export function authenMiddleware(
     if (!token)
         return res
             .status(401)
-            .send(dataHelper.getResponseForm(null, "No token in cookie"));
+            .send(dataHelper.getResponseForm(null, null, "No token in cookie"));
 
     try {
         const data = jwt.verify(token, process.env.JWTSECRETKEY);
@@ -20,6 +20,6 @@ export function authenMiddleware(
     } catch (error) {
         return res
             .status(400)
-            .send(dataHelper.getResponseForm(null, "Invalid token"));
+            .send(dataHelper.getResponseForm(null, null, "Invalid token"));
     }
 }

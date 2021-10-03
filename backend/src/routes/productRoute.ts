@@ -3,8 +3,7 @@ import { Color } from "./../entity/Color";
 import { Type } from "./../entity/Type";
 import { Request, Response } from "express";
 import upload from "../utils/multerHelper";
-// import  from "../middlewares/multerErrorMiddleware";
-import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
+
 import * as express from "express";
 import { Product } from "../entity/Product";
 import validateProduct from "../validators/Product";
@@ -17,6 +16,7 @@ import { TypeRepository } from "../Repository/TypeRepository";
 import { Image } from "../entity/Image";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
+import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
