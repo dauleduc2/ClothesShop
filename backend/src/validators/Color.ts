@@ -7,6 +7,6 @@ const ColorSchema = Joi.object<Color>({
 });
 
 const validateColor = (color: Color) => {
-    return ColorSchema.validate(color);
+    return ColorSchema.validate(color, { abortEarly: false });
 };
 export default validateColor;

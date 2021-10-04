@@ -23,4 +23,8 @@ export class UserRepository extends Repository<User> {
         const user = await this.findOne({ username }).catch((err) => err);
         return user;
     }
+    async findByID(ID: string) {
+        const user = await this.findOne({ ID }).catch((err) => err);
+        return user;
+    }
 }

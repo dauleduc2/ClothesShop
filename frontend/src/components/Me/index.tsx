@@ -3,6 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Input from "@mui/material/Input";
 import Alert from "@mui/material/Alert";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
 interface MePageProps {}
@@ -39,8 +40,9 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
             setFileImage(URL.createObjectURL(data.avatar[0]));
         }
         console.log(data);
-        setIsSubmit(true);
-        setTimeout(() => setIsSubmit(false), 5000);
+        toast.success("Login success!");
+        // setIsSubmit(true);
+        // setTimeout(() => setIsSubmit(false), 5000);
     };
 
     const image = watch("avatar");
@@ -61,13 +63,13 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
                     isSubmit ? "block" : "hidden"
                 }`}
             >
-                <Alert
+                {/* <Alert
                     variant="filled"
                     severity="success"
                     className={`sm:w-120 w-44`}
                 >
                     Update successful
-                </Alert>
+                </Alert> */}
             </div>
             <div className="flex flex-col w-full sm:w-auto">
                 <div className="p-5 mb-0 text-3xl font-semibold text-left bg-gray-100 rounded-t sm:p-10 sm:mb-4 text-sky-800">
