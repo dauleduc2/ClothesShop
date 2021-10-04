@@ -13,6 +13,7 @@
         "@mui/material": "^5.0.1",
         "@mui/styled-engine-sc": "^5.0.0",
         "@reduxjs/toolkit": "^1.6.1",
+        "@tailwindcss/line-clamp": "^0.2.2",
         "@testing-library/jest-dom": "^5.11.4",
         "@testing-library/react": "^11.1.0",
         "@testing-library/user-event": "^12.1.10",
