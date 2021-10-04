@@ -17,7 +17,9 @@ router.get("/", async (req: Request, res: Response) => {
     const sizeList = await typeRepo.getAllType();
     return res
         .status(200)
-        .send(dataHelper.getResponseForm(sizeList, "get all type success!"));
+        .send(
+            dataHelper.getResponseForm(sizeList, null, "get all type success!")
+        );
 });
 
 //POST add new type
@@ -33,8 +35,13 @@ router.post(
         if (error)
             return res
                 .status(400)
-                .send(dataHelper.getResponseForm(null, error.details));
-
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.details,
+                        "validation error"
+                    )
+                );
         //get connection
         const typeRepo = await getCustomRepository(TypeRepository);
         //check duplicate
@@ -45,6 +52,7 @@ router.post(
                 .send(
                     dataHelper.getResponseForm(
                         null,
+                        null,
                         "this type already have in store"
                     )
                 );
@@ -52,7 +60,13 @@ router.post(
         await typeRepo.addNewType(newType);
         return res
             .status(200)
-            .send(dataHelper.getResponseForm(newType, "add new type success!"));
+            .send(
+                dataHelper.getResponseForm(
+                    newType,
+                    null,
+                    "add new type success!"
+                )
+            );
     }
 );
 

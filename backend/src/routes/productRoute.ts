@@ -3,8 +3,7 @@ import { Color } from "./../entity/Color";
 import { Type } from "./../entity/Type";
 import { Request, Response } from "express";
 import upload from "../utils/multerHelper";
-// import  from "../middlewares/multerErrorMiddleware";
-import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
+
 import * as express from "express";
 import { Product } from "../entity/Product";
 import validateProduct from "../validators/Product";
@@ -17,6 +16,7 @@ import { TypeRepository } from "../Repository/TypeRepository";
 import { Image } from "../entity/Image";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
+import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
@@ -58,7 +58,13 @@ router.post(
         if (error)
             return res
                 .status(400)
-                .send(dataHelper.getResponseForm(null, error.details));
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.details,
+                        "validation error"
+                    )
+                );
 
         //get connection
         const connection = await Promise.all<any>([
@@ -78,6 +84,7 @@ router.post(
                 .status(400)
                 .send(
                     dataHelper.getResponseForm(
+                        null,
                         null,
                         "This name of product already have in store"
                     )
@@ -112,7 +119,7 @@ router.post(
         const result = await productRepo.addNewProduct(newProduct);
 
         res.status(200).send(
-            dataHelper.getResponseForm(result, "add new product success!")
+            dataHelper.getResponseForm(result, null, "add new product success!")
         );
     }
 );

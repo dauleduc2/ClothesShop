@@ -13,6 +13,7 @@ export function authorMiddleware(
         res.status(401).send(
             dataHelper.getResponseForm(
                 null,
+                null,
                 "You need permission to access to this action!"
             )
         );

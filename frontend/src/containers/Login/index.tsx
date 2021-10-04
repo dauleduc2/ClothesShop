@@ -11,7 +11,7 @@ import * as _ from "lodash";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userListAction } from "../../redux/reducers/user";
+import { userListAction } from "../../redux/user/user";
 interface LoginProps {}
 interface LoginField {
     username: string;
