@@ -2,48 +2,51 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Input from "@mui/material/Input";
-import Alert from "@mui/material/Alert";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux";
+import * as validateHelper from "../../utils/validateHelper";
+import * as _ from "lodash";
+import { TextField } from "@mui/material";
 
 interface MePageProps {}
 
-interface updateField {
-    fullname: string;
+interface UpdateField {
+    fullName: string;
     email: string;
     avatar: any;
 }
 
+interface userData {
+    username: string;
+    fullName: string;
+    email: string;
+    createDate: Date | null | undefined;
+    avatar: string;
+}
+interface ErrorField {
+    email?: string;
+    fullName?: string;
+}
 const MePage: React.FunctionComponent<MePageProps> = () => {
-    const userInfo = {
-        username: "kainesv86",
-        fullname: "Kainé Phạm",
-        email: "kainesv86@gmail.com",
-        createDate: "19-11-2001",
-        avatarUrl: "/images/avatar.png",
+    const user = useSelector((state: RootState) => state.user);
+    const userInfo: userData = {
+        username: user.user.username ? user.user.username : "",
+        fullName: user.user.fullName ? user.user.fullName : "",
+        email: user.user.email ? user.user.email : "",
+        createDate: user.user.createDate,
+        avatar: user.user.avatar ? user.user.avatar : "/images/avatar.png",
     };
-
     const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
+    const [errorList, setErrorList] = React.useState<ErrorField | undefined>(
+        undefined
+    );
+    const [fileImage, setFileImage] = React.useState<any>(userInfo.avatar);
 
-    const { handleSubmit, register, watch } = useForm<updateField>({
-        defaultValues: {
-            email: userInfo.email,
-            fullname: userInfo.fullname,
-            avatar: null,
-        },
+    const { handleSubmit, register, watch } = useForm<UpdateField>({
         reValidateMode: "onChange",
     });
-
-    const [fileImage, setFileImage] = React.useState<any>(userInfo.avatarUrl);
-    const onSubmit = (data: updateField) => {
-        if (data.avatar[0]) {
-            setFileImage(URL.createObjectURL(data.avatar[0]));
-        }
-        console.log(data);
-        toast.success("Login success!");
-        // setIsSubmit(true);
-        // setTimeout(() => setIsSubmit(false), 5000);
-    };
 
     const image = watch("avatar");
 
@@ -52,6 +55,31 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
             setFileImage(URL.createObjectURL(image[0]));
         }
     }, [image]);
+    //validation
+    const validation = (data: UpdateField): ErrorField => {
+        let errorList: ErrorField = {};
+        //fullName
+        if (!validateHelper.length(data.fullName, 6, 255))
+            errorList.fullName = "The number of character must between 6 - 255";
+        if (!data.fullName) errorList.fullName = "Required";
+        //email
+        if (!validateHelper.length(data.email, 6, 255))
+            errorList.email = "The number of character must between 6 - 255";
+        if (!data.email) errorList.email = "Required";
+
+        return errorList;
+    };
+    //submit
+    const onSubmit = (data: UpdateField) => {
+        const validateResult = validation(data);
+        setErrorList(validateResult);
+        if (_.isEqual(validateResult, {})) {
+        }
+        if (data.avatar) {
+            setFileImage(URL.createObjectURL(data.avatar[0]));
+            toast.success("Update success!");
+        }
+    };
 
     return (
         <form
@@ -62,15 +90,7 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
                 className={`absolute sm:top-10 sm:right-10 top-2 right-2 ${
                     isSubmit ? "block" : "hidden"
                 }`}
-            >
-                {/* <Alert
-                    variant="filled"
-                    severity="success"
-                    className={`sm:w-120 w-44`}
-                >
-                    Update successful
-                </Alert> */}
-            </div>
+            ></div>
             <div className="flex flex-col w-full sm:w-auto">
                 <div className="p-5 mb-0 text-3xl font-semibold text-left bg-gray-100 rounded-t sm:p-10 sm:mb-4 text-sky-800">
                     <p>Information</p>
@@ -92,26 +112,46 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
                             <li className="mb-5 sm:mb-10">
                                 <div className="flex flex-col w-full text-xl font-medium sm:flex-row">
                                     <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">
-                                        Fullname
+                                        full name
                                     </p>
-                                    <Input
-                                        placeholder="Fullname"
+                                    <TextField
+                                        // {...register("fullName")}
+                                        variant="standard"
+                                        placeholder="fullName"
+                                        autoComplete="false"
                                         size="medium"
+                                        inputProps={{
+                                            style: {
+                                                fontSize: "1.25rem",
+                                                lineHeight: "1.75rem",
+                                                fontWeight: 500,
+                                            },
+                                        }}
                                         className="flex-1 w-full text-xl font-medium"
-                                        {...register("fullname")}
+                                        defaultValue={userInfo.fullName}
                                     />
                                 </div>
                             </li>
-                            <li className="flex mb-5 sm:mb-10 ">
+                            <li className="flex mb-5 sm:mb-10">
                                 <div className="flex flex-col w-full text-xl font-medium sm:flex-row">
                                     <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">
                                         Email
                                     </p>
-                                    <Input
+                                    <TextField
+                                        // {...register("email")}
+                                        variant="standard"
                                         placeholder="Email"
                                         size="medium"
+                                        autoComplete="false"
+                                        inputProps={{
+                                            style: {
+                                                fontSize: "1.25rem",
+                                                lineHeight: "1.75rem",
+                                                fontWeight: 500,
+                                            },
+                                        }}
                                         className="flex-1 w-full text-xl font-medium"
-                                        {...register("email")}
+                                        defaultValue={userInfo.email}
                                     />
                                 </div>
                             </li>
@@ -135,7 +175,11 @@ const MePage: React.FunctionComponent<MePageProps> = () => {
                                     className="cursor-pointer"
                                 >
                                     <Avatar
-                                        alt={userInfo.username}
+                                        alt={
+                                            userInfo.username
+                                                ? userInfo.username
+                                                : "avatar of user"
+                                        }
                                         src={fileImage}
                                         sx={{ width: 160, height: 160 }}
                                     />
