@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "../entity/User";
 import * as bcrypt from "bcrypt";
+import { BodyUpdateUser } from "../interfaces/requestWithUser";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
     async addNewUser(user: User) {
@@ -11,6 +12,15 @@ export class UserRepository extends Repository<User> {
         const result = await this.manager
             .save(user)
             .catch((err) => err.sqlMessage);
+        return result;
+    }
+
+    async updateUserByID(ID: string, data: BodyUpdateUser) {
+        const currentData = await this.findByID(ID);
+        const result = await this.save({
+            ...currentData,
+            ...data,
+        }).catch((err) => err.sqlMessage);
         return result;
     }
 
