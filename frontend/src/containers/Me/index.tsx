@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import * as validateHelper from '../../utils/validateHelper';
-import * as _ from 'lodash';
 import { TextField } from '@mui/material';
 import { UpdateUserField, UserState } from '../../common/interfaces/user';
 import { userThunk } from '../../redux/user/userThunk';
 import { store } from '../../redux';
+import { isEqual } from 'lodash';
 
 interface MeProps {}
 
@@ -51,8 +51,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
             data.avatar = file;
         }
         setErrorList(validateResult);
-        console.log(validateResult);
-        if (_.isEqual(validateResult, defaultValues)) {
+        if (isEqual(validateResult, defaultValues)) {
             store.dispatch(userThunk.updateUser(data));
             toast.success('Update success!');
         }
