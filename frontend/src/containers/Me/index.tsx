@@ -1,82 +1,60 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Input from "@mui/material/Input";
-import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux";
-import * as validateHelper from "../../utils/validateHelper";
-import * as _ from "lodash";
-import { TextField } from "@mui/material";
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux';
+import * as validateHelper from '../../utils/validateHelper';
+import * as _ from 'lodash';
+import { TextField } from '@mui/material';
+import { UpdateUserField, UserState } from '../../common/interfaces/user';
+import { userThunk } from '../../redux/user/userThunk';
+import { store } from '../../redux';
 
 interface MeProps {}
-interface UpdateField {
-    fullName: string;
-    email: string;
-    avatar: any;
-}
 
-interface userData {
-    username: string;
-    fullName: string;
-    email: string;
-    createDate: Date | null | undefined;
-    avatar: string;
-}
+const defaultValues: UpdateUserField = { email: '', fullName: '', avatar: null };
+
 interface ErrorField {
-    email?: string;
-    fullName?: string;
+    email: string;
+    fullName: string;
+    avatar: File | string | null;
 }
 const Me: React.FunctionComponent<MeProps> = () => {
-    const user = useSelector((state: RootState) => state.user);
-    const userInfo: userData = {
-        username: user.user.username ? user.user.username : "",
-        fullName: user.user.fullName ? user.user.fullName : "",
-        email: user.user.email ? user.user.email : "",
-        createDate: user.user.createDate,
-        avatar: user.user.avatar ? user.user.avatar : "/images/avatar.png",
-    };
-    const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
-    const [errorList, setErrorList] = React.useState<ErrorField | undefined>(
-        undefined
-    );
-    const [fileImage, setFileImage] = React.useState<any>(userInfo.avatar);
-
-    const { handleSubmit, register, watch } = useForm<UpdateField>({
-        reValidateMode: "onChange",
-    });
-
-    const image = watch("avatar");
-
+    const userState = useSelector<RootState, UserState>((state) => state.user);
+    const [errorList, setErrorList] = React.useState<UpdateUserField>(defaultValues);
+    const [file, setFile] = React.useState<File | null>();
+    const { handleSubmit, register, setValue } = useForm<UpdateUserField>({ defaultValues: defaultValues });
+    //set default value on first render
     React.useEffect(() => {
-        if (image && image.length > 0) {
-            setFileImage(URL.createObjectURL(image[0]));
-        }
-    }, [image]);
+        setValue('email', userState.user.email);
+        setValue('fullName', userState.user.fullName);
+    }, [userState.user.email, userState.user.fullName, setValue]);
     //validation
-    const validation = (data: UpdateField): ErrorField => {
-        let errorList: ErrorField = {};
+    const validation = (data: UpdateUserField): ErrorField => {
+        let errorList = defaultValues;
         //fullName
         if (!validateHelper.length(data.fullName, 6, 255))
-            errorList.fullName = "The number of character must between 6 - 255";
-        if (!data.fullName) errorList.fullName = "Required";
+            errorList.fullName = 'The number of character must between 6 - 255';
+        if (!data.fullName) errorList.fullName = 'Required';
         //email
-        if (!validateHelper.length(data.email, 6, 255))
-            errorList.email = "The number of character must between 6 - 255";
-        if (!data.email) errorList.email = "Required";
+        if (!validateHelper.validateEmail(data.email)) errorList.email = 'Invalid email';
+        if (!data.email) errorList.email = 'Required';
 
         return errorList;
     };
-    //submit
-    const onSubmit = (data: UpdateField) => {
+    //on submit form
+    const onSubmit = (data: UpdateUserField) => {
         const validateResult = validation(data);
-        setErrorList(validateResult);
-        if (_.isEqual(validateResult, {})) {
+        if (file) {
+            data.avatar = file;
         }
-        if (data.avatar) {
-            setFileImage(URL.createObjectURL(data.avatar[0]));
-            toast.success("Update success!");
+        setErrorList(validateResult);
+        console.log(validateResult);
+        if (_.isEqual(validateResult, defaultValues)) {
+            store.dispatch(userThunk.updateUser(data));
+            toast.success('Update success!');
         }
     };
     return (
@@ -85,11 +63,6 @@ const Me: React.FunctionComponent<MeProps> = () => {
                 className="flex justify-center w-full shadow-md sm:w-auto sm:items-center"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div
-                    className={`absolute sm:top-10 sm:right-10 top-2 right-2 ${
-                        isSubmit ? "block" : "hidden"
-                    }`}
-                ></div>
                 <div className="flex flex-col w-full sm:w-auto">
                     <div className="p-5 mb-0 text-3xl font-semibold text-left bg-gray-100 rounded-t sm:p-10 sm:mb-4 text-sky-800">
                         <p>Information</p>
@@ -103,65 +76,53 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                         <p className="w-auto mr-4 text-left text-blue-900 sm:text-right sm:w-32">
                                             Username
                                         </p>
-                                        <p className="w-auto text-left text-gray-800">
-                                            {userInfo.username}
-                                        </p>
+                                        <p className="w-auto text-left text-gray-800">{userState.user.username}</p>
                                     </div>
                                 </li>
                                 <li className="mb-5 sm:mb-10">
                                     <div className="flex flex-col w-full text-xl font-medium sm:flex-row">
-                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">
-                                            full name
-                                        </p>
+                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">full name</p>
                                         <TextField
-                                            {...register("fullName")}
+                                            {...register('fullName')}
                                             variant="standard"
                                             placeholder="fullName"
-                                            autoComplete="false"
-                                            size="medium"
                                             inputProps={{
                                                 style: {
-                                                    fontSize: "1.25rem",
-                                                    lineHeight: "1.75rem",
+                                                    fontSize: '1.25rem',
+                                                    lineHeight: '1.75rem',
                                                     fontWeight: 500,
                                                 },
                                             }}
                                             className="flex-1 w-full text-xl font-medium"
-                                            defaultValue={userInfo.fullName}
+                                            error={Boolean(errorList?.fullName.length)}
+                                            helperText={errorList?.fullName}
                                         />
                                     </div>
                                 </li>
                                 <li className="flex mb-5 sm:mb-10">
                                     <div className="flex flex-col w-full text-xl font-medium sm:flex-row">
-                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">
-                                            Email
-                                        </p>
+                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">Email</p>
                                         <TextField
-                                            {...register("email")}
+                                            {...register('email')}
                                             variant="standard"
                                             placeholder="Email"
-                                            size="medium"
-                                            autoComplete="false"
                                             inputProps={{
                                                 style: {
-                                                    fontSize: "1.25rem",
-                                                    lineHeight: "1.75rem",
+                                                    fontSize: '1.25rem',
+                                                    lineHeight: '1.75rem',
                                                     fontWeight: 500,
                                                 },
                                             }}
                                             className="flex-1 w-full text-xl font-medium"
-                                            defaultValue={userInfo.email}
+                                            error={errorList?.email ? true : false}
+                                            helperText={errorList?.email}
                                         />
                                     </div>
                                 </li>
                                 <li>
                                     <div className="flex flex-col text-xl font-medium sm:flex-row">
-                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">
-                                            Create Date
-                                        </p>
-                                        <p className="w-auto text-left text-gray-800">
-                                            {userInfo.createDate}
-                                        </p>
+                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">Create Date</p>
+                                        <p className="w-auto text-left text-gray-800">{userState.user.createDate}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -169,35 +130,31 @@ const Me: React.FunctionComponent<MeProps> = () => {
                         <div className="flex flex-col items-center justify-center p-10 bg-gray-100 rounded-br sm:p-20">
                             <div className="sm:mb-8">
                                 <div className="relative">
-                                    <label
-                                        htmlFor="raised-button-file"
-                                        className="cursor-pointer"
-                                    >
+                                    <label htmlFor="raised-button-file" className="cursor-pointer">
                                         <Avatar
-                                            alt={
-                                                userInfo.username
-                                                    ? userInfo.username
-                                                    : "avatar of user"
+                                            alt={userState.user.username ? userState.user.username : 'avatar of user'}
+                                            src={
+                                                file
+                                                    ? URL.createObjectURL(file)
+                                                    : `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
                                             }
-                                            src={fileImage}
                                             sx={{ width: 160, height: 160 }}
                                         />
                                         <input
                                             accept="image/*"
-                                            style={{ display: "none" }}
+                                            style={{ display: 'none' }}
                                             id="raised-button-file"
-                                            multiple
                                             type="file"
-                                            {...register("avatar")}
+                                            onChange={(event) => {
+                                                if (event.currentTarget.files) {
+                                                    setFile(event.currentTarget.files[0]);
+                                                }
+                                            }}
                                         />
                                     </label>
                                 </div>
                             </div>
-                            <Button
-                                size="large"
-                                type="submit"
-                                className="hidden sm:block"
-                            >
+                            <Button size="large" type="submit" className="hidden sm:block">
                                 Update information
                             </Button>
                         </div>
