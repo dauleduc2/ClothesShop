@@ -11,7 +11,7 @@ const initialState: UserState = {
     user: {
         ID: null,
         username: null,
-        fullname: null,
+        fullName: null,
         avatar: null,
         email: null,
         userStatus: -1,
@@ -56,7 +56,7 @@ export const user = createSlice({
                     avatar: payload.avatar,
                     createDate: payload.createDate,
                     email: payload.email,
-                    fullname: payload.fullname,
+                    fullName: payload.fullName,
                     role: payload.role,
                     userStatus: payload.userStatus,
                     username: payload.username,
