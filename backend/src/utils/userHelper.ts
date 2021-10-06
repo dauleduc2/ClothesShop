@@ -4,7 +4,7 @@ export const genToken = async (user: User) => {
     const token = jwt.sign(
         {
             ID: user.ID,
-            // role: user.role,
+            role: user.role,
             // email: user.email,
             // fullName: user.fullName,
             // avatar: user.avatar,

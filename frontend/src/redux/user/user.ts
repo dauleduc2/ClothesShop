@@ -9,14 +9,14 @@ import { userThunk } from "./userThunk";
 const initialState: UserState = {
     isLogin: false,
     user: {
-        ID: null,
-        username: null,
-        fullName: null,
-        avatar: null,
-        email: null,
+        ID: "",
+        username: "",
+        fullName: "",
+        avatar: "",
+        email: "",
         userStatus: -1,
         role: -1,
-        createDate: null,
+        createDate: "",
     },
 };
 
@@ -61,6 +61,14 @@ export const user = createSlice({
                     userStatus: payload.userStatus,
                     username: payload.username,
                 };
+                return newState;
+            }
+        );
+        builder.addCase(
+            userThunk.updateUser.fulfilled,
+            (state, { payload }) => {
+                const newState = { ...state };
+                console.log(payload);
                 return newState;
             }
         );

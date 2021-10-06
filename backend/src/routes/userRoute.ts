@@ -3,15 +3,19 @@ import { Request, Response } from "express";
 import upload from "../utils/multerHelper";
 import * as express from "express";
 import { User } from "../entity/User";
-import validateUser from "../validators/User";
+import { validateUser, validateUpdateUser } from "../validators/User";
 import * as bcrypt from "bcrypt";
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../Repository/UserRepository";
 import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
-import RequestWithUser from "../interfaces/requestWithUser";
+import {
+    RequestWithUpdateUser,
+    RequestWithUser,
+} from "../interfaces/requestWithUser";
 import * as _ from "lodash";
+import { EDESTADDRREQ } from "constants";
 const router = express.Router();
 //GET me
 router.get(
@@ -22,7 +26,6 @@ router.get(
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         const user = await userRepo.findByID(ID);
-
         return res
             .status(200)
             .send(
@@ -69,7 +72,6 @@ router.get(
 //POST login
 router.post("/login", async (req: Request, res: Response) => {
     const { username, password } = req.body;
-
     //get connection
     const userRepo = await getCustomRepository(UserRepository);
     const user: User = await userRepo.findByUsername(username);
@@ -163,7 +165,6 @@ router.post(
                 );
         //add user
         const result: User = await userRepo.addNewUser(user);
-        console.log(result);
         //gen token
         const token = userHelper.genToken(result);
         //set token to cookie
@@ -175,6 +176,42 @@ router.post(
             .send(
                 dataHelper.getResponseForm(null, null, "register success...!")
             );
+    }
+);
+
+//POST update user
+router.post(
+    "/me/update",
+    [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
+    async (req: RequestWithUpdateUser, res: Response) => {
+        const { ID } = req.user;
+        if (req.file) {
+            req.body.avatar = req.file.filename;
+        }
+        if (typeof req.body.avatar === "object") {
+            req.body = _.omit(req.body, ["avatar"]);
+        }
+
+        //validate
+        const { error } = validateUpdateUser(req.body);
+        if (error)
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.message,
+                        "validation error"
+                    )
+                );
+
+        //get connection
+        const userRepo = getCustomRepository(UserRepository);
+        //get current data
+        const result = await userRepo.updateUserByID(ID, req.body);
+        return res.send(
+            dataHelper.getResponseForm(result, null, "update success!")
+        );
     }
 );
 export default router;

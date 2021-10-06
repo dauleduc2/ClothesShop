@@ -30,7 +30,6 @@ router.post(
         authorMiddleware,
         multerErrorMiddleware(upload.array("images", 5)),
     ],
-
     async (req: Request, res: Response) => {
         const {
             name,

@@ -4,6 +4,7 @@ import { Product } from "../entity/Product";
 const ProductSchema = Joi.object<Product>({
     ID: Joi.string().max(50),
     name: Joi.string().max(255).required(),
+    price: Joi.number(),
     quantity: Joi.number().required(),
     description: Joi.string().max(1020).required(),
     status: Joi.number().max(50).required(),

@@ -1,6 +1,7 @@
 import { User } from "./../entity/User";
 import * as Joi from "joi";
 import { JoiPassword } from "joi-password";
+import { BodyUpdateUser } from "../interfaces/requestWithUser";
 const UserSchema = Joi.object<User>({
     ID: Joi.string().max(50),
     username: Joi.string().max(255).required(),
@@ -13,8 +14,16 @@ const UserSchema = Joi.object<User>({
     avatar: Joi.string(),
 });
 
-const validateUser = (user: User) => {
+const UpdateUserSchema = Joi.object<User>({
+    fullName: Joi.string().min(3).max(255),
+    email: Joi.string().email().min(4).max(255),
+    avatar: Joi.any(),
+});
+
+export const validateUser = (user: User) => {
     return UserSchema.validate(user, { abortEarly: false });
 };
 
-export default validateUser;
+export const validateUpdateUser = (data: BodyUpdateUser) => {
+    return UpdateUserSchema.validate(data, { abortEarly: false });
+};

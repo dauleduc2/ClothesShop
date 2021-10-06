@@ -10,7 +10,7 @@ import orderListRoute from "../routes/orderListRoute";
 export default function (app: Application) {
     app.use(express.json());
     app.use(helmet());
-    app.use(express.static(process.cwd() + "/public/"));
+    app.use(express.static(process.cwd() + "\\uploads"));
     app.use("/api/product", productRouter);
     app.use("/api/user", userRouter);
     app.use("/api/color", colorRouter);
