@@ -14,8 +14,7 @@ import {
     RequestWithUpdateUser,
     RequestWithUser,
 } from "../interfaces/requestWithUser";
-import * as _ from "lodash";
-import { EDESTADDRREQ } from "constants";
+import { omit, pick } from "lodash";
 const router = express.Router();
 //GET me
 router.get(
@@ -30,7 +29,7 @@ router.get(
             .status(200)
             .send(
                 dataHelper.getResponseForm(
-                    _.pick(user, [
+                    pick(user, [
                         "username",
                         "fullName",
                         "avatar",
@@ -189,7 +188,7 @@ router.post(
             req.body.avatar = req.file.filename;
         }
         if (typeof req.body.avatar === "object") {
-            req.body = _.omit(req.body, ["avatar"]);
+            req.body = omit(req.body, ["avatar"]);
         }
 
         //validate

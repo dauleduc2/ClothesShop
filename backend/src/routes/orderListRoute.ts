@@ -3,7 +3,6 @@ import * as express from "express";
 import { getCustomRepository } from "typeorm";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
-import { authorMiddleware } from "../middlewares/authorMiddleware";
 import validateOrderList from "../validators/OrderList";
 import { OrderListRepository } from "../Repository/OrderListRepository";
 import { UserRepository } from "../Repository/UserRepository";
