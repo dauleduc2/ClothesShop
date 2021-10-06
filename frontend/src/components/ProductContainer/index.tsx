@@ -21,7 +21,7 @@ const ProductContainer: React.FunctionComponent<ProductContainerProps> = ({
 
     return (
         <div className="flex justify-center">
-            <div className="grid grid-cols-2 gap-2 p-0 rounded sm:p-8 sm:gap-4 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 p-0 border-2 border-red-500 rounded sm:p-8 sm:gap-4 sm:grid-cols-4">
                 {Products.map((item) => {
                     return (
                         <Product
