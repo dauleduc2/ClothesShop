@@ -15,6 +15,7 @@ import {
     RequestWithUser,
 } from "../interfaces/requestWithUser";
 import * as _ from "lodash";
+import { EDESTADDRREQ } from "constants";
 const router = express.Router();
 //GET me
 router.get(
@@ -25,7 +26,6 @@ router.get(
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         const user = await userRepo.findByID(ID);
-
         return res
             .status(200)
             .send(
@@ -182,26 +182,36 @@ router.post(
 //POST update user
 router.post(
     "/me/update",
-    [authenMiddleware, multerErrorMiddleware(upload.single("image"))],
+    [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
     async (req: RequestWithUpdateUser, res: Response) => {
         const { ID } = req.user;
-        req.body.avatar = req.file.filename;
+        if (req.file) {
+            req.body.avatar = req.file.filename;
+        }
+        if (typeof req.body.avatar === "object") {
+            req.body = _.omit(req.body, ["avatar"]);
+        }
+
         //validate
         const { error } = validateUpdateUser(req.body);
         if (error)
-            res.status(400).send(
-                dataHelper.getResponseForm(
-                    null,
-                    error.message,
-                    "validation error"
-                )
-            );
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.message,
+                        "validation error"
+                    )
+                );
+
         //get connection
         const userRepo = getCustomRepository(UserRepository);
         //get current data
         const result = await userRepo.updateUserByID(ID, req.body);
-
-        res.send(dataHelper.getResponseForm(result, null, "update success!"));
+        return res.send(
+            dataHelper.getResponseForm(result, null, "update success!")
+        );
     }
 );
 export default router;

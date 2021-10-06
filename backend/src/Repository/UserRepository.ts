@@ -17,6 +17,7 @@ export class UserRepository extends Repository<User> {
 
     async updateUserByID(ID: string, data: BodyUpdateUser) {
         const currentData = await this.findByID(ID);
+
         const result = await this.save({
             ...currentData,
             ...data,

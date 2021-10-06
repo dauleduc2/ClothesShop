@@ -17,7 +17,7 @@ const UserSchema = Joi.object<User>({
 const UpdateUserSchema = Joi.object<User>({
     fullName: Joi.string().min(3).max(255),
     email: Joi.string().email().min(4).max(255),
-    avatar: Joi.string(),
+    avatar: Joi.any(),
 });
 
 export const validateUser = (user: User) => {
