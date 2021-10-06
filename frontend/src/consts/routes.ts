@@ -2,6 +2,7 @@ import CategoryPage from "../components/Category";
 import HomePage from "../components/HomePage";
 
 import MePage from "../containers/Me";
+import ProductPage from "../containers/ProductDetails";
 import LoginPage from "../containers/Login";
 import HomeIcon from "@mui/icons-material/Home";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -43,6 +44,13 @@ export const navigationRoutes: routeList = [
         exact: true,
         buttonName: "Login",
         component: LoginPage,
+        icon: PersonIcon,
+    },
+    {
+        to: "/product",
+        exact: true,
+        buttonName: "Product detail",
+        component: ProductPage,
         icon: PersonIcon,
     },
 ];

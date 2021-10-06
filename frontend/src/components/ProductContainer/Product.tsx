@@ -25,11 +25,13 @@ const Product: React.FunctionComponent<ProductProps> = ({
                 <CardMedia component="img" image={imgUrl} alt="green iguana" />
             </CardActionArea>
             <CardContent>
-                <p className="text-sm text-left line-clamp-2">{describe}</p>
+                <p className="text-sm font-semibold text-left line-clamp-2">
+                    {describe}
+                </p>
             </CardContent>
             <CardActions>
                 <div className="flex flex-col justify-between w-full text-sm text-left sm:items-center item-left sm:flex-row">
-                    <p className="text-sm text-red-400 ">{price}</p>
+                    <p className="mb-2 text-sm text-red-400 sm:mb-0">{price}</p>
                     <Button variant="outlined" size="small" className="text-xs">
                         Add to cart
                     </Button>
