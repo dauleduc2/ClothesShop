@@ -1,16 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import App from "./containers/App/App";
-import "./index.css";
-import { store } from "./redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './containers/App/App';
+import './index.css';
+import { store } from './redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 const theme = createTheme({
     palette: {
-        mode: "light",
+        mode: 'light',
     },
 });
 
@@ -36,5 +36,5 @@ ReactDOM.render(
             </Provider>
         </Router>
     </React.StrictMode>,
-    document.getElementById("root")
+    document.getElementById('root')
 );

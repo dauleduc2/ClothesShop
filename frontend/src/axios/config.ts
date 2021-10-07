@@ -1,8 +1,7 @@
-import axios, { AxiosInstance } from "axios";
-import database from "../consts/database";
+import axios, { AxiosInstance } from 'axios';
 
 const axiosClient: AxiosInstance = axios.create({
-    baseURL: database,
+    baseURL: process.env.REACT_APP_SERVER_URL,
     withCredentials: true,
 });
 
