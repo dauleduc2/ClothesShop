@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Product from './Product';
+import Product from '../Product/Product';
 
 interface ProductContainerProps {
     Products: Array<ProductFields>;
