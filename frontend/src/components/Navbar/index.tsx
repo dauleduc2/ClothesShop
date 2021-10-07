@@ -1,5 +1,8 @@
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { RootState } from '../../redux';
 import * as routes from '../../consts/routes';
+import { UserState } from '../../common/interfaces/user';
 interface NavigationProps {
     isOpenning: boolean;
     onCloseSideBar: Function;
@@ -8,6 +11,7 @@ interface NavigationProps {
 
 const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     const { isOpenning, isMobile, onCloseSideBar } = props;
+    const userState = useSelector<RootState, UserState>((state) => state.user);
     const onHandleSelectionClick = () => {
         if (isMobile) {
             onCloseSideBar();

@@ -1,13 +1,13 @@
-import CategoryPage from "../components/Category";
-import HomePage from "../components/HomePage";
+import CategoryPage from '../components/Category';
+import HomePage from '../components/HomePage';
 
-import MePage from "../containers/Me";
-import ProductPage from "../containers/ProductDetails";
-import LoginPage from "../containers/Login";
-import HomeIcon from "@mui/icons-material/Home";
-import CategoryIcon from "@mui/icons-material/Category";
-import PersonIcon from "@mui/icons-material/Person";
-import Register from "../containers/Register";
+import MePage from '../containers/Me';
+import ProductPage from '../containers/ProductDetails';
+import LoginPage from '../containers/Login';
+import HomeIcon from '@mui/icons-material/Home';
+import CategoryIcon from '@mui/icons-material/Category';
+import PersonIcon from '@mui/icons-material/Person';
+import Register from '../containers/Register';
 interface Route {
     to: string;
     exact: boolean;
@@ -19,48 +19,47 @@ type routeList = Route[];
 
 export const navigationRoutes: routeList = [
     {
-        to: "/",
+        to: '/',
         exact: true,
-        buttonName: "Home page",
+        buttonName: 'Home page',
         component: HomePage,
         icon: HomeIcon,
     },
     {
-        to: "/category",
+        to: '/category',
         exact: true,
-        buttonName: "Category",
+        buttonName: 'Category',
         component: CategoryPage,
         icon: CategoryIcon,
     },
     {
-        to: "/user/me",
+        to: '/user/me',
         exact: true,
-        buttonName: "Me",
+        buttonName: 'Me',
         component: MePage,
         icon: PersonIcon,
     },
     {
-        to: "/user/login",
+        to: '/user/login',
         exact: true,
-        buttonName: "Login",
+        buttonName: 'Login',
         component: LoginPage,
-        icon: PersonIcon,
-    },
-    {
-        to: "/product",
-        exact: true,
-        buttonName: "Product detail",
-        component: ProductPage,
         icon: PersonIcon,
     },
 ];
 
 const anotherRoute: routeList = [
     {
-        to: "/user/register",
+        to: '/user/register',
         exact: true,
-        buttonName: "Register",
+        buttonName: 'Register',
         component: Register,
+    },
+    {
+        to: '/product/:productName',
+        exact: true,
+        buttonName: 'Product detail',
+        component: ProductPage,
     },
 ];
 
