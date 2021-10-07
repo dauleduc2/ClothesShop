@@ -1,5 +1,13 @@
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { RootState } from '../../redux';
 import * as routes from '../../consts/routes';
+import { UserState } from '../../common/interfaces/user';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { store } from '../../redux';
+import { userThunk } from '../../redux/user/userThunk';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 interface NavigationProps {
     isOpenning: boolean;
     onCloseSideBar: Function;
@@ -8,16 +16,48 @@ interface NavigationProps {
 
 const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     const { isOpenning, isMobile, onCloseSideBar } = props;
+    const userState = useSelector<RootState, UserState>((state) => state.user);
+    const history = useHistory();
     const onHandleSelectionClick = () => {
         if (isMobile) {
             onCloseSideBar();
         }
     };
-
+    const onHandleLogout = () => {
+        store.dispatch(userThunk.logout());
+        onHandleSelectionClick();
+        toast.success('logout success');
+        history.push('/');
+    };
     const renderSelection = () => {
         let result;
-        result = routes.navigationRoutes.map((route) => {
+        const routeToRender = [...routes.navigationRoutes];
+        if (userState.isLogin) {
+            routeToRender.push({
+                to: '/user/me/logout',
+                exact: true,
+                buttonName: 'Logout',
+                icon: LogoutIcon,
+            });
+        }
+        result = routeToRender.map((route) => {
             const { icon: IconComponent } = route;
+            if (userState.isLogin && route.to === '/user/login') {
+                return false;
+            }
+            if (!userState.isLogin && route.to === '/user/me') {
+                return false;
+            }
+            if (route.to === '/user/me/logout') {
+                return (
+                    <li className="mb-4 text-gray-700 rounded-lg" key={route.buttonName} onClick={onHandleLogout}>
+                        <div className="flex items-center gap-4 px-4 py-3 text-sm font-semibold rounded-lg ">
+                            <IconComponent />
+                            {route.buttonName}
+                        </div>
+                    </li>
+                );
+            }
             return (
                 <li className="mb-4 text-gray-700 rounded-lg " key={route.buttonName} onClick={onHandleSelectionClick}>
                     <NavLink

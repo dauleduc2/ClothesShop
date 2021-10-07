@@ -7,11 +7,11 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import * as validateHelper from '../../utils/validateHelper';
 import axiosClient from '../../axios/config';
-import * as _ from 'lodash';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { store } from '../../redux';
 import { userListAction } from '../../redux/user/user';
+import { isEqual } from 'lodash';
 interface LoginProps {}
 interface LoginField {
     username: string;
@@ -30,7 +30,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         defaultValues,
     });
     const history = useHistory();
-    const dispatch = useDispatch();
+
     function handleClick() {
         document.getElementById('submitButton')?.click();
         setLoading(true);
@@ -54,7 +54,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
     const onSubmit = async (data: LoginField) => {
         const validateResult = validation(data);
         setErrorList(validateResult);
-        if (_.isEqual(validateResult, {})) {
+        if (isEqual(validateResult, defaultValues)) {
             const response: any = await axiosClient
                 .post('/api/user/login', {
                     username: data.username,
@@ -69,7 +69,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                     }
                 });
             if (response) {
-                dispatch(userListAction.setLogin(true));
+                store.dispatch(userListAction.setLogin(true));
                 toast.success('Login success!');
                 history.push('/user/me');
             }
@@ -119,7 +119,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                     <input type="submit" id="submitButton" value="" className="invisible" />
                 </div>
                 <Typography variant="caption" display="block" gutterBottom className="self-end mt-4">
-                    Don't have account yet?{' '}
+                    Don't have account yet?
                     <Link to="/user/register" className="underline">
                         Register
                     </Link>

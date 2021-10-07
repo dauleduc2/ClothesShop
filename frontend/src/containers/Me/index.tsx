@@ -33,10 +33,10 @@ const Me: React.FunctionComponent<MeProps> = () => {
     }, [userState.user.email, userState.user.fullName, setValue]);
     //validation
     const validation = (data: UpdateUserField): ErrorField => {
-        let errorList = defaultValues;
+        let errorList = { ...defaultValues };
         //fullName
-        if (!validateHelper.length(data.fullName, 6, 255))
-            errorList.fullName = 'The number of character must between 6 - 255';
+        if (!validateHelper.length(data.fullName, 3, 255))
+            errorList.fullName = 'The number of character must between 3 - 255';
         if (!data.fullName) errorList.fullName = 'Required';
         //email
         if (!validateHelper.validateEmail(data.email)) errorList.email = 'Invalid email';
@@ -80,7 +80,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                 </li>
                                 <li className="mb-5 sm:mb-10">
                                     <div className="flex flex-col w-full text-xl font-medium sm:flex-row">
-                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">full name</p>
+                                        <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">Full name</p>
                                         <TextField
                                             {...register('fullName')}
                                             variant="standard"
@@ -113,7 +113,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                                 },
                                             }}
                                             className="flex-1 w-full text-xl font-medium"
-                                            error={errorList?.email ? true : false}
+                                            error={Boolean(errorList?.email.length)}
                                             helperText={errorList?.email}
                                         />
                                     </div>

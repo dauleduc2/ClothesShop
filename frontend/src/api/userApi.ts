@@ -33,4 +33,9 @@ export const userApi = {
 
         return res;
     },
+    logout: async () => {
+        const url = '/api/user/me/logout';
+        const res = await axiosClient.get(url);
+        return res;
+    },
 };
