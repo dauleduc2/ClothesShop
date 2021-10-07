@@ -22,6 +22,12 @@ const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
         let result;
         result = routes.navigationRoutes.map((route) => {
             const { icon: IconComponent } = route;
+            if (userState.isLogin && route.to === '/user/login') {
+                return false;
+            }
+            if (!userState.isLogin && route.to === '/user/me') {
+                return false;
+            }
             return (
                 <li className="mb-4 text-gray-700 rounded-lg " key={route.buttonName} onClick={onHandleSelectionClick}>
                     <NavLink

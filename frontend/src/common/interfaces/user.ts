@@ -9,6 +9,14 @@ export interface User {
     createDate?: string;
 }
 
+export interface PossibleUpdateUserField {
+    fullName?: string;
+    avatar?: string;
+    email?: string;
+    userStatus?: number;
+    createDate?: string;
+}
+
 export interface UserState {
     isLogin: boolean;
     user: User;
@@ -18,8 +26,8 @@ export interface UserAction {
     type: string;
     payload: any;
 }
-export interface UserLoginPayload extends UserAction {
-    payload: User;
+export interface UpdateUserPayload extends UserAction {
+    payload: PossibleUpdateUserField;
 }
 
 export interface SetIsLoginPayload extends UserAction {
