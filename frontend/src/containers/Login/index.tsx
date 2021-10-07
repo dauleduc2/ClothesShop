@@ -1,50 +1,52 @@
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { TextField, Typography } from "@mui/material";
-import "./style.css";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import * as validateHelper from "../../utils/validateHelper";
-import axiosClient from "../../axios/config";
-import * as _ from "lodash";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { userListAction } from "../../redux/user/user";
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { TextField, Typography } from '@mui/material';
+import './style.css';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import * as validateHelper from '../../utils/validateHelper';
+import axiosClient from '../../axios/config';
+import * as _ from 'lodash';
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { userListAction } from '../../redux/user/user';
 interface LoginProps {}
 interface LoginField {
     username: string;
     password: string;
 }
-interface ErrorField extends Object {
-    username?: string;
-    password?: string;
-}
+
+const defaultValues: LoginField = {
+    username: '',
+    password: '',
+};
+
 const Login: React.FunctionComponent<LoginProps> = () => {
     const [loading, setLoading] = useState(false);
-    const [errorList, setErrorList] = useState<ErrorField | undefined>(
-        undefined
-    );
-    const { handleSubmit, register } = useForm<LoginField>();
+    const [errorList, setErrorList] = useState<LoginField>(defaultValues);
+    const { handleSubmit, register } = useForm<LoginField>({
+        defaultValues,
+    });
     const history = useHistory();
     const dispatch = useDispatch();
     function handleClick() {
-        document.getElementById("submitButton")?.click();
+        document.getElementById('submitButton')?.click();
         setLoading(true);
     }
 
     //validation
-    const validation = (data: LoginField): ErrorField => {
-        let errorList: ErrorField = {};
+    const validation = (data: LoginField) => {
+        let errorList = { ...defaultValues };
         //username
         if (!validateHelper.length(data.username, 6, 255))
-            errorList.username = "The number of character must between 6 - 255";
-        if (!data.username) errorList.username = "Required";
+            errorList.username = 'The number of character must between 6 - 255';
+        if (!data.username) errorList.username = 'Required';
         //password
         if (!validateHelper.length(data.password, 6, 255))
-            errorList.password = "The number of character must between 6 - 255";
-        if (!data.password) errorList.password = "Required";
+            errorList.password = 'The number of character must between 6 - 255';
+        if (!data.password) errorList.password = 'Required';
 
         //return
         return errorList;
@@ -54,7 +56,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         setErrorList(validateResult);
         if (_.isEqual(validateResult, {})) {
             const response: any = await axiosClient
-                .post("/api/user/login", {
+                .post('/api/user/login', {
                     username: data.username,
                     password: data.password,
                 })
@@ -63,15 +65,13 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                     if (message) {
                         toast.warning(message);
                     } else {
-                        toast.warning(
-                            "There something wrong during connect to server!"
-                        );
+                        toast.warning('There something wrong during connect to server!');
                     }
                 });
             if (response) {
                 dispatch(userListAction.setLogin(true));
-                toast.success("Login success!");
-                history.push("/user/me");
+                toast.success('Login success!');
+                history.push('/user/me');
             }
         }
         setLoading(false);
@@ -79,27 +79,19 @@ const Login: React.FunctionComponent<LoginProps> = () => {
 
     return (
         <div className="flex flex-col items-center justify-center w-full overflow-y-auto h-contentHeight">
-            <Typography
-                variant="h3"
-                gutterBottom
-                component="div"
-                className="font-bold text-black"
-            >
+            <Typography variant="h3" gutterBottom component="div" className="font-bold text-black">
                 Log in
             </Typography>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col w-10/12 max-w-sm p-4 lg:w-6/12"
-            >
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-10/12 max-w-sm p-4 lg:w-6/12">
                 <TextField
                     id="username"
                     label="Username"
                     variant="standard"
                     className="mb-5"
                     fullWidth
-                    error={errorList?.username ? true : false}
+                    error={Boolean(errorList?.username)}
                     helperText={errorList?.username}
-                    {...register("username")}
+                    {...register('username')}
                 />
                 <TextField
                     id="password"
@@ -108,9 +100,9 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                     variant="standard"
                     className="mb-5"
                     type="password"
-                    error={errorList?.password ? true : false}
+                    error={Boolean(errorList?.password)}
                     helperText={errorList?.password}
-                    {...register("password")}
+                    {...register('password')}
                 />
                 <div className="w-full mt-4">
                     <LoadingButton
@@ -124,20 +116,10 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                         Login
                     </LoadingButton>
 
-                    <input
-                        type="submit"
-                        id="submitButton"
-                        value=""
-                        className="invisible"
-                    />
+                    <input type="submit" id="submitButton" value="" className="invisible" />
                 </div>
-                <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    className="self-end mt-4"
-                >
-                    Don't have account yet?{" "}
+                <Typography variant="caption" display="block" gutterBottom className="self-end mt-4">
+                    Don't have account yet?{' '}
                     <Link to="/user/register" className="underline">
                         Register
                     </Link>
