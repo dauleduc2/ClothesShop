@@ -16,7 +16,7 @@ const ProductContainer: React.FunctionComponent<ProductContainerProps> = ({ prod
                         return (
                             <ProductBox
                                 key={index}
-                                imgUrl={product.images[0].imageLink}
+                                imgUrl={product.productAvatar}
                                 name={product.name}
                                 price={product.price}
                                 quantity={product.quantity}

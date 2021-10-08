@@ -21,9 +21,8 @@ export interface ProductToShow {
     name: string;
     quantity: number;
     price: number;
-    images: image[];
-    type: type[];
-    colors: color[];
+    status: number;
+    productAvatar: string;
 }
 
 export interface ProductState {
