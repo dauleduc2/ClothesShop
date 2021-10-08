@@ -10,6 +10,19 @@ export class ProductRepository extends Repository<Product> {
         return result;
     }
 
+    async getAllProductToShow() {
+        let result = await this.find({}).catch((err) => err);
+        result = result.map((product) => {
+            return {
+                name: product.name,
+                productAvatar: product.productAvatar,
+                price: product.price,
+                status: product.status,
+            };
+        });
+        return result;
+    }
+
     async findByName(name: string) {
         const product = await this.findOne({ name }).catch((err) => err);
         return product;

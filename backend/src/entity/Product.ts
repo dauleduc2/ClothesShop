@@ -20,6 +20,9 @@ export class Product {
     name: string;
 
     @Column()
+    productAvatar: string;
+
+    @Column()
     quantity: number;
 
     @Column()

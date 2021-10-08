@@ -13,6 +13,7 @@ const ProductSchema = Joi.object<Product>({
     colors: Joi.array().items(Joi.string()),
     types: Joi.array().items(Joi.string()),
     images: Joi.array().items(Joi.string()),
+    productAvatar: Joi.string().required(),
 });
 
 const validateProduct = (product: Product) => {

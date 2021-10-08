@@ -22,18 +22,23 @@ const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
     //connection
     const productRepo = getCustomRepository(ProductRepository);
-    const result = await productRepo.find({ relations: ["images"] });
+    const result = await productRepo.getAllProductToShow();
     res.status(200).send(
         dataHelper.getResponseForm(result, null, "get product list success!")
     );
 });
-
+// upload.array("images", 5);
 router.post(
     "/",
     [
         authenMiddleware,
         authorMiddleware,
-        multerErrorMiddleware(upload.array("images", 5)),
+        multerErrorMiddleware(
+            upload.fields([
+                { name: "images", maxCount: 6 },
+                { name: "productAvatar", maxCount: 1 },
+            ])
+        ),
     ],
     async (req: Request, res: Response) => {
         const {
@@ -48,16 +53,19 @@ router.post(
         } = req.body;
         const { files } = req;
         const fileList = [];
-        for (let i = 0; i < files.length; i++) {
-            const element = files[i];
+        for (let i = 0; i < files["images"].length; i++) {
+            const element = files["images"][i];
             fileList.push(element);
         }
+        const productAvatar = files["productAvatar"][0];
+        console.log(files["productAvatar"][0].filename);
         let newProduct = new Product();
         newProduct.name = name;
         newProduct.quantity = quantity;
         newProduct.description = description;
         newProduct.price = price;
         newProduct.status = status;
+        newProduct.productAvatar = productAvatar.filename;
         const { error } = validateProduct(newProduct);
         if (error)
             return res
