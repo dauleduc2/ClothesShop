@@ -1,35 +1,29 @@
 import * as React from 'react';
-import Product from '../Product/Product';
+import { ProductToShow } from '../../common/interfaces/product';
+import ProductBox from '../Product/ProductBox';
 
 interface ProductContainerProps {
-    Products: Array<ProductFields>;
+    products: ProductToShow[];
 }
-
-export interface ProductFields {
-    productId: string;
-    imgUrl: string;
-    describe: string;
-    price: number;
-}
-
-const ProductContainer: React.FunctionComponent<ProductContainerProps> = ({ Products }) => {
-    function formatCurrency(n: number, currency: string) {
-        return currency + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-    }
-
+const ProductContainer: React.FunctionComponent<ProductContainerProps> = ({ products }) => {
     return (
-        <div className="flex justify-center">
-            <div className="grid grid-cols-2 gap-2 p-0 rounded sm:p-8 sm:gap-4 sm:grid-cols-4">
-                {Products.map((item, index) => {
-                    return (
-                        <Product
-                            key={index}
-                            describe={item.describe}
-                            imgUrl={item.imgUrl}
-                            price={formatCurrency(item.price, 'đ')}
-                        />
-                    );
-                })}
+        <div className="bg-white">
+            <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                <h2 className="sr-only">Products</h2>
+
+                <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                    {products.map((product, index) => {
+                        return (
+                            <ProductBox
+                                key={index}
+                                imgUrl={product.images[0].imageLink}
+                                name={product.name}
+                                price={product.price}
+                                quantity={product.quantity}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

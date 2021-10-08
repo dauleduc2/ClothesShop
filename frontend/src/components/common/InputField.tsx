@@ -1,29 +1,62 @@
-import * as React from "react";
-
+import * as React from 'react';
+import { ExclamationCircleIcon } from '@heroicons/react/solid';
 interface InputFieldProps {
-    label: string;
+    label?: string;
     field: string;
+    error: boolean;
+    message: string;
     register?: any;
     type?: string;
+    defaultValue?: string;
+    placeholder?: string;
 }
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({
     label,
     field,
+    error,
+    message,
+    type = 'text',
     register,
-    type = "text",
+    defaultValue,
+    placeholder,
 }) => {
     return (
-        <div className="flex flex-col space-y-2 items-start">
-            <label className="text-gray-100 select-none font-medium text-2xl">
+        <div className="mb-5">
+            <label htmlFor={field} className="block text-sm font-medium text-left text-gray-700">
                 {label}
             </label>
-            <input
-                {...register(field)}
-                id={field}
-                type={type}
-                className="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 text-2xl w-full"
-            />
+            <div className="relative mt-1 rounded-md shadow-sm">
+                <input
+                    type={type}
+                    name={field}
+                    id={field}
+                    className={
+                        error
+                            ? 'block w-full pr-10 text-red-900 placeholder-red-300 border-red-300 rounded-md focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm'
+                            : 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                    }
+                    placeholder={placeholder}
+                    defaultValue={defaultValue}
+                    aria-invalid="true"
+                    aria-describedby="email-error"
+                    {...register(field)}
+                />
+                {error ? (
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <ExclamationCircleIcon className="w-5 h-5 text-red-500" aria-hidden="true" />
+                    </div>
+                ) : (
+                    ''
+                )}
+            </div>
+            {error ? (
+                <p className="mt-2 text-sm text-left text-red-600" id="email-error">
+                    {message}
+                </p>
+            ) : (
+                ''
+            )}
         </div>
     );
 };

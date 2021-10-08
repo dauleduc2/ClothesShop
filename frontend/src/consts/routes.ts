@@ -1,12 +1,8 @@
 import CategoryPage from '../components/Category';
 import HomePage from '../components/HomePage';
-
 import MePage from '../containers/Me';
 import ProductPage from '../containers/ProductDetails';
 import LoginPage from '../containers/Login';
-import HomeIcon from '@mui/icons-material/Home';
-import CategoryIcon from '@mui/icons-material/Category';
-import PersonIcon from '@mui/icons-material/Person';
 import Register from '../containers/Register';
 interface Route {
     to: string;
@@ -17,38 +13,33 @@ interface Route {
 }
 type routeList = Route[];
 
-export const navigationRoutes: routeList = [
+export const navigationLink: routeList = [
     {
         to: '/',
         exact: true,
-        buttonName: 'Home page',
-        component: HomePage,
-        icon: HomeIcon,
+        buttonName: 'Home',
     },
     {
         to: '/category',
         exact: true,
         buttonName: 'Category',
-        component: CategoryPage,
-        icon: CategoryIcon,
-    },
-    {
-        to: '/user/me',
-        exact: true,
-        buttonName: 'Me',
-        component: MePage,
-        icon: PersonIcon,
-    },
-    {
-        to: '/user/login',
-        exact: true,
-        buttonName: 'Login',
-        component: LoginPage,
-        icon: PersonIcon,
     },
 ];
 
-const anotherRoute: routeList = [
+export const userLink: routeList = [
+    {
+        to: '/user/me',
+        exact: true,
+        buttonName: 'Your Profile',
+    },
+    {
+        to: '/user/logout',
+        exact: true,
+        buttonName: 'Sign out',
+    },
+];
+
+export const routes: routeList = [
     {
         to: '/user/register',
         exact: true,
@@ -61,6 +52,28 @@ const anotherRoute: routeList = [
         buttonName: 'Product detail',
         component: ProductPage,
     },
+    {
+        to: '/',
+        exact: true,
+        buttonName: 'Home page',
+        component: HomePage,
+    },
+    {
+        to: '/category',
+        exact: true,
+        buttonName: 'Category',
+        component: CategoryPage,
+    },
+    {
+        to: '/user/me',
+        exact: true,
+        buttonName: 'Me',
+        component: MePage,
+    },
+    {
+        to: '/user/login',
+        exact: true,
+        buttonName: 'Login',
+        component: LoginPage,
+    },
 ];
-
-export const finalRoute: routeList = [...anotherRoute, ...navigationRoutes];

@@ -31,7 +31,7 @@ const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     };
     const renderSelection = () => {
         let result;
-        const routeToRender = [...routes.navigationRoutes];
+        const routeToRender = [...routes.navigationLink];
         if (userState.isLogin) {
             routeToRender.push({
                 to: '/user/me/logout',

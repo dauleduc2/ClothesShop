@@ -62,9 +62,9 @@ const ShopBar: React.FunctionComponent<ShopBarProps> = () => {
         store.dispatch(UIListAction.setSideBarOpenning(!UIState.isSideBarOpenning));
     };
     return (
-        <Box sx={{ flexGrow: 1 }} className=" max-h-16">
+        <Box sx={{ flexGrow: 1 }} className="max-h-14">
             <AppBar position="relative">
-                <Toolbar className={`transition-all duration-300 sticky`}>
+                <Toolbar className={`transition-all duration-300`}>
                     <IconButton
                         size="large"
                         edge="start"

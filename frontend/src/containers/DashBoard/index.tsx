@@ -1,6 +1,5 @@
 import ContentRoute from '../ContentRoute';
 import Navigation from '../../components/Navbar';
-import * as routes from '../../consts/routes';
 import ShopBar from '../ShopBar';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
@@ -10,10 +9,17 @@ import { useEffect } from 'react';
 import AutoLoginWrapper from '../../common/Auth/AutoLoginWrapper';
 import { UIState } from '../../common/interfaces/UI';
 import { store } from '../../redux';
+import Navbar from '../Navbar';
+import { routes } from '../../consts/routes';
+import { UserState } from '../../common/interfaces/user';
+import { userThunk } from '../../redux/user/userThunk';
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router';
 type Props = {};
 export const DashBoard = (props: Props) => {
     const isMobile = useMediaQuery('(max-width:640px)');
-
+    const userState = useSelector<RootState, UserState>((state) => state.user);
+    const history = useHistory();
     //userEffect for mobile side bar
     useEffect(() => {
         if (isMobile) {
@@ -22,7 +28,7 @@ export const DashBoard = (props: Props) => {
     }, [isMobile]);
     const renderContent = () => {
         let result;
-        result = routes.finalRoute.map((route) => <ContentRoute route={route} key={route.buttonName} />);
+        result = routes.map((route) => <ContentRoute route={route} key={route.buttonName} />);
         return result;
     };
     const UIState = useSelector<RootState, UIState>((state) => state.UI);
@@ -30,10 +36,9 @@ export const DashBoard = (props: Props) => {
         store.dispatch(UIListAction.setSideBarOpenning(false));
     };
     return (
-        <div className="flex w-full bg-gradient-to-t from-blue-100 to-blue-300">
-            <Navigation isOpenning={UIState.isSideBarOpenning} onCloseSideBar={onCloseSideBar} isMobile={isMobile} />
-            <div className="flex flex-col w-full h-screen text-4xl text-center ">
-                <ShopBar />
+        <div className="flex w-full ">
+            <div className="flex flex-col w-full h-screen text-4xl text-center">
+                <Navbar />
                 <AutoLoginWrapper>{renderContent()}</AutoLoginWrapper>
             </div>
             <div
