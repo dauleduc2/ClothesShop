@@ -1,37 +1,19 @@
-import ProductContainer from "../ProductContainer";
-import { Products } from "./HomepageProducts";
-
+import ProductContainer from '../ProductContainer';
+import React from 'react';
+import { RootState, store } from '../../redux';
+import { productThunk } from '../../redux/product/productThunk';
+import { useSelector } from 'react-redux';
+import { ProductState } from '../../common/interfaces/product';
 interface HomePageProps {}
 
 const HomePage: React.FunctionComponent<HomePageProps> = () => {
-    // const Products: Array<ProductFields> = [
-    //     {
-    //         productId: "1",
-    //         imgUrl: "/images/sus1.jpg",
-    //         describe:
-    //             "Amongus bla blas bla bla bla bla bla bla bla bla bl bla 1",
-    //         price: 199000,
-    //     },
-    //     {
-    //         productId: "2",
-    //         imgUrl: "/images/sus2.jpg",
-    //         describe:
-    //             "Amongus bla blas bla bla bla bla bla bla bla bla bl bla 2",
-    //         price: 199000,
-    //     },
-    //     {
-    //         productId: "4",
-    //         imgUrl: "/images/sus3.jpg",
-    //         describe:
-    //             "Amongus bla blas bla bla bla bla bla bla bla bla bl bla 3",
-    //         price: 199000,
-    //     },
-    // ];
-
+    const productState = useSelector<RootState, ProductState>((state) => state.product);
+    React.useEffect(() => {
+        store.dispatch(productThunk.getAllProduct());
+    }, []);
     return (
         <div className="overflow-y-auto text-4xl h-contentHeight">
-            this is homepage
-            <ProductContainer Products={Products} />
+            <ProductContainer products={productState.productList} />
         </div>
     );
 };

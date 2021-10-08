@@ -1,4 +1,4 @@
-import { DashBoard } from "../DashBoard";
+import { DashBoard } from '../DashBoard';
 
 function App() {
     return (

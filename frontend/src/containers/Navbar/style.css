@@ -1,0 +1,5 @@
+.active {
+    border-color: rgba(99, 102, 241) !important;
+    color: rgba(17, 24, 39) !important;
+    border-bottom-width: 2px !important;
+}

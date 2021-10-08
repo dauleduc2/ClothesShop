@@ -9,13 +9,8 @@ interface AutoLoginWrapperProps {}
 
 const AutoLoginWrapper: React.FunctionComponent<AutoLoginWrapperProps> = ({ children }) => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
-
     useEffect(() => {
-        if (userState.isLogin) {
-            store.dispatch(userThunk.getCurrentUser());
-        } else {
-            store.dispatch(userListAction.setLogin(false));
-        }
+        store.dispatch(userThunk.getCurrentUser());
     }, [userState.isLogin]);
     return <div>{children}</div>;
 };

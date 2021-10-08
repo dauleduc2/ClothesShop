@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import * as validateHelper from '../../utils/validateHelper';
-import { TextField } from '@mui/material';
 import { UpdateUserField, UserState } from '../../common/interfaces/user';
 import { userThunk } from '../../redux/user/userThunk';
 import { store } from '../../redux';
 import { isEqual } from 'lodash';
+import InputField from '../../components/common/InputField';
 
 interface MeProps {}
 
@@ -81,40 +81,26 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                 <li className="mb-5 sm:mb-10">
                                     <div className="flex flex-col w-full text-xl font-medium sm:flex-row">
                                         <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">Full name</p>
-                                        <TextField
-                                            {...register('fullName')}
-                                            variant="standard"
+                                        <InputField
+                                            register={register}
+                                            field="fullName"
+                                            type="text"
                                             placeholder="fullName"
-                                            inputProps={{
-                                                style: {
-                                                    fontSize: '1.25rem',
-                                                    lineHeight: '1.75rem',
-                                                    fontWeight: 500,
-                                                },
-                                            }}
-                                            className="flex-1 w-full text-xl font-medium"
                                             error={Boolean(errorList?.fullName.length)}
-                                            helperText={errorList?.fullName}
+                                            message={errorList?.fullName}
                                         />
                                     </div>
                                 </li>
                                 <li className="flex mb-5 sm:mb-10">
                                     <div className="flex flex-col w-full text-xl font-medium sm:flex-row">
                                         <p className="w-32 mr-4 text-left text-blue-900 sm:text-right">Email</p>
-                                        <TextField
-                                            {...register('email')}
-                                            variant="standard"
+                                        <InputField
+                                            register={register}
+                                            field="email"
+                                            type="text"
                                             placeholder="Email"
-                                            inputProps={{
-                                                style: {
-                                                    fontSize: '1.25rem',
-                                                    lineHeight: '1.75rem',
-                                                    fontWeight: 500,
-                                                },
-                                            }}
-                                            className="flex-1 w-full text-xl font-medium"
                                             error={Boolean(errorList?.email.length)}
-                                            helperText={errorList?.email}
+                                            message={errorList?.email}
                                         />
                                     </div>
                                 </li>
@@ -135,7 +121,9 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                             src={
                                                 file
                                                     ? URL.createObjectURL(file)
-                                                    : `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
+                                                    : userState.user.avatar
+                                                    ? `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
+                                                    : '../images/avatar.png'
                                             }
                                             sx={{ width: 160, height: 160 }}
                                         />
