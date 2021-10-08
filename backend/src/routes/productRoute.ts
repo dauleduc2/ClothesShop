@@ -18,9 +18,14 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 const router = express.Router();
-
+//GET get all product to show
 router.get("/", async (req: Request, res: Response) => {
-    res.status(200).send("get product");
+    //connection
+    const productRepo = getCustomRepository(ProductRepository);
+    const result = await productRepo.find({ relations: ["images"] });
+    res.status(200).send(
+        dataHelper.getResponseForm(result, null, "get product list success!")
+    );
 });
 
 router.post(
@@ -105,7 +110,7 @@ router.post(
         const imageList = Promise.all<Image>(
             fileList.map((item) => {
                 const newImage = new Image();
-                newImage.imageLink = item.path;
+                newImage.imageLink = item.filename;
                 return newImage;
             })
         );

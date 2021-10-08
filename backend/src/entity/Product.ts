@@ -16,7 +16,7 @@ export class Product {
     @PrimaryGeneratedColumn("uuid")
     ID: string;
 
-    @Column()
+    @Column({ unique: true })
     name: string;
 
     @Column()
