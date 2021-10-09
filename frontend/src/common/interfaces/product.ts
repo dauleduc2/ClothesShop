@@ -10,11 +10,12 @@ export interface Product {
     price: number;
     description: string;
     status: number;
-    image: image[];
-    type: type[];
-    color: color[];
-    size: size[];
+    images: image[];
+    types: type[];
+    colors: color[];
+    sizes: size[];
     createDate: string;
+    productAvatar: string;
 }
 
 export interface ProductToShow {
@@ -26,5 +27,6 @@ export interface ProductToShow {
 }
 
 export interface ProductState {
-    productList: ProductToShow[];
+    productToShowList: ProductToShow[];
+    currentProduct: Product;
 }
