@@ -25,7 +25,7 @@ export class Product {
     @Column()
     quantity: number;
 
-    @Column()
+    @Column({ length: 1020 })
     description: string;
 
     @Column()
@@ -43,17 +43,17 @@ export class Product {
 
     @ManyToMany((type) => Size)
     @JoinTable()
-    sizes: Size[];
+    sizes?: Size[];
 
     @ManyToMany((type) => Type)
     @JoinTable()
-    types: Type[];
+    types?: Type[];
 
     @ManyToMany((type) => Color)
     @JoinTable()
-    colors: Color[];
+    colors?: Color[];
 
     @ManyToMany((type) => Image, { cascade: true })
     @JoinTable()
-    images: Image[];
+    images?: Image[];
 }

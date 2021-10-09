@@ -1,5 +1,4 @@
 import { Request } from "express";
-import { OrderItem } from "../entity/OrderItem";
 
 export interface OrderItemRequest {
     ID?: string;

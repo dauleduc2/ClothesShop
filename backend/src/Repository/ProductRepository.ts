@@ -24,7 +24,12 @@ export class ProductRepository extends Repository<Product> {
     }
 
     async findByName(name: string) {
-        const product = await this.findOne({ name }).catch((err) => err);
+        const product = await this.find({
+            where: {
+                name,
+            },
+            relations: ["images", "sizes", "types", "colors"],
+        }).catch((err) => err);
         return product;
     }
 

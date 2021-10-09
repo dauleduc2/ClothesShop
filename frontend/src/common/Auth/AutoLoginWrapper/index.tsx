@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { userThunk } from '../../../redux/user/userThunk';
 import { UserState } from '../../interfaces/user';
 import { store } from '../../../redux';
-import { userListAction } from '../../../redux/user/user';
 interface AutoLoginWrapperProps {}
 
 const AutoLoginWrapper: React.FunctionComponent<AutoLoginWrapperProps> = ({ children }) => {

@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import RequestWithUser from "../interfaces/requestWithUser";
+import { RequestWithUser } from "../interfaces/requestWithUser";
 import * as dataHelper from "../utils/dataHelper";
 const jwt = require("jsonwebtoken");
 export function authenMiddleware(

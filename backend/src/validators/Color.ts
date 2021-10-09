@@ -3,6 +3,7 @@ import { Color } from "../entity/Color";
 
 const ColorSchema = Joi.object<Color>({
     name: Joi.string().max(50).required(),
+    hexCode: Joi.string().max(20).required(),
     ID: Joi.number().max(50),
 });
 

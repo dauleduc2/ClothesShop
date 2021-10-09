@@ -13,7 +13,7 @@ const HomePage: React.FunctionComponent<HomePageProps> = () => {
     }, []);
     return (
         <div className="overflow-y-auto text-4xl h-contentHeight">
-            <ProductContainer products={productState.productList} />
+            <ProductContainer products={productState.productToShowList} />
         </div>
     );
 };

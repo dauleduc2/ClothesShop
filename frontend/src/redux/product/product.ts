@@ -3,7 +3,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product, ProductState } from '../../common/interfaces/product';
 
 const initialState: ProductState = {
-    productList: [],
+    productToShowList: [],
+    currentProduct: {
+        ID: '',
+        name: '',
+        quantity: -1,
+        price: -1,
+        description: '',
+        status: -1,
+        images: [],
+        types: [],
+        colors: [],
+        sizes: [],
+        createDate: '',
+        productAvatar: '',
+    },
 };
 export const product = createSlice({
     name: 'product',
@@ -17,7 +31,13 @@ export const product = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(productThunk.getAllProduct.fulfilled, (state, { payload }) => {
-            return { ...state, productList: payload };
+            return { ...state, productToShowList: payload };
+        });
+        builder.addCase(productThunk.getSpecificProduct.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                currentProduct: payload,
+            };
         });
     },
 });

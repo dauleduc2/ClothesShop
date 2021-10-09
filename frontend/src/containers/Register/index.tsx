@@ -1,6 +1,4 @@
 import { useForm } from 'react-hook-form';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import * as validateHelper from '../../utils/validateHelper';
 import { useState } from 'react';
@@ -29,14 +27,9 @@ const defaultValues: RegisterField = {
     fullName: '',
 };
 const Register: React.FunctionComponent<RegisterProps> = () => {
-    // const [loading, setLoading] = useState(false);
     const [errorList, setErrorList] = useState<RegisterField>(defaultValues);
     const { handleSubmit, register } = useForm<RegisterField>();
     const history = useHistory();
-    // function handleClick() {
-    //     document.getElementById('submitButton')?.click();
-    //     setLoading(true);
-    // }
     //validation
     const validation = (data: RegisterField): RegisterField => {
         let errorList: RegisterField = { ...defaultValues };
@@ -77,9 +70,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                     fullName: data.fullName,
                 })
                 .catch((error) => {
-                    console.dir(error);
-                    // const message = error.response?.data.detail.message;
-
                     const message = error.response?.data.detail.message;
                     const responseData = error.response?.data.data;
                     let duplicateError: duplicateError = {};
@@ -101,106 +91,8 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                 history.push('/user/login');
             }
         }
-        // setLoading(false);
     };
     return (
-        // <div className="flex flex-col items-center justify-center w-full overflow-y-auto h-contentHeight">
-        //     <Typography
-        //         variant="h3"
-        //         gutterBottom
-        //         component="div"
-        //         className="font-bold text-black"
-        //     >
-        //         Register
-        //     </Typography>
-        //     <form
-        //         onSubmit={handleSubmit(onSubmit)}
-        //         className="flex flex-col w-10/12 max-w-sm p-4 lg:w-6/12"
-        //     >
-        //         <TextField
-        //             id="email"
-        //             label="Email"
-        //             variant="standard"
-        //             className="mb-5"
-        //             fullWidth
-        //             error={errorList?.email ? true : false}
-        //             helperText={errorList?.email}
-        //             {...register("email")}
-        //         />
-        //         <TextField
-        //             id="fullName"
-        //             label="Full name"
-        //             variant="standard"
-        //             className="mb-5"
-        //             fullWidth
-        //             error={errorList?.fullName ? true : false}
-        //             helperText={errorList?.fullName}
-        //             {...register("fullName")}
-        //         />
-        //         <TextField
-        //             id="username"
-        //             label="Username"
-        //             variant="standard"
-        //             className="mb-5"
-        //             fullWidth
-        //             error={errorList?.username ? true : false}
-        //             helperText={errorList?.username}
-        //             {...register("username")}
-        //         />
-        //         <TextField
-        //             id="password"
-        //             fullWidth
-        //             label="Password"
-        //             variant="standard"
-        //             className="mb-5"
-        //             error={errorList?.password ? true : false}
-        //             helperText={errorList?.password}
-        //             type="password"
-        //             {...register("password")}
-        //         />
-        //         <TextField
-        //             id="confirmPassword"
-        //             fullWidth
-        //             label="Confirm password"
-        //             variant="standard"
-        //             className="mb-5"
-        //             type="password"
-        //             error={errorList?.confirmPassword ? true : false}
-        //             helperText={errorList?.confirmPassword}
-        //             {...register("confirmPassword")}
-        //         />
-        //         <div className="w-full mt-4">
-        //             <LoadingButton
-        //                 onClick={handleClick}
-        //                 loading={loading}
-        //                 loadingPosition="end"
-        //                 variant="contained"
-        //                 className="w-full"
-        //                 color="primary"
-        //             >
-        //                 Register
-        //             </LoadingButton>
-
-        //             <input
-        //                 type="submit"
-        //                 id="submitButton"
-        //                 value=""
-        //                 className="invisible"
-        //             />
-        //         </div>
-        //         <Typography
-        //             variant="caption"
-        //             display="block"
-        //             gutterBottom
-        //             className="self-end mt-4"
-        //         >
-        //             Already have an acccount?{" "}
-        //             <Link to="/user/login" className="underline">
-        //                 Log in
-        //             </Link>
-        //         </Typography>
-        //     </form>
-        // </div>
         <div className="flex flex-col justify-center bg-gray-50 sm:px-6 lg:px-8 ">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mb-3 text-3xl font-extrabold text-center text-gray-900 ">Register</h2>
