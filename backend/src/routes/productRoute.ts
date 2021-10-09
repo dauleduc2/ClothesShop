@@ -1,3 +1,4 @@
+import { length } from "./../../../frontend/src/utils/validateHelper";
 import { Size } from "./../entity/Size";
 import { Color } from "./../entity/Color";
 import { Type } from "./../entity/Type";
@@ -27,7 +28,21 @@ router.get("/", async (req: Request, res: Response) => {
         dataHelper.getResponseForm(result, null, "get product list success!")
     );
 });
-// upload.array("images", 5);
+
+//GET specific product
+router.get("/:productName", async (req: Request, res: Response) => {
+    const { productName } = req.params;
+    //connection
+    const productRepo = getCustomRepository(ProductRepository);
+    const result = await productRepo.findByName(
+        productName.split("-").join(" ").trim()
+    );
+
+    res.status(200).send(
+        dataHelper.getResponseForm(result, null, "get product list success!")
+    );
+});
+
 router.post(
     "/",
     [
@@ -58,7 +73,6 @@ router.post(
             fileList.push(element);
         }
         const productAvatar = files["productAvatar"][0];
-        console.log(files["productAvatar"][0].filename);
         let newProduct = new Product();
         newProduct.name = name;
         newProduct.quantity = quantity;
@@ -90,8 +104,11 @@ router.post(
         const colorRepo: ColorRepository = connection[2];
         const typeRepo: TypeRepository = connection[3];
         //check duplicate
-        const isDuplicate = await productRepo.findByName(newProduct.name);
-        if (isDuplicate)
+        const isDuplicate: Product[] = await productRepo.findByName(
+            newProduct.name
+        );
+
+        if (isDuplicate.length > 0)
             return res
                 .status(400)
                 .send(

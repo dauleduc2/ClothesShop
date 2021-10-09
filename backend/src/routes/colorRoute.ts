@@ -7,6 +7,7 @@ import validateColor from "../validators/Color";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import * as dataHelper from "../utils/dataHelper";
+import { RequestWithColor } from "../interfaces/requestWithColor";
 
 const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
@@ -28,10 +29,11 @@ router.get("/", async (req: Request, res: Response) => {
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
-    async (req: Request, res: Response) => {
-        const { name } = req.body;
+    async (req: RequestWithColor, res: Response) => {
+        const { name, hexCode } = req.body;
         let newColor = new Color();
         newColor.name = name;
+        newColor.hexCode = hexCode;
         //validate
         const { error } = validateColor(newColor);
         if (error)
@@ -46,8 +48,8 @@ router.post(
                 );
         //get connection
         const colorRepo = await getCustomRepository(ColorRepository);
-        //check duplicate
-        const isDuplicate = await colorRepo.findByName(newColor.name);
+        //check duplicate color name
+        let isDuplicate = await colorRepo.findByName(newColor.name);
         if (isDuplicate)
             return res
                 .status(400)
@@ -55,7 +57,19 @@ router.post(
                     dataHelper.getResponseForm(
                         null,
                         null,
-                        "this color already have in store"
+                        "this color already existed"
+                    )
+                );
+        //check duplicate hexcode
+        isDuplicate = await colorRepo.findByHexCode(newColor.hexCode);
+        if (isDuplicate)
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        null,
+                        "this color hexCode already existed"
                     )
                 );
         //add color

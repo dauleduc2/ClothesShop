@@ -5,6 +5,13 @@ export class Color {
     @PrimaryGeneratedColumn()
     ID: number;
 
-    @Column()
+    @Column({
+        unique: true,
+    })
     name: string;
+
+    @Column({
+        unique: true,
+    })
+    hexCode: string;
 }

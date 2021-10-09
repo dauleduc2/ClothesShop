@@ -20,6 +20,11 @@ export class ColorRepository extends Repository<Color> {
         return colorName;
     }
 
+    async findByHexCode(hexCode: string) {
+        const colorName = await this.findOne({ hexCode });
+        return colorName;
+    }
+
     async getAllColor() {
         const result = await this.find({});
         return result;
