@@ -5,11 +5,9 @@ import { RootState } from '../../redux';
 import { UpdateUserField, UserState } from '../../common/interfaces/user';
 import { userThunk } from '../../redux/user/userThunk';
 import { store } from '../../redux';
-
+import * as notificationHelper from '../../utils/notificationHelper';
 import InputField from '../../components/common/InputField';
-import { notificationHelper } from '../../utils/notificationHelper';
 import InputAvatar from '../../components/common/InputAvatar';
-
 import InformationField from '../../components/common/InformationField';
 
 interface MeProps {}
@@ -21,8 +19,6 @@ const Me: React.FunctionComponent<MeProps> = () => {
 
     const [file, setFile] = React.useState<File | null>();
     const { handleSubmit, register, setValue } = useForm<UpdateUserField>({ defaultValues: defaultValues });
-    const noti = new notificationHelper();
-
     //set default value on first render
     React.useEffect(() => {
         setValue('email', userState.user.email);
@@ -34,7 +30,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
             data.avatar = file;
         }
         store.dispatch(userThunk.updateUser(data));
-        noti.success('Update success!');
+        notificationHelper.success('Update success!');
     };
     return (
         <div className="flex flex-col items-center justify-center flex-1">
@@ -76,7 +72,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                 avatarUrl={
                                     Boolean(userState.user.avatar)
                                         ? `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
-                                        : 'images/avatar.png'
+                                        : '/images/avatar.png'
                                 }
                                 setFile={setFile}
                             />

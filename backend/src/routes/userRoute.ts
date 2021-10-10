@@ -25,6 +25,7 @@ router.get(
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         const user = await userRepo.findByID(ID);
+
         return res
             .status(200)
             .send(

@@ -8,9 +8,8 @@ import axiosClient from '../../axios/config';
 import { useHistory } from 'react-router-dom';
 import { store } from '../../redux';
 import { userListAction } from '../../redux/user/user';
-import { isEqual } from 'lodash';
 import InputField from '../../components/common/InputField';
-import { notificationHelper } from '../../utils/notificationHelper';
+import * as notificationHelper from '../../utils/notificationHelper';
 interface LoginProps {}
 interface LoginField {
     username: string;
@@ -46,9 +45,8 @@ const Login: React.FunctionComponent<LoginProps> = () => {
     };
     const onSubmit = async (data: LoginField) => {
         const validateResult = validation(data);
-        const noti = new notificationHelper();
         setErrorList(validateResult);
-        if (isEqual(validateResult, defaultValues)) {
+        if (JSON.stringify(validateResult) === JSON.stringify(defaultValues)) {
             const response: any = await axiosClient
                 .post('/api/user/login', {
                     username: data.username,
@@ -57,14 +55,14 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                 .catch((error) => {
                     const message = error.response?.data.detail.message;
                     if (message) {
-                        noti.warning(message);
+                        notificationHelper.warning(message);
                     } else {
-                        noti.warning('Server error', 'There something wrong during connect to server!');
+                        notificationHelper.warning('Server error', 'There something wrong during connect to server!');
                     }
                 });
             if (response) {
                 store.dispatch(userListAction.setLogin(true));
-                noti.success('Login success!');
+                notificationHelper.success('Login success!');
                 history.push('/user/me');
             }
         }

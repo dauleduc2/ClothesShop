@@ -24,11 +24,11 @@ export const navigationLink: routeList = [
         exact: true,
         buttonName: 'Category',
     },
-    {
-        to: '/user/me',
-        exact: true,
-        buttonName: 'Me',
-    },
+    // {
+    //     to: '/user/me',
+    //     exact: true,
+    //     buttonName: 'Me',
+    // },
 ];
 
 export const userLink: routeList = [
