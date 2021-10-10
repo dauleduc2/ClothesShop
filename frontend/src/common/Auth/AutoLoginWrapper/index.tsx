@@ -11,7 +11,7 @@ const AutoLoginWrapper: React.FunctionComponent<AutoLoginWrapperProps> = ({ chil
     useEffect(() => {
         store.dispatch(userThunk.getCurrentUser());
     }, [userState.isLogin]);
-    return <div>{children}</div>;
+    return <>{children}</>;
 };
 
 export default AutoLoginWrapper;
