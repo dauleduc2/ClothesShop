@@ -5,7 +5,7 @@ module.exports = {
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
-            colors: { sky: colors.sky, lightBlue: colors.sky },
+            colors: { sky: colors.sky },
             spacing: {
                 contentHeight: 'calc(100vh - 64px )',
                 120: '30rem',

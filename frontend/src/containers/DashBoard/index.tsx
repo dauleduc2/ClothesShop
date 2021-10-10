@@ -10,11 +10,9 @@ export const DashBoard = (props: DashBoardProps) => {
         return result;
     };
     return (
-        <div className="flex w-full ">
-            <div className="flex flex-col w-full h-screen text-4xl text-center">
-                <Navbar />
-                <AutoLoginWrapper>{renderContent()}</AutoLoginWrapper>
-            </div>
+        <div className="flex flex-col min-h-screen text-4xl">
+            <Navbar />
+            <AutoLoginWrapper>{renderContent()}</AutoLoginWrapper>
         </div>
     );
 };
