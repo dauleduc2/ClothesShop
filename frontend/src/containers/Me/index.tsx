@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
@@ -11,6 +10,7 @@ import { userThunk } from '../../redux/user/userThunk';
 import { store } from '../../redux';
 import { isEqual } from 'lodash';
 import InputField from '../../components/common/InputField';
+import { notificationHelper } from '../../utils/notificationHelper';
 
 interface MeProps {}
 
@@ -26,6 +26,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
     const [errorList, setErrorList] = React.useState<UpdateUserField>(defaultValues);
     const [file, setFile] = React.useState<File | null>();
     const { handleSubmit, register, setValue } = useForm<UpdateUserField>({ defaultValues: defaultValues });
+    const noti = new notificationHelper();
     //set default value on first render
     React.useEffect(() => {
         setValue('email', userState.user.email);
@@ -53,7 +54,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
         setErrorList(validateResult);
         if (isEqual(validateResult, defaultValues)) {
             store.dispatch(userThunk.updateUser(data));
-            toast.success('Update success!');
+            noti.success('Update success!');
         }
     };
     return (

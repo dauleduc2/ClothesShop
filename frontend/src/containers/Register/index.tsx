@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import * as validateHelper from '../../utils/validateHelper';
 import { useState } from 'react';
 import axiosClient from '../../axios/config';
-import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import InputField from '../../components/common/InputField';
 import { isEqual } from 'lodash';
+import { notificationHelper } from '../../utils/notificationHelper';
 interface RegisterProps {}
 interface RegisterField {
     username: string;
@@ -29,6 +29,7 @@ const defaultValues: RegisterField = {
 const Register: React.FunctionComponent<RegisterProps> = () => {
     const [errorList, setErrorList] = useState<RegisterField>(defaultValues);
     const { handleSubmit, register } = useForm<RegisterField>();
+    const noti = new notificationHelper();
     const history = useHistory();
     //validation
     const validation = (data: RegisterField): RegisterField => {
@@ -83,11 +84,11 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                             ...duplicateError,
                         });
                     } else {
-                        toast.warning('There something wrong during connect to server!');
+                        noti.warning('There something wrong during connect to server!');
                     }
                 });
             if (response) {
-                toast.success('Register success!');
+                noti.success('Register success!');
                 history.push('/user/login');
             }
         }

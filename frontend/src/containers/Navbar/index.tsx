@@ -8,15 +8,16 @@ import { useSelector } from 'react-redux';
 import { RootState, store } from '../../redux';
 import { UserState } from '../../common/interfaces/user';
 import { userThunk } from '../../redux/user/userThunk';
-import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
 import Logo from '../../components/common/Logo';
+import { notificationHelper } from '../../utils/notificationHelper';
 interface NavbarProps {}
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
 }
 const Navbar: React.FunctionComponent<NavbarProps> = () => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
+    const noti = new notificationHelper();
     const history = useHistory();
     return (
         <Disclosure as="nav" className="bg-white shadow">
@@ -99,7 +100,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                         )}
                                                                         onClick={() => {
                                                                             store.dispatch(userThunk.logout());
-                                                                            toast.success('logout success');
+                                                                            noti.success('logout success');
                                                                             history.push('/');
                                                                         }}
                                                                     >
