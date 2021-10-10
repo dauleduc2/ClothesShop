@@ -17,12 +17,12 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
     error,
     message,
     type = 'text',
-    register,
+    register = () => {},
     defaultValue,
     placeholder,
 }) => {
     return (
-        <div className="mb-5">
+        <div>
             <label htmlFor={field} className="block text-sm font-medium text-left text-gray-700">
                 {label}
             </label>
