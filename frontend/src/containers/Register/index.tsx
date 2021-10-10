@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import * as validateHelper from '../../utils/validateHelper';
 import { useState } from 'react';
 import axiosClient from '../../axios/config';
-import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import InputField from '../../components/common/InputField';
-import { isEqual } from 'lodash';
+import * as notificationHelper from '../../utils/notificationHelper';
 interface RegisterProps {}
 interface RegisterField {
     username: string;
@@ -60,8 +59,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     const onSubmit = async (data: RegisterField) => {
         const validateResult = validation(data);
         setErrorList(validateResult);
-
-        if (isEqual(validateResult, defaultValues)) {
+        if (JSON.stringify(validateResult) === JSON.stringify(defaultValues)) {
             const response: any = await axiosClient
                 .post('/api/user/register', {
                     username: data.username,
@@ -74,20 +72,20 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                     const responseData = error.response?.data.data;
                     let duplicateError: duplicateError = {};
                     if (message) {
-                        if (responseData[0].username === true)
-                            duplicateError.username = 'The username is already existed';
+                        console.log(responseData);
+                        if (responseData.username === true) duplicateError.username = 'The username is already existed';
 
-                        if (responseData[0].email === true) duplicateError.email = 'The email is already existed';
+                        if (responseData.email === true) duplicateError.email = 'The email is already existed';
                         setErrorList({
                             ...errorList,
                             ...duplicateError,
                         });
                     } else {
-                        toast.warning('There something wrong during connect to server!');
+                        notificationHelper.warning('There something wrong during connect to server!');
                     }
                 });
             if (response) {
-                toast.success('Register success!');
+                notificationHelper.success('Register success!');
                 history.push('/user/login');
             }
         }

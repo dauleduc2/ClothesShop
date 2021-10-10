@@ -14,7 +14,6 @@ import {
     RequestWithUpdateUser,
     RequestWithUser,
 } from "../interfaces/requestWithUser";
-import { omit, pick } from "lodash";
 const router = express.Router();
 //GET me
 router.get(
@@ -25,23 +24,30 @@ router.get(
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         const user = await userRepo.findByID(ID);
-        return res
-            .status(200)
-            .send(
-                dataHelper.getResponseForm(
-                    pick(user, [
-                        "username",
-                        "fullName",
-                        "avatar",
-                        "email",
-                        "userStatus",
-                        "role",
-                        "createDate",
-                    ]),
-                    null,
-                    "get current user information success"
-                )
-            );
+        const {
+            username,
+            fullName,
+            avatar,
+            email,
+            userStatus,
+            role,
+            createDate,
+        } = user;
+        return res.status(200).send(
+            dataHelper.getResponseForm(
+                {
+                    username,
+                    fullName,
+                    avatar,
+                    email,
+                    userStatus,
+                    role,
+                    createDate,
+                },
+                null,
+                "get current user information success"
+            )
+        );
     }
 );
 //GET get user by username
@@ -188,7 +194,8 @@ router.post(
             req.body.avatar = req.file.filename;
         }
         if (typeof req.body.avatar === "object") {
-            req.body = omit(req.body, ["avatar"]);
+            const { avatar, ...orther } = req.body;
+            req.body = orther;
         }
 
         //validate

@@ -13,7 +13,7 @@ const InputAvatar: React.FunctionComponent<InputAvatarProps> = ({ avatarUrl, lab
 
     const onChange = React.useCallback((event) => {
         if (event.currentTarget.files) {
-            setFile(URL.createObjectURL(event.currentTarget.files[0]));
+            setFile(event.currentTarget.files[0]);
             setAvatar(URL.createObjectURL(event.currentTarget.files[0]));
         }
     }, []);

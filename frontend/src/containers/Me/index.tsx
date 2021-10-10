@@ -1,18 +1,13 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import * as validateHelper from '../../utils/validateHelper';
 import { UpdateUserField, UserState } from '../../common/interfaces/user';
 import { userThunk } from '../../redux/user/userThunk';
 import { store } from '../../redux';
-
+import * as notificationHelper from '../../utils/notificationHelper';
 import InputField from '../../components/common/InputField';
 import InputAvatar from '../../components/common/InputAvatar';
-
 import InformationField from '../../components/common/InformationField';
 
 interface MeProps {}
@@ -24,7 +19,6 @@ const Me: React.FunctionComponent<MeProps> = () => {
 
     const [file, setFile] = React.useState<File | null>();
     const { handleSubmit, register, setValue } = useForm<UpdateUserField>({ defaultValues: defaultValues });
-
     //set default value on first render
     React.useEffect(() => {
         setValue('email', userState.user.email);
@@ -35,8 +29,8 @@ const Me: React.FunctionComponent<MeProps> = () => {
         if (file) {
             data.avatar = file;
         }
-        console.log(data);
         store.dispatch(userThunk.updateUser(data));
+        notificationHelper.success('Update success!');
     };
     return (
         <div className="flex flex-col items-center justify-center flex-1">
@@ -78,7 +72,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                 avatarUrl={
                                     Boolean(userState.user.avatar)
                                         ? `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
-                                        : 'images/avatar.png'
+                                        : '/images/avatar.png'
                                 }
                                 setFile={setFile}
                             />

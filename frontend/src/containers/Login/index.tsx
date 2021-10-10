@@ -5,12 +5,11 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import * as validateHelper from '../../utils/validateHelper';
 import axiosClient from '../../axios/config';
-import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import { store } from '../../redux';
 import { userListAction } from '../../redux/user/user';
-import { isEqual } from 'lodash';
 import InputField from '../../components/common/InputField';
+import * as notificationHelper from '../../utils/notificationHelper';
 interface LoginProps {}
 interface LoginField {
     username: string;
@@ -23,7 +22,6 @@ const defaultValues: LoginField = {
 };
 
 const Login: React.FunctionComponent<LoginProps> = () => {
-    // const [loading, setLoading] = useState(false);
     const [errorList, setErrorList] = useState<LoginField>(defaultValues);
     const { handleSubmit, register } = useForm<LoginField>({
         defaultValues,
@@ -48,7 +46,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
     const onSubmit = async (data: LoginField) => {
         const validateResult = validation(data);
         setErrorList(validateResult);
-        if (isEqual(validateResult, defaultValues)) {
+        if (JSON.stringify(validateResult) === JSON.stringify(defaultValues)) {
             const response: any = await axiosClient
                 .post('/api/user/login', {
                     username: data.username,
@@ -57,14 +55,14 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                 .catch((error) => {
                     const message = error.response?.data.detail.message;
                     if (message) {
-                        toast.warning(message);
+                        notificationHelper.warning(message);
                     } else {
-                        toast.warning('There something wrong during connect to server!');
+                        notificationHelper.warning('Server error', 'There something wrong during connect to server!');
                     }
                 });
             if (response) {
                 store.dispatch(userListAction.setLogin(true));
-                toast.success('Login success!');
+                notificationHelper.success('Login success!');
                 history.push('/user/me');
             }
         }
@@ -73,11 +71,11 @@ const Login: React.FunctionComponent<LoginProps> = () => {
     return (
         <div className="flex flex-col justify-center py-12 overflow-y-auto bg-gray-50 sm:px-6 lg:px-8 h-contentHeight">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                {/* <img
+                <img
                     className="w-auto h-12 mx-auto"
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                     alt="Workflow"
-                /> */}
+                />
                 <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">Sign in</h2>
             </div>
 

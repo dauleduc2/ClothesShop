@@ -1,29 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* .bg-gradient-to-tr {
-    background-image: linear-gradient(to top right, var(--tw-gradient-stops));
-}
-
-.from-light-blue-500 {
-    --tw-gradient-from: #03a9f4;
-    --tw-gradient-stops: var(--tw-gradient-from),
-        var(--tw-gradient-to, rgba(3, 169, 244, 0));
-}
-
-.to-light-blue-700 {
-    --tw-gradient-to: #0288d1;
-}
-
-.text-white {
-    --tw-text-opacity: 1;
-    color: rgba(255, 255, 255, var(--tw-text-opacity));
-}
-
-.shadow-md {
-    --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
-        var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-} */

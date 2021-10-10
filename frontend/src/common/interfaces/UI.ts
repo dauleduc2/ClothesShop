@@ -1,8 +1,20 @@
 export interface UIState {
     isLoading: boolean;
-    isSideBarOpenning: boolean;
+    notification: {
+        isOpenning: boolean;
+        status: string;
+        title: string;
+        message: string;
+    };
 }
 export interface UIAction {
     type: string;
-    payload: boolean;
+}
+
+export interface setNotificationAction extends UIAction {
+    payload: {
+        status: string;
+        title: string;
+        message: string;
+    };
 }

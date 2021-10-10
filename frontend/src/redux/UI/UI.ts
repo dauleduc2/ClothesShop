@@ -1,20 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { UIAction, UIState } from "../../common/interfaces/UI";
+import { createSlice } from '@reduxjs/toolkit';
+import { setNotificationAction, UIState } from '../../common/interfaces/UI';
 
 const initialState: UIState = {
     isLoading: false,
-    isSideBarOpenning: true,
+    notification: {
+        isOpenning: false,
+        status: '',
+        message: '',
+        title: '',
+    },
 };
 
 export const UI = createSlice({
-    name: "UI",
+    name: 'UI',
     initialState,
     reducers: {
-        setSideBarOpenning: (state: UIState, action: UIAction) => {
-            const isSideBarOpenning = action.payload;
+        resetState: (state: UIState) => {
+            return { ...state };
+        },
+        setNotification: (state: UIState, action: setNotificationAction) => {
             return {
                 ...state,
-                isSideBarOpenning,
+                notification: {
+                    isOpenning: true,
+                    ...action.payload,
+                },
+            };
+        },
+        closeNotification: (state: UIState) => {
+            return {
+                ...state,
+                notification: {
+                    isOpenning: false,
+                    status: '',
+                    message: '',
+                    title: '',
+                },
             };
         },
     },
