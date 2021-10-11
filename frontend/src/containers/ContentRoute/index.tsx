@@ -3,7 +3,6 @@ import { Route } from 'react-router';
 interface CustomRoute {
     to: string;
     exact: boolean;
-    buttonName: string;
     component?: any;
 }
 interface ContentRouteProps {

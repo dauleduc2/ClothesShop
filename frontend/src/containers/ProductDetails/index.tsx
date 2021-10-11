@@ -6,21 +6,65 @@ import { RootState, store } from '../../redux';
 import { productThunk } from '../../redux/product/productThunk';
 import { useSelector } from 'react-redux';
 import { ProductState } from '../../common/interfaces/product';
-
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { color } from '../../common/interfaces/color';
+import { size } from '../../common/interfaces/size';
+import { ProductInCart } from '../../common/interfaces/cart';
+import { cartListAction } from '../../redux/cart/cart';
+import * as NotificationHelper from '../../utils/notificationHelper';
 interface RouteParams {
     productName: string;
 }
 
 interface ProductDetailsProps extends RouteComponentProps<RouteParams> {}
 
+type Inputs = {
+    amount: string;
+};
+
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
 }
 
+const defaultColor = {
+    ID: -1,
+    hexCode: '',
+    name: '',
+};
+
+const defaultSize = { ID: -1, name: '' };
+
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match }) => {
-    const [selectedColor, setSelectedColor] = React.useState({});
-    const [selectedSize, setSelectedSize] = React.useState({});
+    const [selectedColor, setSelectedColor] = React.useState<color>(defaultColor);
+    const [selectedSize, setSelectedSize] = React.useState<size>(defaultSize);
+    const [amount, setAmount] = React.useState<number>(1);
     const productState = useSelector<RootState, ProductState>((state) => state.product);
+    const { handleSubmit } = useForm<Inputs>();
+
+    const onSubmit: SubmitHandler<Inputs> = () => {
+        if (JSON.stringify(selectedColor) === JSON.stringify(defaultColor)) {
+            NotificationHelper.warning('Not enough infomation', 'Please choose color before add this product to cart');
+            return;
+        }
+        if (JSON.stringify(selectedSize) === JSON.stringify(defaultSize)) {
+            NotificationHelper.warning('Not enough infomation', 'Please choose size before add this product to cart');
+            return;
+        }
+
+        const product: ProductInCart = {
+            name: productState.currentProduct.name,
+            size: selectedSize,
+            color: selectedColor,
+            quantity: amount,
+            productAvatar: productState.currentProduct.productAvatar,
+            price: productState.currentProduct.price,
+        };
+        store.dispatch(cartListAction.addProduct(product));
+        setSelectedColor(defaultColor);
+        setSelectedSize(defaultSize);
+        setAmount(1);
+        NotificationHelper.success('Add product to cart success!');
+    };
 
     React.useEffect(() => {
         const { productName } = match.params;
@@ -66,7 +110,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                             </div>
 
                             <div className="mt-8 lg:col-span-5">
-                                <form>
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                     {/* Color picker */}
                                     <div className="flex flex-col">
                                         <h2 className="self-start text-sm font-medium text-gray-900 ring-gray">
@@ -137,6 +181,57 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                 ))}
                                             </div>
                                         </RadioGroup>
+                                    </div>
+                                    <div className="mt-8">
+                                        <div className="flex items-center justify-between">
+                                            <h2 className="text-sm font-medium text-gray-900">Amount</h2>
+                                        </div>
+                                        <div className="flex items-center mt-2">
+                                            <button
+                                                type="button"
+                                                className="text-gray-500 focus:outline-none focus:text-gray-600"
+                                                onClick={() => {
+                                                    setAmount((preValue) => {
+                                                        if (preValue !== 1) {
+                                                            return preValue - 1;
+                                                        }
+                                                        return 1;
+                                                    });
+                                                }}
+                                            >
+                                                <svg
+                                                    className="w-8 h-8"
+                                                    fill="none"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </button>
+                                            <input className="w-3 mx-3 text-lg text-gray-700" defaultValue={amount} />
+                                            <button
+                                                type="button"
+                                                className="text-gray-500 focus:outline-none focus:text-gray-600"
+                                                onClick={() => {
+                                                    setAmount(() => amount + 1);
+                                                }}
+                                            >
+                                                <svg
+                                                    className="w-8 h-8"
+                                                    fill="none"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <button
