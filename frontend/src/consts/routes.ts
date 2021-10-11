@@ -4,10 +4,11 @@ import MePage from '../containers/Me';
 import ProductPage from '../containers/ProductDetails';
 import LoginPage from '../containers/Login';
 import Register from '../containers/Register';
+import Cart from '../containers/Cart';
 interface Route {
     to: string;
     exact: boolean;
-    buttonName: string;
+    buttonName?: string;
     component?: any;
     icon?: any;
 }
@@ -48,37 +49,36 @@ export const routes: routeList = [
     {
         to: '/user/register',
         exact: true,
-        buttonName: 'Register',
         component: Register,
     },
     {
         to: '/product/:productName',
         exact: true,
-        buttonName: 'Product detail',
         component: ProductPage,
     },
     {
         to: '/',
         exact: true,
-        buttonName: 'Home page',
         component: HomePage,
     },
     {
         to: '/category',
         exact: true,
-        buttonName: 'Category',
         component: CategoryPage,
     },
     {
         to: '/user/me',
         exact: true,
-        buttonName: 'Me',
         component: MePage,
     },
     {
         to: '/user/login',
         exact: true,
-        buttonName: 'Login',
         component: LoginPage,
+    },
+    {
+        to: '/user/cart',
+        exact: true,
+        component: Cart,
     },
 ];

@@ -1,11 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setNotificationAction, UIState } from '../../common/interfaces/UI';
+import { ProductInCart } from '../../common/interfaces/cart';
+import { SetConfirmPopupPayload, SetNotificationPayload, UIAction, UIState } from '../../common/interfaces/UI';
 
 const initialState: UIState = {
     isLoading: false,
     notification: {
         isOpenning: false,
         status: '',
+        message: '',
+        title: '',
+    },
+    confirmPopUp: {
+        productToDelete: {
+            color: {
+                ID: -1,
+                name: '',
+                hexCode: '',
+            },
+            size: {
+                name: '',
+                ID: -1,
+            },
+            productAvatar: '',
+            price: -1,
+            quantity: -1,
+            name: '',
+        },
+        isConfirm: null,
+        isOpenning: false,
         message: '',
         title: '',
     },
@@ -18,12 +40,12 @@ export const UI = createSlice({
         resetState: (state: UIState) => {
             return { ...state };
         },
-        setNotification: (state: UIState, action: setNotificationAction) => {
+        setNotification: (state: UIState, { payload }: UIAction<SetNotificationPayload>) => {
             return {
                 ...state,
                 notification: {
                     isOpenning: true,
-                    ...action.payload,
+                    ...payload,
                 },
             };
         },
@@ -35,6 +57,42 @@ export const UI = createSlice({
                     status: '',
                     message: '',
                     title: '',
+                },
+            };
+        },
+        setConfirmPopUp: (state: UIState, { payload }: UIAction<SetConfirmPopupPayload>) => {
+            return {
+                ...state,
+                confirmPopUp: {
+                    ...state.confirmPopUp,
+                    isOpenning: true,
+                    ...payload,
+                },
+            };
+        },
+        resetConfirmPopup: (state: UIState) => {
+            return {
+                ...state,
+                confirmPopUp: {
+                    ...initialState.confirmPopUp,
+                },
+            };
+        },
+        setResponseOfPopup: (state: UIState, { payload }: UIAction<boolean>) => {
+            return {
+                ...state,
+                confirmPopUp: {
+                    ...state.confirmPopUp,
+                    isConfirm: payload,
+                },
+            };
+        },
+        setProductToDelete: (state: UIState, { payload }: UIAction<ProductInCart>) => {
+            return {
+                ...state,
+                confirmPopUp: {
+                    ...state.confirmPopUp,
+                    productToDelete: payload,
                 },
             };
         },

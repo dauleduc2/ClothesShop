@@ -6,7 +6,7 @@ type DashBoardProps = {};
 export const DashBoard = (props: DashBoardProps) => {
     const renderContent = () => {
         let result;
-        result = routes.map((route) => <ContentRoute route={route} key={route.buttonName} />);
+        result = routes.map((route, index) => <ContentRoute route={route} key={index} />);
         return result;
     };
     return (

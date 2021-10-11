@@ -1,9 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { Disclosure, Menu, Popover, Transition } from '@headlessui/react';
+import { MenuIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
 import { navigationLink, userLink } from '../../consts/routes';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../../redux';
 import { UserState } from '../../common/interfaces/user';
@@ -11,12 +11,15 @@ import { userThunk } from '../../redux/user/userThunk';
 import { useHistory } from 'react-router';
 import Logo from '../../components/common/Logo';
 import * as notificationHelper from '../../utils/notificationHelper';
+import { CartState } from '../../common/interfaces/cart';
 interface NavbarProps {}
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
 }
+
 const Navbar: React.FunctionComponent<NavbarProps> = () => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
+    const cartState = useSelector<RootState, CartState>((state) => state.cart);
     const history = useHistory();
     return (
         <Disclosure as="nav" className="bg-white shadow">
@@ -59,6 +62,98 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                     })}
                                 </div>
                             </div>
+
+                            {userState.isLogin ? (
+                                <div className="items-center justify-end flex-1 hidden lg:flex ">
+                                    {/* Cart */}
+                                    <Popover className="flow-root ml-4 text-sm lg:relative lg:ml-8">
+                                        <Popover.Button className="flex items-center p-2 -m-2 ">
+                                            <Link to="/user/cart" className="relative w-6 h-6 ">
+                                                <ShoppingBagIcon
+                                                    className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-gray-500 "
+                                                    aria-hidden="true"
+                                                />
+                                                {cartState.productList.length !== 0 ? (
+                                                    <span className="absolute w-4 h-4 ml-2 text-xs font-medium text-white bg-red-500 rounded-full bottom-4 group-hover:text-gray-800">
+                                                        {cartState.productList.length}
+                                                    </span>
+                                                ) : (
+                                                    ''
+                                                )}
+                                            </Link>
+                                        </Popover.Button>
+                                        {/* <Transition
+                                            as={Fragment}
+                                            enter="transition ease-out duration-200"
+                                            enterFrom="opacity-0"
+                                            enterTo="opacity-100"
+                                            leave="transition ease-in duration-150"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <Popover.Panel className="absolute top-16 inset-x-0 mt-px pb-6 bg-white shadow-lg sm:px-2 lg:top-full lg:left-auto lg:right-0 lg:mt-3 lg:-mr-1.5 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5">
+                                                <h2 className="sr-only">Shopping Cart</h2>
+
+                                                {cartState.productList.length === 0 ? (
+                                                    <div className="flex flex-col">
+                                                        <img
+                                                            src="/images/empty-cart.png"
+                                                            className="m-auto w-80"
+                                                            alt="empty cart"
+                                                        />
+                                                        <h2 className="m-auto text-lg font-normal">
+                                                            Your cart is empty
+                                                        </h2>
+                                                    </div>
+                                                ) : (
+                                                    <div className="max-w-2xl px-4 mx-auto">
+                                                        <ul className="divide-y divide-gray-200">
+                                                            {cartState.productList.map((product) => (
+                                                                <li
+                                                                    key={product.name}
+                                                                    className="flex items-center py-6"
+                                                                >
+                                                                    <img
+                                                                        src={`${process.env.REACT_APP_SERVER_URL}/${product.productAvatar}`}
+                                                                        alt={product.name}
+                                                                        className="flex-none w-16 h-16 border border-gray-200 rounded-md"
+                                                                    />
+                                                                    <div className="flex-col flex-auto ml-4">
+                                                                        <h3 className="font-medium text-gray-900">
+                                                                            <Link to={`/product/${product.name}`}>
+                                                                                {product.name}
+                                                                            </Link>
+                                                                        </h3>
+                                                                        <div className="flex">
+                                                                            <p className="text-gray-500">
+                                                                                {product.color.name}
+                                                                            </p>
+                                                                            <p className="pl-4 ml-4 text-gray-500 border-l border-gray-200">
+                                                                                {product.size.name}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                        <p className="mt-6 text-center">
+                                                            <Link
+                                                                to="/user/cart"
+                                                                className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                                                            >
+                                                                View Shopping Bag
+                                                            </Link>
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </Popover.Panel>
+                                        </Transition> */}
+                                    </Popover>
+                                </div>
+                            ) : (
+                                ''
+                            )}
+
                             {userState.isLogin ? (
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {/* Profile dropdown */}
