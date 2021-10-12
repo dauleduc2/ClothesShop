@@ -12,6 +12,7 @@ import { size } from '../../common/interfaces/size';
 import { ProductInCart } from '../../common/interfaces/cart';
 import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
+import { UserState } from '../../common/interfaces/user';
 interface RouteParams {
     productName: string;
 }
@@ -39,9 +40,14 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
     const [selectedSize, setSelectedSize] = React.useState<size>(defaultSize);
     const [amount, setAmount] = React.useState<number>(1);
     const productState = useSelector<RootState, ProductState>((state) => state.product);
+    const userState = useSelector<RootState, UserState>((state) => state.user);
     const { handleSubmit } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = () => {
+        if (!userState.isLogin) {
+            NotificationHelper.warning('Require', 'You need to login to use this function');
+            return;
+        }
         if (JSON.stringify(selectedColor) === JSON.stringify(defaultColor)) {
             NotificationHelper.warning('Not enough infomation', 'Please choose color before add this product to cart');
             return;
@@ -211,7 +217,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                     <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
                                             </button>
-                                            <input className="w-3 mx-3 text-lg text-gray-700" defaultValue={amount} />
+                                            <input className="w-3 mx-3 text-lg text-gray-700" value={amount} />
                                             <button
                                                 type="button"
                                                 className="text-gray-500 focus:outline-none focus:text-gray-600"

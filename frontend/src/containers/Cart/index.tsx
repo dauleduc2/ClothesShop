@@ -132,7 +132,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                                             </button>
                                                             <input
                                                                 className="w-3 mx-3 text-lg text-gray-700"
-                                                                defaultValue={product.quantity}
+                                                                value={product.quantity}
                                                             />
                                                             <button
                                                                 type="button"

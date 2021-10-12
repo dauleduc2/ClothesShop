@@ -67,8 +67,7 @@ export const user = createSlice({
         });
         builder.addCase(userThunk.logout.fulfilled, (state, { payload }) => {
             return {
-                ...state,
-                isLogin: false,
+                ...initialState,
             };
         });
     },
