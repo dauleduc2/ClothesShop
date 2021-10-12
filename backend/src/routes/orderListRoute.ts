@@ -6,7 +6,7 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import validateOrderList from "../validators/OrderList";
 import { OrderListRepository } from "../Repository/OrderListRepository";
 import { UserRepository } from "../Repository/UserRepository";
-import { RequestWithOrderList } from "../interfaces/requestWithOrderList";
+import { RequestWithOrderList } from "../interfaces/orderList";
 import { ProductRepository } from "../Repository/ProductRepository";
 import { OrderList } from "../entity/OrderList";
 import { Product } from "../entity/Product";

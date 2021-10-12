@@ -1,7 +1,7 @@
 import { User } from "./../entity/User";
 import * as Joi from "joi";
 import { JoiPassword } from "joi-password";
-import { BodyUpdateUser } from "../interfaces/requestWithUser";
+import { BodyUpdateUser } from "../interfaces/user";
 const UserSchema = Joi.object<User>({
     ID: Joi.string().max(50),
     username: Joi.string().max(255).required(),

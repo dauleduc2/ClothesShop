@@ -7,6 +7,8 @@ import validateType from "../validators/Type";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
+import { ServerRequest } from "../interfaces/common/Request";
+import { AddSizeInfo } from "../interfaces/size";
 const router = express.Router();
 
 //POST get all type
@@ -26,7 +28,7 @@ router.get("/", async (req: Request, res: Response) => {
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
-    async (req: Request, res: Response) => {
+    async (req: ServerRequest<AddSizeInfo>, res: Response) => {
         const { name } = req.body;
         let newType = new Type();
         newType.name = name;
