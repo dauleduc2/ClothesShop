@@ -1,29 +1,18 @@
 import { productThunk } from './productThunk';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { Product, ProductState } from '../../common/interfaces/product';
+import { ReduxAction } from '../../common/interfaces/redux';
+import { defaultProduct } from '../common/defaultValue';
 
 const initialState: ProductState = {
     productToShowList: [],
-    currentProduct: {
-        ID: '',
-        name: '',
-        quantity: -1,
-        price: -1,
-        description: '',
-        status: -1,
-        images: [],
-        types: [],
-        colors: [],
-        sizes: [],
-        createDate: '',
-        productAvatar: '',
-    },
+    currentProduct: defaultProduct,
 };
 export const product = createSlice({
     name: 'product',
     initialState,
     reducers: {
-        addProduct: (state: ProductState, action: PayloadAction<Product>) => {
+        addProduct: (state: ProductState, action: ReduxAction<Product>) => {
             return {
                 ...state,
             };

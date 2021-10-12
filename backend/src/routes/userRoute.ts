@@ -11,15 +11,18 @@ import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import {
-    RequestWithUpdateUser,
+    BodyUpdateUser,
+    LoginUser,
+    RegisterUser,
     RequestWithUser,
-} from "../interfaces/requestWithUser";
+} from "../interfaces/user";
+import { ServerRequest } from "../interfaces/common/Request";
 const router = express.Router();
 //GET me
 router.get(
     "/me",
     authenMiddleware,
-    async (req: RequestWithUser, res: Response) => {
+    async (req: RequestWithUser<any>, res: Response) => {
         const { ID } = req.user;
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
@@ -75,7 +78,7 @@ router.get(
     }
 );
 //POST login
-router.post("/login", async (req: Request, res: Response) => {
+router.post("/login", async (req: ServerRequest<LoginUser>, res: Response) => {
     const { username, password } = req.body;
     //get connection
     const userRepo = await getCustomRepository(UserRepository);
@@ -117,7 +120,7 @@ router.post("/login", async (req: Request, res: Response) => {
 router.post(
     "/register",
     multerErrorMiddleware(upload.single("image")),
-    async (req: Request, res: Response) => {
+    async (req: ServerRequest<RegisterUser>, res: Response) => {
         const { password, email, fullName, username, role } = req.body;
         let duplicateField = {
             username: false,
@@ -188,7 +191,7 @@ router.post(
 router.post(
     "/me/update",
     [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
-    async (req: RequestWithUpdateUser, res: Response) => {
+    async (req: RequestWithUser<BodyUpdateUser>, res: Response) => {
         const { ID } = req.user;
         if (req.file) {
             req.body.avatar = req.file.filename;
@@ -225,7 +228,7 @@ router.post(
 router.post(
     "/me/logout",
     authenMiddleware,
-    async (req: RequestWithUpdateUser, res: Response) => {
+    async (req: Request, res: Response) => {
         res.cookie("x-auth-token", "", {
             maxAge: -1,
         }).send(

@@ -5,7 +5,7 @@ import {
     OrderItemRequest,
     RequestWithOrderList,
     RequestWithOrderListBody,
-} from "../interfaces/requestWithOrderList";
+} from "../interfaces/orderList";
 
 const OrderListSchema = Joi.object({
     ID: Joi.string().max(255),

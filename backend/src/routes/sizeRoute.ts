@@ -7,6 +7,8 @@ import validateSize from "../validators/Size";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
+import { ServerRequest } from "../interfaces/common/Request";
+import { AddSizeInfo } from "../interfaces/size";
 const router = express.Router();
 
 //POST get all size
@@ -26,7 +28,7 @@ router.get("/", async (req: Request, res: Response) => {
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
-    async (req: Request, res: Response) => {
+    async (req: ServerRequest<AddSizeInfo>, res: Response) => {
         const { name } = req.body;
         let newSize = new Size();
         newSize.name = name;

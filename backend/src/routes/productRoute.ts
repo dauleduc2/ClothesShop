@@ -18,6 +18,8 @@ import { Image } from "../entity/Image";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
+import { ServerRequest } from "../interfaces/common/Request";
+import { AddProductInfo } from "../interfaces/product";
 const router = express.Router();
 //GET get all product to show
 router.get("/", async (req: Request, res: Response) => {
@@ -42,7 +44,7 @@ router.get("/:productName", async (req: Request, res: Response) => {
         dataHelper.getResponseForm(result, null, "get product list success!")
     );
 });
-
+//POST add new product to db
 router.post(
     "/",
     [
@@ -55,7 +57,7 @@ router.post(
             ])
         ),
     ],
-    async (req: Request, res: Response) => {
+    async (req: ServerRequest<AddProductInfo>, res: Response) => {
         const {
             name,
             quantity,

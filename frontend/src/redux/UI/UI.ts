@@ -1,31 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ProductInCart } from '../../common/interfaces/cart';
-import { SetConfirmPopupPayload, SetNotificationPayload, UIAction, UIState } from '../../common/interfaces/UI';
+import { ReduxAction } from '../../common/interfaces/redux';
+import { SetConfirmPopupPayload, SetNotificationPayload, UIState } from '../../common/interfaces/UI';
+import { defaultNotification, defaultProductInCart } from '../common/defaultValue';
 
 const initialState: UIState = {
     isLoading: false,
-    notification: {
-        isOpenning: false,
-        status: '',
-        message: '',
-        title: '',
-    },
+    notification: defaultNotification,
     confirmPopUp: {
-        productToDelete: {
-            color: {
-                ID: -1,
-                name: '',
-                hexCode: '',
-            },
-            size: {
-                name: '',
-                ID: -1,
-            },
-            productAvatar: '',
-            price: -1,
-            quantity: -1,
-            name: '',
-        },
+        productToDelete: defaultProductInCart,
         isConfirm: null,
         isOpenning: false,
         message: '',
@@ -37,10 +20,10 @@ export const UI = createSlice({
     name: 'UI',
     initialState,
     reducers: {
-        resetState: (state: UIState) => {
-            return { ...state };
+        resetState: () => {
+            return { ...initialState };
         },
-        setNotification: (state: UIState, { payload }: UIAction<SetNotificationPayload>) => {
+        setNotification: (state: UIState, { payload }: ReduxAction<SetNotificationPayload>) => {
             return {
                 ...state,
                 notification: {
@@ -52,15 +35,10 @@ export const UI = createSlice({
         closeNotification: (state: UIState) => {
             return {
                 ...state,
-                notification: {
-                    isOpenning: false,
-                    status: '',
-                    message: '',
-                    title: '',
-                },
+                notification: defaultNotification,
             };
         },
-        setConfirmPopUp: (state: UIState, { payload }: UIAction<SetConfirmPopupPayload>) => {
+        setConfirmPopUp: (state: UIState, { payload }: ReduxAction<SetConfirmPopupPayload>) => {
             return {
                 ...state,
                 confirmPopUp: {
@@ -78,7 +56,7 @@ export const UI = createSlice({
                 },
             };
         },
-        setResponseOfPopup: (state: UIState, { payload }: UIAction<boolean>) => {
+        setResponseOfPopup: (state: UIState, { payload }: ReduxAction<boolean>) => {
             return {
                 ...state,
                 confirmPopUp: {
@@ -87,7 +65,7 @@ export const UI = createSlice({
                 },
             };
         },
-        setProductToDelete: (state: UIState, { payload }: UIAction<ProductInCart>) => {
+        setProductToDelete: (state: UIState, { payload }: ReduxAction<ProductInCart>) => {
             return {
                 ...state,
                 confirmPopUp: {

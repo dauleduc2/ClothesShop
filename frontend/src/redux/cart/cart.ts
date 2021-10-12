@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CartAction, CartState, ProductInCart } from '../../common/interfaces/cart';
+import { CartState, ProductInCart } from '../../common/interfaces/cart';
+import { ReduxAction } from '../../common/interfaces/redux';
 
 const dataFromLocalStorage = localStorage.getItem('cartList');
 
@@ -16,7 +17,7 @@ export const cart = createSlice({
                 ...initialState,
             };
         },
-        addProduct: (state: CartState, { payload }: CartAction<ProductInCart>) => {
+        addProduct: (state: CartState, { payload }: ReduxAction<ProductInCart>) => {
             const newState = { ...state };
             let decoyArray = [...state.productList];
             //data to compare
@@ -44,7 +45,7 @@ export const cart = createSlice({
             localStorage.setItem('cartList', JSON.stringify(newState.productList));
             return newState;
         },
-        updateProduct: (state: CartState, { payload }: CartAction<ProductInCart>) => {
+        updateProduct: (state: CartState, { payload }: ReduxAction<ProductInCart>) => {
             const newState = { ...state };
             let decoyArray = [...state.productList];
             //data to compare
@@ -72,7 +73,7 @@ export const cart = createSlice({
             localStorage.setItem('cartList', JSON.stringify(newState.productList));
             return newState;
         },
-        deleteProduct: (state: CartState, { payload }: CartAction<ProductInCart>) => {
+        deleteProduct: (state: CartState, { payload }: ReduxAction<ProductInCart>) => {
             const newState = { ...state };
             let decoyArray = [...state.productList];
 
