@@ -16,10 +16,6 @@ export interface UIState {
         productToDelete: ProductInCart;
     };
 }
-export interface UIAction<T> {
-    type: string;
-    payload: T;
-}
 
 export interface SetNotificationPayload {
     status: string;

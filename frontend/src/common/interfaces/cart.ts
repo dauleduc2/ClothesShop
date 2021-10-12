@@ -13,7 +13,3 @@ export interface ProductInCart {
 export interface CartState {
     productList: ProductInCart[];
 }
-export interface CartAction<T> {
-    type: string;
-    payload: T;
-}

@@ -1,19 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserState, UpdateUserPayload, SetIsLoginPayload } from '../../common/interfaces/user';
+import { ReduxAction } from '../../common/interfaces/redux';
+import { UserState, PossibleUpdateUserField } from '../../common/interfaces/user';
+import { defaultUser } from '../common/defaultValue';
 import { userThunk } from './userThunk';
 
 const initialState: UserState = {
     isLogin: false,
-    user: {
-        ID: '',
-        username: '',
-        fullName: '',
-        avatar: '',
-        email: '',
-        userStatus: -1,
-        role: -1,
-        createDate: '',
-    },
+    user: defaultUser,
 };
 
 export const user = createSlice({
@@ -25,15 +18,15 @@ export const user = createSlice({
                 ...initialState,
             };
         },
-        updateUser: (state: UserState, action: UpdateUserPayload) => {
+        updateUser: (state: UserState, { payload }: ReduxAction<PossibleUpdateUserField>) => {
             return {
                 ...state,
-                ...action.payload,
+                ...payload,
             };
         },
-        setLogin: (state: UserState, action: SetIsLoginPayload) => {
+        setLogin: (state: UserState, { payload }: ReduxAction<boolean>) => {
             //return initial state when isLogin set to false
-            if (!action.payload) {
+            if (!payload) {
                 return {
                     ...initialState,
                 };
@@ -41,7 +34,7 @@ export const user = createSlice({
             //update when isLogin is set to true
             return {
                 ...state,
-                isLogin: action.payload,
+                isLogin: payload,
             };
         },
     },

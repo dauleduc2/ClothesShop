@@ -22,18 +22,6 @@ export interface UserState {
     user: User;
 }
 
-export interface UserAction {
-    type: string;
-    payload: any;
-}
-export interface UpdateUserPayload extends UserAction {
-    payload: PossibleUpdateUserField;
-}
-
-export interface SetIsLoginPayload extends UserAction {
-    payload: boolean;
-}
-
 export interface UpdateUserField {
     fullName: string;
     email: string;
