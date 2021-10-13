@@ -15,6 +15,11 @@ export interface UIState {
         message: string;
         productToDelete: ProductInCart;
     };
+    successModel: {
+        isOpenning: boolean;
+        title: string;
+        message: string;
+    };
 }
 
 export interface SetNotificationPayload {
@@ -24,6 +29,11 @@ export interface SetNotificationPayload {
 }
 
 export interface SetConfirmPopupPayload {
+    title: string;
+    message: string;
+}
+
+export interface SetSuccessModel {
     title: string;
     message: string;
 }

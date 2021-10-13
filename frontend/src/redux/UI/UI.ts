@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ProductInCart } from '../../common/interfaces/cart';
 import { ReduxAction } from '../../common/interfaces/redux';
-import { SetConfirmPopupPayload, SetNotificationPayload, UIState } from '../../common/interfaces/UI';
+import { SetConfirmPopupPayload, SetNotificationPayload, SetSuccessModel, UIState } from '../../common/interfaces/UI';
 import { defaultNotification, defaultProductInCart } from '../common/defaultValue';
 
 const initialState: UIState = {
@@ -10,6 +10,11 @@ const initialState: UIState = {
     confirmPopUp: {
         productToDelete: defaultProductInCart,
         isConfirm: null,
+        isOpenning: false,
+        message: '',
+        title: '',
+    },
+    successModel: {
         isOpenning: false,
         message: '',
         title: '',
@@ -71,6 +76,23 @@ export const UI = createSlice({
                 confirmPopUp: {
                     ...state.confirmPopUp,
                     productToDelete: payload,
+                },
+            };
+        },
+        resetSuccessModel: (state: UIState) => {
+            return {
+                ...state,
+                successModel: {
+                    ...initialState.successModel,
+                },
+            };
+        },
+        setSuccessModel: (state: UIState, { payload }: ReduxAction<SetSuccessModel>) => {
+            return {
+                ...state,
+                successModel: {
+                    isOpenning: true,
+                    ...payload,
                 },
             };
         },

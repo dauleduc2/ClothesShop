@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react';
 import { Disclosure, Menu, Popover, Transition } from '@headlessui/react';
-import { MenuIcon, ShoppingBagIcon, XIcon, BellIcon } from '@heroicons/react/outline';
+import { MenuIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
 import { navigationLink, userLink, userMobileLink } from '../../consts/routes';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -30,16 +30,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                         <div className="relative flex items-center justify-between h-16">
                             <div className="flex items-center px-2 lg:px-0">
                                 <div className="flex-shrink-0">
-                                    <img
-                                        className="block w-auto h-8 lg:hidden"
-                                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                        alt="Workflow"
-                                    />
-                                    <img
-                                        className="hidden w-auto h-8 lg:block"
-                                        src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                                        alt="Workflow"
-                                    />
+                                    <Logo />
                                 </div>
                                 <div className="hidden lg:block lg:ml-6">
                                     <div className="flex space-x-4">
