@@ -58,6 +58,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
         }
 
         const product: ProductInCart = {
+            ID: productState.currentProduct.ID,
             name: productState.currentProduct.name,
             size: selectedSize,
             color: selectedColor,

@@ -7,6 +7,8 @@ import { cartListAction } from '../../redux/cart/cart';
 import { Link } from 'react-router-dom';
 import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
+import { OrderItemToSend, OrderListToSend } from '../../common/interfaces/orderList';
+import { orderListApi } from '../../api/orderListApi';
 
 interface CartProps {}
 
@@ -31,13 +33,31 @@ const Cart: React.FunctionComponent<CartProps> = () => {
     }, [cartState.productList]);
 
     //
-    const onHandleOrderClick = () => {
-        store.dispatch(
-            UIListAction.setSuccessModel({
-                title: 'Order success',
-                message: 'You order was success, please wait our contact via your phone for more detail',
-            })
-        );
+    const onHandleOrderClick = async () => {
+        const orderItemList = cartState.productList.map<OrderItemToSend>((item) => {
+            return {
+                amount: item.quantity,
+                colorID: item.color.ID,
+                sizeID: item.size.ID,
+                productID: item.ID,
+            };
+        });
+        const orderListToSend: OrderListToSend = {
+            status: 0,
+            orderItem: orderItemList,
+        };
+
+        const result = await orderListApi.addNewOrderList(orderListToSend);
+        if (result.status === 200) {
+            store.dispatch(cartListAction.resetState());
+
+            store.dispatch(
+                UIListAction.setSuccessModel({
+                    title: 'Order success',
+                    message: 'You order was success, please wait our contact via your phone for more detail',
+                })
+            );
+        }
     };
     return (
         <>

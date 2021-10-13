@@ -12,9 +12,10 @@ export const cart = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        resetState: () => {
+        resetState: (state: CartState) => {
+            localStorage.setItem('cartList', JSON.stringify([]));
             return {
-                ...initialState,
+                productList: [],
             };
         },
         addProduct: (state: CartState, { payload }: ReduxAction<ProductInCart>) => {
