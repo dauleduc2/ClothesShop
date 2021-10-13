@@ -14,6 +14,7 @@ export class ProductRepository extends Repository<Product> {
         let result = await this.find({}).catch((err) => err);
         result = result.map((product) => {
             return {
+                ID: product.ID,
                 name: product.name,
                 productAvatar: product.productAvatar,
                 price: product.price,

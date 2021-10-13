@@ -2,6 +2,8 @@ import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { IsDate } from "class-validator";
 import { OrderList } from "./OrderList";
 import { Product } from "./Product";
+import { Color } from "./Color";
+import { Size } from "./Size";
 //product model
 @Entity()
 export class OrderItem {
@@ -21,6 +23,14 @@ export class OrderItem {
 
     @Column()
     price: number;
+
+    @Column()
+    @ManyToOne((type) => Color, (color) => color.ID)
+    color: string;
+
+    @Column()
+    @ManyToOne((type) => Size, (size) => size.ID)
+    size: string;
 
     @Column({
         type: "datetime",

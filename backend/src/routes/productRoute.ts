@@ -1,10 +1,8 @@
-import { length } from "./../../../frontend/src/utils/validateHelper";
 import { Size } from "./../entity/Size";
 import { Color } from "./../entity/Color";
 import { Type } from "./../entity/Type";
 import { Request, Response } from "express";
 import upload from "../utils/multerHelper";
-
 import * as express from "express";
 import { Product } from "../entity/Product";
 import validateProduct from "../validators/Product";

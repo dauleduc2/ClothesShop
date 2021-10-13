@@ -1,10 +1,7 @@
 import * as Joi from "joi";
-import { OrderItem } from "../entity/OrderItem";
-import { OrderList } from "../entity/OrderList";
 import {
     OrderItemRequest,
     RequestWithOrderList,
-    RequestWithOrderListBody,
 } from "../interfaces/orderList";
 
 const OrderListSchema = Joi.object({
@@ -15,15 +12,16 @@ const OrderListSchema = Joi.object({
             amount: Joi.number(),
             price: Joi.number(),
             createDate: Joi.date().default(Date.now()),
-            product: Joi.string().required(),
+            productID: Joi.string().required(),
+            sizeID: Joi.number().required(),
+            colorID: Joi.number().required(),
         })
     ),
-    user: Joi.string().required(),
     status: Joi.number().default(0).required(),
     createDate: Joi.date().default(Date.now()),
 });
 
-const validateOrderList = (orderList: RequestWithOrderListBody) => {
+const validateOrderList = (orderList: RequestWithOrderList) => {
     return OrderListSchema.validate(orderList, { abortEarly: false });
 };
 export default validateOrderList;
