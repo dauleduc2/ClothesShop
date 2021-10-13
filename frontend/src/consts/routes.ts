@@ -25,11 +25,6 @@ export const navigationLink: routeList = [
         exact: true,
         buttonName: 'Category',
     },
-    // {
-    //     to: '/user/me',
-    //     exact: true,
-    //     buttonName: 'Me',
-    // },
 ];
 
 export const userLink: routeList = [
@@ -37,6 +32,24 @@ export const userLink: routeList = [
         to: '/user/me',
         exact: true,
         buttonName: 'Your Profile',
+    },
+    {
+        to: '/user/logout',
+        exact: true,
+        buttonName: 'Sign out',
+    },
+];
+
+export const userMobileLink: routeList = [
+    {
+        to: '/user/me',
+        exact: true,
+        buttonName: 'Your Profile',
+    },
+    {
+        to: '/user/cart',
+        exact: true,
+        buttonName: 'Your Cart',
     },
     {
         to: '/user/logout',

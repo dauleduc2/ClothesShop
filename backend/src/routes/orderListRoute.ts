@@ -11,6 +11,7 @@ import { ProductRepository } from "../Repository/ProductRepository";
 import { OrderList } from "../entity/OrderList";
 import { Product } from "../entity/Product";
 import { OrderItem } from "../entity/OrderItem";
+import { RequestWithUser } from "../interfaces/user";
 const router = express.Router();
 
 //GET
@@ -22,14 +23,14 @@ router.get("/", async (req: Request, res: Response) => {
         .send(dataHelper.getResponseForm(null, null, "get order list!"));
 });
 
-//POST
+//POST add new order list
 router.post(
     "/",
     [authenMiddleware],
-    async (req: RequestWithOrderList, res: Response) => {
+    async (req: RequestWithUser<RequestWithOrderList>, res: Response) => {
         //validate
         const { error } = validateOrderList(req.body);
-        const { orderItem, user, status } = req.body;
+        const { orderItem, status } = req.body;
         if (error)
             return res
                 .status(400)
@@ -42,15 +43,14 @@ router.post(
                 );
         //create new order list
         let orderList = new OrderList();
-        orderList.user = user;
+        orderList.user = req.user.ID;
         orderList.status = status;
-
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         const productRepo = await getCustomRepository(ProductRepository);
         const orderListRepo = await getCustomRepository(OrderListRepository);
         //check existed userID
-        const isDuplicate = await userRepo.findByID(req.body.user);
+        const isDuplicate = await userRepo.findByID(req.user.ID);
         if (!isDuplicate)
             return res
                 .status(400)
@@ -64,8 +64,9 @@ router.post(
 
         //check existed productID
         const productItemList = Promise.all<Product>(
-            orderItem.map((item) => productRepo.findByID(item.product))
+            orderItem.map((item) => productRepo.findByID(item.productID))
         );
+
         const productList = await productItemList;
         orderList.orderItem = await Promise.all<OrderItem>(
             orderItem.map((item, index) => {
@@ -73,6 +74,8 @@ router.post(
                 newOrderItem.amount = item.amount;
                 newOrderItem.price = productList[index].price;
                 newOrderItem.product = productList[index];
+                newOrderItem.size = item.sizeID;
+                newOrderItem.color = item.colorID;
                 return newOrderItem;
             })
         );

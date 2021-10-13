@@ -3,6 +3,7 @@ import { Product } from '../../common/interfaces/product';
 import { User } from '../../common/interfaces/user';
 
 export const defaultProductInCart: ProductInCart = {
+    ID: '',
     color: {
         ID: -1,
         name: '',

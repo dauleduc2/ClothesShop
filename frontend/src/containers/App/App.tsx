@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
-import { ProductInCart } from '../../common/interfaces/cart';
 import { UIState } from '../../common/interfaces/UI';
 import ConfirmPopup from '../../components/common/ConfirmPopUp';
 import Notification from '../../components/common/Notification';
+import SuccessModel from '../../components/common/SuccessModel';
 import { RootState, store } from '../../redux';
 import { UIListAction } from '../../redux/UI/UI';
 import { DashBoard } from '../DashBoard';
@@ -14,6 +14,9 @@ function App() {
     };
     const onClosePopup = (isConfirm: boolean) => {
         store.dispatch(UIListAction.setResponseOfPopup(isConfirm));
+    };
+    const onCloseSuccessModel = () => {
+        store.dispatch(UIListAction.resetSuccessModel());
     };
     return (
         <div>
@@ -30,6 +33,12 @@ function App() {
                 message={UIState.confirmPopUp.message}
                 title={UIState.confirmPopUp.title}
                 onClosePopup={onClosePopup}
+            />
+            <SuccessModel
+                isOpenning={UIState.successModel.isOpenning}
+                message={UIState.successModel.message}
+                title={UIState.successModel.title}
+                onCloseSuccessModel={onCloseSuccessModel}
             />
         </div>
     );

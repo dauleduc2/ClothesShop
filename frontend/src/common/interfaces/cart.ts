@@ -2,6 +2,7 @@ import { color } from './color';
 import { size } from './size';
 
 export interface ProductInCart {
+    ID: string;
     name: string;
     quantity: number;
     price: number;

@@ -7,6 +7,8 @@ import { cartListAction } from '../../redux/cart/cart';
 import { Link } from 'react-router-dom';
 import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
+import { OrderItemToSend, OrderListToSend } from '../../common/interfaces/orderList';
+import { orderListApi } from '../../api/orderListApi';
 
 interface CartProps {}
 
@@ -29,6 +31,34 @@ const Cart: React.FunctionComponent<CartProps> = () => {
             }, 0)
         );
     }, [cartState.productList]);
+
+    //
+    const onHandleOrderClick = async () => {
+        const orderItemList = cartState.productList.map<OrderItemToSend>((item) => {
+            return {
+                amount: item.quantity,
+                colorID: item.color.ID,
+                sizeID: item.size.ID,
+                productID: item.ID,
+            };
+        });
+        const orderListToSend: OrderListToSend = {
+            status: 0,
+            orderItem: orderItemList,
+        };
+
+        const result = await orderListApi.addNewOrderList(orderListToSend);
+        if (result.status === 200) {
+            store.dispatch(cartListAction.resetState());
+
+            store.dispatch(
+                UIListAction.setSuccessModel({
+                    title: 'Order success',
+                    message: 'You order was success, please wait our contact via your phone for more detail',
+                })
+            );
+        }
+    };
     return (
         <>
             {cartState.productList.length === 0 ? (
@@ -132,7 +162,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                                             </button>
                                                             <input
                                                                 className="w-3 mx-3 text-lg text-gray-700"
-                                                                defaultValue={product.quantity}
+                                                                value={product.quantity}
                                                             />
                                                             <button
                                                                 type="button"
@@ -223,10 +253,11 @@ const Cart: React.FunctionComponent<CartProps> = () => {
 
                                 <div className="mt-6">
                                     <button
-                                        type="submit"
+                                        type="button"
                                         className="w-full px-4 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                                        onClick={onHandleOrderClick}
                                     >
-                                        Checkout
+                                        Order now
                                     </button>
                                 </div>
                             </section>

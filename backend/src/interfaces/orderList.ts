@@ -1,21 +1,16 @@
-import { Request } from "express";
-
 export interface OrderItemRequest {
     ID?: string;
     amount: number;
-    price: number;
+    price?: number;
     createDate: Date;
-    product: string;
+    productID: string;
+    sizeID: string;
+    colorID: string;
 }
 
-export interface RequestWithOrderListBody {
+export interface RequestWithOrderList {
     ID?: string;
-    user: string;
     orderItem?: OrderItemRequest[];
     status?: number;
     createDate?: Date;
-}
-
-export interface RequestWithOrderList extends Request {
-    body: RequestWithOrderListBody;
 }

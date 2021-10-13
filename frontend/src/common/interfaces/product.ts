@@ -19,6 +19,7 @@ export interface Product {
 }
 
 export interface ProductToShow {
+    ID: string;
     name: string;
     quantity: number;
     price: number;
