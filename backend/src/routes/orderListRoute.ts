@@ -14,15 +14,28 @@ import { OrderItem } from "../entity/OrderItem";
 import { RequestWithUser } from "../interfaces/user";
 const router = express.Router();
 
-//GET
+//GET all order list
 router.get("/", async (req: Request, res: Response) => {
     //get connection
+    const orderListRepo = await getCustomRepository(OrderListRepository);
+    const result = await orderListRepo.findAllOrderList();
 
     return res
         .status(200)
-        .send(dataHelper.getResponseForm(null, null, "get order list!"));
+        .send(dataHelper.getResponseForm(result, null, "get order list!"));
 });
+//GET all order list
+router.get("/:orderID", async (req: Request, res: Response) => {
+    const { orderID } = req.params;
 
+    //get connection
+    const orderListRepo = await getCustomRepository(OrderListRepository);
+    const result = await orderListRepo.findOrderListByID(orderID);
+
+    return res
+        .status(200)
+        .send(dataHelper.getResponseForm(result, null, "get order list!"));
+});
 //POST add new order list
 router.post(
     "/",
