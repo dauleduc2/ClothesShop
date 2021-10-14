@@ -40,7 +40,7 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                 {people.map((person) => (
                     <li
                         key={person.email}
-                        className="col-span-1 bg-white divide-y divide-gray-200 rounded-lg shadow-lg"
+                        className="col-span-1 bg-white divide-y divide-gray-200 rounded-lg shadow-lg intro-y"
                     >
                         <div className="flex items-center justify-between w-full p-6 space-x-6">
                             <div className="flex-1 truncate">

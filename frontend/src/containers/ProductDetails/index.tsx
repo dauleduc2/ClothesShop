@@ -84,7 +84,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                     <nav aria-label="Breadcrumb" className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"></nav>
                     <div className="max-w-2xl px-4 mx-auto mt-8 sm:px-6 lg:max-w-7xl lg:px-8">
                         <div className="lg:grid lg:grid-cols-12 lg:auto-rows-min lg:gap-x-8">
-                            <div className="lg:col-start-8 lg:col-span-5">
+                            <div className="lg:col-start-8 lg:col-span-5 intro-y">
                                 <div className="flex justify-between">
                                     <h1 className="text-xl font-medium text-gray-900">
                                         {productState.currentProduct.name}
@@ -99,24 +99,24 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                             <div className="mt-8 lg:mt-0 lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:row-span-3">
                                 <h2 className="sr-only">Images</h2>
 
-                                <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
                                     <img
                                         src={`${process.env.REACT_APP_SERVER_URL}/${productState.currentProduct.productAvatar}`}
                                         alt="productAvatar"
-                                        className="w-full h-full rounded-lg lg:col-span-2 lg:row-span-2"
+                                        className="w-full rounded-lg lg:col-span-2 lg:row-span-2 intro-y"
                                     />
                                     {productState.currentProduct.images.map((image, index) => (
                                         <img
                                             key={index}
                                             src={`${process.env.REACT_APP_SERVER_URL}/${image.imageLink}`}
                                             alt={image.ID}
-                                            className="hidden rounded-lg shadow-xl lg:block"
+                                            className="hidden rounded-lg shadow-xl lg:block intro-y"
                                         />
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="mt-8 lg:col-span-5">
+                            <div className="mt-8 lg:col-span-5 intro-y">
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     {/* Color picker */}
                                     <div className="flex flex-col">

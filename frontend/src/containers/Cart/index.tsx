@@ -87,7 +87,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
 
                                 <ul className="border-t border-b border-gray-200 divide-y divide-gray-200">
                                     {cartState.productList.map((product, productIdx) => (
-                                        <li key={productIdx} className="flex py-6 sm:py-10">
+                                        <li key={productIdx} className="flex py-6 sm:py-10 intro-x">
                                             <div className="flex-shrink-0">
                                                 <img
                                                     src={`${process.env.REACT_APP_SERVER_URL}/${product.productAvatar}`}
@@ -222,7 +222,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                             {/* Order summary */}
                             <section
                                 aria-labelledby="summary-heading"
-                                className="px-4 py-6 mt-16 rounded-lg bg-gray-50 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5"
+                                className="px-4 py-6 mt-16 rounded-lg bg-gray-50 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5 intro-y"
                             >
                                 <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
                                     Order summary
