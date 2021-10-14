@@ -15,22 +15,26 @@ export class OrderListRepository extends Repository<OrderList> {
         return OrderList;
     }
 
-    async findAllOrderList() {
-        const OrderList = await this
-            .query(`SELECT ol.ID as orderID, ol.status, ol.createDate as date, COUNT(oi.ID) as totalProduct, SUM(oi.price * oi.amount) as totalPrice
+    async findAllOrderList(userID: string) {
+        const OrderList = await this.query(
+            `SELECT ol.ID as orderID, ol.status, ol.createDate as date, COUNT(oi.ID) as totalProduct, SUM(oi.price * oi.amount) as totalPrice
                     FROM order_list ol
                     JOIN order_item oi
-                    ON ol.ID = oi.orderID
+                        ON ol.ID = oi.orderID
+                    WHERE ol.userID = ?
                     GROUP BY ol.ID 
-                    ORDER BY ol.createDate DESC`);
+                    ORDER BY ol.createDate DESC`,
+            [userID]
+        );
         return OrderList;
     }
 
-    async findOrderListByID(ID: string) {
+    async findOrderListByID(userID: string, ID: string) {
         const result = await this.find({
             relations: ["orderItem"],
             where: {
                 ID,
+                user: userID,
             },
         });
 

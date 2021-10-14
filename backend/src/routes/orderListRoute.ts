@@ -15,27 +15,38 @@ import { RequestWithUser } from "../interfaces/user";
 const router = express.Router();
 
 //GET all order list
-router.get("/", async (req: Request, res: Response) => {
-    //get connection
-    const orderListRepo = await getCustomRepository(OrderListRepository);
-    const result = await orderListRepo.findAllOrderList();
+router.get(
+    "/",
+    [authenMiddleware],
+    async (req: RequestWithUser<any>, res: Response) => {
+        //get connection
+        const orderListRepo = await getCustomRepository(OrderListRepository);
+        const result = await orderListRepo.findAllOrderList(req.user.ID);
 
-    return res
-        .status(200)
-        .send(dataHelper.getResponseForm(result, null, "get order list!"));
-});
+        return res
+            .status(200)
+            .send(dataHelper.getResponseForm(result, null, "get order list!"));
+    }
+);
 //GET all order list
-router.get("/:orderID", async (req: Request, res: Response) => {
-    const { orderID } = req.params;
+router.get(
+    "/:orderID",
+    [authenMiddleware],
+    async (req: RequestWithUser<any>, res: Response) => {
+        const { orderID } = req.params;
 
-    //get connection
-    const orderListRepo = await getCustomRepository(OrderListRepository);
-    const result = await orderListRepo.findOrderListByID(orderID);
+        //get connection
+        const orderListRepo = await getCustomRepository(OrderListRepository);
+        const result = await orderListRepo.findOrderListByID(
+            req.user.ID,
+            orderID
+        );
 
-    return res
-        .status(200)
-        .send(dataHelper.getResponseForm(result, null, "get order list!"));
-});
+        return res
+            .status(200)
+            .send(dataHelper.getResponseForm(result, null, "get order list!"));
+    }
+);
 //POST add new order list
 router.post(
     "/",
