@@ -1,13 +1,25 @@
 import { EntityRepository, Repository } from "typeorm";
 import { OrderList } from "../entity/OrderList";
+import { ResponseOrder } from "../interfaces/orderList";
 @EntityRepository(OrderList)
 export class OrderListRepository extends Repository<OrderList> {
     async addNewOrderList(OrderList: OrderList) {
         //save to db
-        const result = await this.manager
+        const res: OrderList = await this.manager
             .save(OrderList)
             .catch((err) => err.sqlMessage);
-        return result;
+        // const result: ResponseOrder = {
+        //     orderID: res.ID,
+        //     status: res.status,
+        //     createDate: res.createDate,
+        //     totalProduct: res.orderItem.reduce((total, current) => {
+        //         return total + current.amount;
+        //     }, 0),
+        //     totalPrice: res.orderItem.reduce((total, current) => {
+        //         return total + current.price * current.amount;
+        //     }, 0),
+        // };
+        return res;
     }
 
     async findByID(ID: string) {
@@ -17,7 +29,7 @@ export class OrderListRepository extends Repository<OrderList> {
 
     async findAllOrderList(userID: string) {
         const OrderList = await this.query(
-            `SELECT ol.ID as orderID, ol.status, ol.createDate as date, COUNT(oi.ID) as totalProduct, SUM(oi.price * oi.amount) as totalPrice
+            `SELECT ol.ID as orderID, ol.status, ol.createDate as createDate, SUM(oi.amount) as totalProduct, SUM(oi.price * oi.amount) as totalPrice
                     FROM order_list ol
                     JOIN order_item oi
                         ON ol.ID = oi.orderID

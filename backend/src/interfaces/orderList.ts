@@ -14,3 +14,10 @@ export interface RequestWithOrderList {
     status?: number;
     createDate?: Date;
 }
+export interface ResponseOrder {
+    orderID: string;
+    status: number;
+    createDate: Date;
+    totalProduct: number;
+    totalPrice: number;
+}
