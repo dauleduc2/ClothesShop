@@ -28,3 +28,15 @@ export interface OrderList {
     ID: string;
     createDate: string;
 }
+
+export interface ResponseOrder {
+    orderID: string;
+    status: number;
+    createDate: string;
+    totalProduct: number;
+    totalPrice: number;
+}
+
+export interface OrderListState {
+    orderList: ResponseOrder[];
+}

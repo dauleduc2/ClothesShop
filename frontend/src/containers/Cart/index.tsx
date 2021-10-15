@@ -9,6 +9,7 @@ import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
 import { OrderItemToSend, OrderListToSend } from '../../common/interfaces/orderList';
 import { orderListApi } from '../../api/orderListApi';
+import { orderListThunk } from '../../redux/orderList/orderListThunk';
 
 interface CartProps {}
 
@@ -47,8 +48,9 @@ const Cart: React.FunctionComponent<CartProps> = () => {
             orderItem: orderItemList,
         };
 
-        const result = await orderListApi.addNewOrderList(orderListToSend);
-        if (result.status === 200) {
+        // const result = await orderListApi.addNewOrderList(orderListToSend);
+        const result = await store.dispatch(orderListThunk.addOrderList(orderListToSend));
+        if (result.meta.requestStatus === 'fulfilled') {
             store.dispatch(cartListAction.resetState());
 
             store.dispatch(

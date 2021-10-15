@@ -9,7 +9,6 @@ export const userThunk = {
     updateUser: createAsyncThunk('/user/updateUser', async (data: UpdateUserField) => {
         const res = await userApi.updateUser(data);
         const { fullName, avatar, email } = res.data.data;
-        console.log({ fullName, avatar, email });
         return { fullName, avatar, email };
     }),
     logout: createAsyncThunk('/user/logout', async () => {
