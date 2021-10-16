@@ -17,6 +17,16 @@ import {
 } from "../interfaces/DTO/user";
 import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
 const router = express.Router();
+
+//GET get user by username
+router.get("/:username", async (req: Request, res: Response) => {
+    const { username } = req.params;
+    //get connection
+    const userRepo = await getCustomRepository(UserRepository);
+    const user = await userRepo.findByUsername(username);
+    res.send(dataHelper.getResponseForm(user, null, "get user success"));
+});
+
 //GET me
 router.get(
     "/me",
@@ -52,15 +62,7 @@ router.get(
         );
     }
 );
-//GET get user by username
-router.get("/:username", async (req: Request, res: Response) => {
-    const { username } = req.params;
-    //get connection
-    const userRepo = await getCustomRepository(UserRepository);
-    const user = await userRepo.findByUsername(username);
 
-    res.send(dataHelper.getResponseForm(user, null, "get user success"));
-});
 //GET logout
 router.get(
     "/me/logout",
@@ -74,6 +76,44 @@ router.get(
         );
     }
 );
+
+//POST update user
+router.post(
+    "/me/update",
+    [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
+    async (req: RequestWithUser<BodyUpdateUserDTO>, res: Response) => {
+        const { ID } = req.user;
+        if (req.file) {
+            req.body.avatar = req.file.filename;
+        }
+        if (typeof req.body.avatar === "object") {
+            const { avatar, ...orther } = req.body;
+            req.body = orther;
+        }
+
+        //validate
+        const { error } = validateUpdateUser(req.body);
+        if (error)
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.message,
+                        "validation error"
+                    )
+                );
+
+        //get connection
+        const userRepo = getCustomRepository(UserRepository);
+        //get current data
+        const result = await userRepo.updateUserByID(ID, req.body);
+        return res.send(
+            dataHelper.getResponseForm(result, null, "update success!")
+        );
+    }
+);
+
 //POST login
 router.post(
     "/login",
@@ -121,7 +161,7 @@ router.post(
     "/register",
     multerErrorMiddleware(upload.single("image")),
     async (req: ServerRequest<RegisterUserDTO>, res: Response) => {
-        const { password, email, fullName, username, role } = req.body;
+        const { password, email, fullName, username } = req.body;
         let duplicateField = {
             username: false,
             email: false,
@@ -132,7 +172,6 @@ router.post(
         user.fullName = fullName;
         user.username = username;
         // user.avatar = req.file.path;
-        // user.role = role;
         //validate user
         const { error } = validateUser(user);
         if (error)
@@ -181,43 +220,6 @@ router.post(
         });
         return res.send(
             dataHelper.getResponseForm(null, null, "register success...!")
-        );
-    }
-);
-
-//POST update user
-router.post(
-    "/me/update",
-    [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
-    async (req: RequestWithUser<BodyUpdateUserDTO>, res: Response) => {
-        const { ID } = req.user;
-        if (req.file) {
-            req.body.avatar = req.file.filename;
-        }
-        if (typeof req.body.avatar === "object") {
-            const { avatar, ...orther } = req.body;
-            req.body = orther;
-        }
-
-        //validate
-        const { error } = validateUpdateUser(req.body);
-        if (error)
-            return res
-                .status(400)
-                .send(
-                    dataHelper.getResponseForm(
-                        null,
-                        error.message,
-                        "validation error"
-                    )
-                );
-
-        //get connection
-        const userRepo = getCustomRepository(UserRepository);
-        //get current data
-        const result = await userRepo.updateUserByID(ID, req.body);
-        return res.send(
-            dataHelper.getResponseForm(result, null, "update success!")
         );
     }
 );

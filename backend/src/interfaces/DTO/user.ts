@@ -13,6 +13,5 @@ export interface RegisterUserDTO {
     email: string;
     fullName: string;
     username: string;
-    role: number;
     password: string;
 }

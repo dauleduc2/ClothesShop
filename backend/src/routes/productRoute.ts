@@ -19,15 +19,6 @@ import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
 import { AddProductInfoDTO } from "../interfaces/DTO/product";
 const router = express.Router();
-//GET get all product to show
-router.get("/", async (req: Request, res: Response) => {
-    //connection
-    const productRepo = getCustomRepository(ProductRepository);
-    const result = await productRepo.getAllProductToShow();
-    res.send(
-        dataHelper.getResponseForm(result, null, "get product list success!")
-    );
-});
 
 //GET specific product
 router.get("/:productName", async (req: Request, res: Response) => {
@@ -42,6 +33,17 @@ router.get("/:productName", async (req: Request, res: Response) => {
         dataHelper.getResponseForm(result, null, "get product list success!")
     );
 });
+
+//GET get all product to show
+router.get("/", async (req: Request, res: Response) => {
+    //connection
+    const productRepo = getCustomRepository(ProductRepository);
+    const result = await productRepo.getAllProductToShow();
+    res.send(
+        dataHelper.getResponseForm(result, null, "get product list success!")
+    );
+});
+
 //POST add new product to db
 router.post(
     "/",

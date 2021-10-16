@@ -16,20 +16,6 @@ import { ColorRepository } from "../Repository/ColorRepository";
 import { RequestWithUser } from "../interfaces/common/Request";
 const router = express.Router();
 
-//GET all order list
-router.get(
-    "/",
-    [authenMiddleware],
-    async (req: RequestWithUser<any>, res: Response) => {
-        //get connection
-        const orderListRepo = await getCustomRepository(OrderListRepository);
-        const result = await orderListRepo.findAllOrderList(req.user.ID);
-
-        return res.send(
-            dataHelper.getResponseForm(result, null, "get order list!")
-        );
-    }
-);
 //GET order list by orderID
 router.get(
     "/:orderID",
@@ -52,6 +38,22 @@ router.get(
         );
     }
 );
+
+//GET all order list
+router.get(
+    "/",
+    [authenMiddleware],
+    async (req: RequestWithUser<any>, res: Response) => {
+        //get connection
+        const orderListRepo = await getCustomRepository(OrderListRepository);
+        const result = await orderListRepo.findAllOrderList(req.user.ID);
+
+        return res.send(
+            dataHelper.getResponseForm(result, null, "get order list!")
+        );
+    }
+);
+
 //POST add new order list
 router.post(
     "/",
