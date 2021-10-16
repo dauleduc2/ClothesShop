@@ -11,12 +11,11 @@ import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import {
-    BodyUpdateUser,
-    LoginUser,
-    RegisterUser,
-    RequestWithUser,
-} from "../interfaces/user";
-import { ServerRequest } from "../interfaces/common/Request";
+    BodyUpdateUserDTO,
+    LoginUserDTO,
+    RegisterUserDTO,
+} from "../interfaces/DTO/user";
+import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
 const router = express.Router();
 //GET me
 router.get(
@@ -36,7 +35,7 @@ router.get(
             role,
             createDate,
         } = user;
-        return res.status(200).send(
+        return res.send(
             dataHelper.getResponseForm(
                 {
                     username,
@@ -60,9 +59,7 @@ router.get("/:username", async (req: Request, res: Response) => {
     const userRepo = await getCustomRepository(UserRepository);
     const user = await userRepo.findByUsername(username);
 
-    res.status(200).send(
-        dataHelper.getResponseForm(user, null, "get user success")
-    );
+    res.send(dataHelper.getResponseForm(user, null, "get user success"));
 });
 //GET logout
 router.get(
@@ -72,55 +69,58 @@ router.get(
         res.cookie("x-auth-token", "", {
             maxAge: -1,
         });
-        return res
-            .status(200)
-            .send(dataHelper.getResponseForm(null, null, "logout success!"));
+        return res.send(
+            dataHelper.getResponseForm(null, null, "logout success!")
+        );
     }
 );
 //POST login
-router.post("/login", async (req: ServerRequest<LoginUser>, res: Response) => {
-    const { username, password } = req.body;
-    //get connection
-    const userRepo = await getCustomRepository(UserRepository);
-    const user: User = await userRepo.findByUsername(username);
-    //check valid username
-    if (!user)
-        return res
-            .status(400)
-            .send(
-                dataHelper.getResponseForm(
-                    null,
-                    null,
-                    "username or password is invalid"
-                )
-            );
-    //check valid password
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword)
-        return res
-            .status(400)
-            .send(
-                dataHelper.getResponseForm(
-                    null,
-                    null,
-                    "username or password is invalid"
-                )
-            );
-    //set token to cookie
-    const token = await userHelper.genToken(user);
-    res.cookie("x-auth-token", token, {
-        maxAge: 86400 * 100,
-    });
-    return res
-        .status(200)
-        .send(dataHelper.getResponseForm(null, null, "login access...!"));
-});
+router.post(
+    "/login",
+    async (req: ServerRequest<LoginUserDTO>, res: Response) => {
+        const { username, password } = req.body;
+        //get connection
+        const userRepo = await getCustomRepository(UserRepository);
+        const user: User = await userRepo.findByUsername(username);
+        //check valid username
+        if (!user)
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        null,
+                        "username or password is invalid"
+                    )
+                );
+        //check valid password
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword)
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        null,
+                        "username or password is invalid"
+                    )
+                );
+        //set token to cookie
+        const token = await userHelper.genToken(user);
+        res.cookie("x-auth-token", token, {
+            maxAge: 86400 * 100,
+        });
+        return res.send(
+            dataHelper.getResponseForm(null, null, "login access...!")
+        );
+    }
+);
 
 //POST register user
 router.post(
     "/register",
     multerErrorMiddleware(upload.single("image")),
-    async (req: ServerRequest<RegisterUser>, res: Response) => {
+    async (req: ServerRequest<RegisterUserDTO>, res: Response) => {
         const { password, email, fullName, username, role } = req.body;
         let duplicateField = {
             username: false,
@@ -179,11 +179,9 @@ router.post(
         await res.cookie("x-auth-token", token, {
             maxAge: 86400 * 100,
         });
-        return res
-            .status(200)
-            .send(
-                dataHelper.getResponseForm(null, null, "register success...!")
-            );
+        return res.send(
+            dataHelper.getResponseForm(null, null, "register success...!")
+        );
     }
 );
 
@@ -191,7 +189,7 @@ router.post(
 router.post(
     "/me/update",
     [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
-    async (req: RequestWithUser<BodyUpdateUser>, res: Response) => {
+    async (req: RequestWithUser<BodyUpdateUserDTO>, res: Response) => {
         const { ID } = req.user;
         if (req.file) {
             req.body.avatar = req.file.filename;
@@ -224,16 +222,4 @@ router.post(
     }
 );
 
-//GET logout
-// router.post(
-//     "/me/logout",
-//     authenMiddleware,
-//     async (req: Request, res: Response) => {
-//         res.cookie("x-auth-token", "", {
-//             maxAge: -1,
-//         }).send(
-//             dataHelper.getResponseForm(null, null, "Đăng xuất thành công!")
-//         );
-//     }
-// );
 export default router;

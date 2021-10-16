@@ -3,7 +3,7 @@ import { IsDate, IsEmail } from "class-validator";
 
 //User model
 export type userRole = 0 | 1;
-export type useStatus = 0 | 1;
+export type userStatus = 0 | 1;
 @Entity()
 export class User {
     @PrimaryGeneratedColumn("uuid")
@@ -36,7 +36,7 @@ export class User {
         enum: [0, 1],
         default: 0,
     })
-    userStatus: number;
+    userStatus: userStatus;
 
     @Column({
         type: "enum",

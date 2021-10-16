@@ -17,14 +17,14 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
-import { AddProductInfo } from "../interfaces/product";
+import { AddProductInfoDTO } from "../interfaces/DTO/product";
 const router = express.Router();
 //GET get all product to show
 router.get("/", async (req: Request, res: Response) => {
     //connection
     const productRepo = getCustomRepository(ProductRepository);
     const result = await productRepo.getAllProductToShow();
-    res.status(200).send(
+    res.send(
         dataHelper.getResponseForm(result, null, "get product list success!")
     );
 });
@@ -38,7 +38,7 @@ router.get("/:productName", async (req: Request, res: Response) => {
         productName.split("-").join(" ").trim()
     );
 
-    res.status(200).send(
+    res.send(
         dataHelper.getResponseForm(result, null, "get product list success!")
     );
 });
@@ -55,7 +55,7 @@ router.post(
             ])
         ),
     ],
-    async (req: ServerRequest<AddProductInfo>, res: Response) => {
+    async (req: ServerRequest<AddProductInfoDTO>, res: Response) => {
         const {
             name,
             quantity,
@@ -147,7 +147,7 @@ router.post(
         //add product
         const result = await productRepo.addNewProduct(newProduct);
 
-        res.status(200).send(
+        res.send(
             dataHelper.getResponseForm(result, null, "add new product success!")
         );
     }

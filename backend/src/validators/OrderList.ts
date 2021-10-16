@@ -1,14 +1,12 @@
 import * as Joi from "joi";
 import {
-    OrderItemRequest,
-    RequestWithOrderList,
-} from "../interfaces/orderList";
+    OrderItemRequestDTO,
+    RequestWithOrderListDTO,
+} from "../interfaces/DTO/orderList";
 
-const OrderListSchema = Joi.object({
-    ID: Joi.string().max(255),
+const orderListSchema = Joi.object({
     orderItem: Joi.array().items(
-        Joi.object<OrderItemRequest>({
-            ID: Joi.string().max(255),
+        Joi.object<OrderItemRequestDTO>({
             amount: Joi.number(),
             price: Joi.number(),
             createDate: Joi.date().default(Date.now()),
@@ -17,11 +15,10 @@ const OrderListSchema = Joi.object({
             colorID: Joi.number().required(),
         })
     ),
-    status: Joi.number().default(0).required(),
-    createDate: Joi.date().default(Date.now()),
+    status: Joi.number().valid(0, 1, 2, 3).default(0).required(),
 });
 
-const validateOrderList = (orderList: RequestWithOrderList) => {
-    return OrderListSchema.validate(orderList, { abortEarly: false });
+const validateOrderList = (orderList: RequestWithOrderListDTO) => {
+    return orderListSchema.validate(orderList, { abortEarly: false });
 };
 export default validateOrderList;

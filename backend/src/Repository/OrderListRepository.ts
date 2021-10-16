@@ -1,6 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
 import { OrderList } from "../entity/OrderList";
-import { ResponseOrder } from "../interfaces/orderList";
 @EntityRepository(OrderList)
 export class OrderListRepository extends Repository<OrderList> {
     async addNewOrderList(OrderList: OrderList) {

@@ -37,7 +37,7 @@ export class Product {
         type: "enum",
         enum: [0, 1],
     })
-    status: number;
+    status: productStatus;
 
     @Column({
         type: "datetime",

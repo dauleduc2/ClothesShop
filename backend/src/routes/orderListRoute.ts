@@ -1,17 +1,19 @@
 import { Request, Response } from "express";
 import * as express from "express";
-import { getCustomRepository, OneToMany } from "typeorm";
+import { getCustomRepository } from "typeorm";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import validateOrderList from "../validators/OrderList";
 import { OrderListRepository } from "../Repository/OrderListRepository";
 import { UserRepository } from "../Repository/UserRepository";
-import { RequestWithOrderList } from "../interfaces/orderList";
+import { RequestWithOrderListDTO } from "../interfaces/DTO/orderList";
 import { ProductRepository } from "../Repository/ProductRepository";
 import { OrderList } from "../entity/OrderList";
 import { Product } from "../entity/Product";
 import { OrderItem } from "../entity/OrderItem";
-import { RequestWithUser } from "../interfaces/user";
+import { SizeRepository } from "../Repository/SizeRepository";
+import { ColorRepository } from "../Repository/ColorRepository";
+import { RequestWithUser } from "../interfaces/common/Request";
 const router = express.Router();
 
 //GET all order list
@@ -23,9 +25,9 @@ router.get(
         const orderListRepo = await getCustomRepository(OrderListRepository);
         const result = await orderListRepo.findAllOrderList(req.user.ID);
 
-        return res
-            .status(200)
-            .send(dataHelper.getResponseForm(result, null, "get order list!"));
+        return res.send(
+            dataHelper.getResponseForm(result, null, "get order list!")
+        );
     }
 );
 //GET order list by orderID
@@ -45,16 +47,16 @@ router.get(
             req.user.ID,
             orderID
         );
-        return res
-            .status(200)
-            .send(dataHelper.getResponseForm(result, null, "get order list!"));
+        return res.send(
+            dataHelper.getResponseForm(result, null, "get order list!")
+        );
     }
 );
 //POST add new order list
 router.post(
     "/",
     [authenMiddleware],
-    async (req: RequestWithUser<RequestWithOrderList>, res: Response) => {
+    async (req: RequestWithUser<RequestWithOrderListDTO>, res: Response) => {
         //validate
         const { error } = validateOrderList(req.body);
         const { orderItem, status } = req.body;
@@ -77,14 +79,15 @@ router.post(
             getCustomRepository(UserRepository),
             getCustomRepository(ProductRepository),
             getCustomRepository(OrderListRepository),
+            getCustomRepository(SizeRepository),
+            getCustomRepository(ColorRepository),
         ]);
 
-        // const userRepo = await getCustomRepository(UserRepository);
-        // const productRepo = await getCustomRepository(ProductRepository);
-        // const orderListRepo = await getCustomRepository(OrderListRepository);
         const userRepo: UserRepository = connection[0];
         const productRepo: ProductRepository = connection[1];
         const orderListRepo: OrderListRepository = connection[2];
+        const sizeRepo: SizeRepository = connection[3];
+        const colorRepo: ColorRepository = connection[4];
         //check existed userID
         const isDuplicate = await userRepo.findByID(req.user.ID);
         if (!isDuplicate)
@@ -118,15 +121,13 @@ router.post(
         //add new orderList
         const result = await orderListRepo.addNewOrderList(orderList);
 
-        return res
-            .status(200)
-            .send(
-                dataHelper.getResponseForm(
-                    result,
-                    null,
-                    "add new orderList success!"
-                )
-            );
+        return res.send(
+            dataHelper.getResponseForm(
+                result,
+                null,
+                "add new orderList success!"
+            )
+        );
     }
 );
 export default router;

@@ -26,11 +26,11 @@ export class OrderItem {
 
     @Column()
     @ManyToOne((type) => Color, (color) => color)
-    color: string;
+    color: String;
 
     @Column()
     @ManyToOne((type) => Size, (size) => size)
-    size: string;
+    size: String;
 
     @Column({
         type: "datetime",

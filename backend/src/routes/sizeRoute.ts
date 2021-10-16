@@ -8,7 +8,7 @@ import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
-import { AddSizeInfo } from "../interfaces/size";
+import { AddSizeInfoDTO } from "../interfaces/DTO/size";
 const router = express.Router();
 
 //POST get all size
@@ -17,18 +17,16 @@ router.get("/", async (req: Request, res: Response) => {
     const sizeRepo = await getCustomRepository(SizeRepository);
 
     const sizeList = await sizeRepo.getAllSize();
-    return res
-        .status(200)
-        .send(
-            dataHelper.getResponseForm(sizeList, null, "get all size success!")
-        );
+    return res.send(
+        dataHelper.getResponseForm(sizeList, null, "get all size success!")
+    );
 });
 
 //POST add new size
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
-    async (req: ServerRequest<AddSizeInfo>, res: Response) => {
+    async (req: ServerRequest<AddSizeInfoDTO>, res: Response) => {
         const { name } = req.body;
         let newSize = new Size();
         newSize.name = name;
@@ -61,15 +59,9 @@ router.post(
                 );
         //add size
         await sizeRepo.addNewSize(newSize);
-        return res
-            .status(200)
-            .send(
-                dataHelper.getResponseForm(
-                    newSize,
-                    null,
-                    "add new size success!"
-                )
-            );
+        return res.send(
+            dataHelper.getResponseForm(newSize, null, "add new size success!")
+        );
     }
 );
 export default router;

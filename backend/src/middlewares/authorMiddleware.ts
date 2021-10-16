@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { RequestWithUser } from "../interfaces/user";
+import { RequestWithUser } from "../interfaces/common/Request";
 import * as dataHelper from "../utils/dataHelper";
 export function authorMiddleware(
     req: RequestWithUser<any>,
