@@ -46,7 +46,6 @@ router.get(
         //get connection
         const orderListRepo = await getCustomRepository(OrderListRepository);
         const result = await orderListRepo.findAllOrderList(req.user.ID);
-
         return res.send(
             dataHelper.getResponseForm(result, null, "get order list!")
         );

@@ -15,7 +15,10 @@ const orderListSchema = Joi.object({
             colorID: Joi.number().required(),
         })
     ),
-    status: Joi.number().valid(0, 1, 2, 3).default(0).required(),
+    status: Joi.number()
+        .valid("waiting", "shipping", "done", "cancel")
+        .default(0)
+        .required(),
 });
 
 const validateOrderList = (orderList: RequestWithOrderListDTO) => {
