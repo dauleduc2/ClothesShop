@@ -2,6 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { IsDate, IsEmail } from "class-validator";
 
 //User model
+export type userRole = 0 | 1;
+export type useStatus = 0 | 1;
 @Entity()
 export class User {
     @PrimaryGeneratedColumn("uuid")
@@ -30,16 +32,18 @@ export class User {
     email: string;
 
     @Column({
-        type: "tinyint",
+        type: "enum",
+        enum: [0, 1],
         default: 0,
     })
     userStatus: number;
 
     @Column({
-        type: "tinyint",
+        type: "enum",
+        enum: [0, 1],
         default: 0,
     })
-    role: number;
+    role: userRole;
 
     @Column({
         type: "datetime",

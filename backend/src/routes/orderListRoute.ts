@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as express from "express";
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository, OneToMany } from "typeorm";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import validateOrderList from "../validators/OrderList";
@@ -28,7 +28,7 @@ router.get(
             .send(dataHelper.getResponseForm(result, null, "get order list!"));
     }
 );
-//GET all order list
+//GET order list by orderID
 router.get(
     "/:orderID",
     [authenMiddleware],
@@ -36,12 +36,15 @@ router.get(
         const { orderID } = req.params;
 
         //get connection
-        const orderListRepo = await getCustomRepository(OrderListRepository);
+        const connection = await Promise.all<any>([
+            getCustomRepository(OrderListRepository),
+        ]);
+        const orderListRepo: OrderListRepository = connection[0];
+
         const result = await orderListRepo.findOrderListByID(
             req.user.ID,
             orderID
         );
-
         return res
             .status(200)
             .send(dataHelper.getResponseForm(result, null, "get order list!"));
@@ -70,9 +73,18 @@ router.post(
         orderList.user = req.user.ID;
         orderList.status = status;
         //get connection
-        const userRepo = await getCustomRepository(UserRepository);
-        const productRepo = await getCustomRepository(ProductRepository);
-        const orderListRepo = await getCustomRepository(OrderListRepository);
+        const connection = await Promise.all<any>([
+            getCustomRepository(UserRepository),
+            getCustomRepository(ProductRepository),
+            getCustomRepository(OrderListRepository),
+        ]);
+
+        // const userRepo = await getCustomRepository(UserRepository);
+        // const productRepo = await getCustomRepository(ProductRepository);
+        // const orderListRepo = await getCustomRepository(OrderListRepository);
+        const userRepo: UserRepository = connection[0];
+        const productRepo: ProductRepository = connection[1];
+        const orderListRepo: OrderListRepository = connection[2];
         //check existed userID
         const isDuplicate = await userRepo.findByID(req.user.ID);
         if (!isDuplicate)

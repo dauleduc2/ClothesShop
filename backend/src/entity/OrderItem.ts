@@ -25,11 +25,11 @@ export class OrderItem {
     price: number;
 
     @Column()
-    @ManyToOne((type) => Color, (color) => color.ID)
+    @ManyToOne((type) => Color, (color) => color)
     color: string;
 
     @Column()
-    @ManyToOne((type) => Size, (size) => size.ID)
+    @ManyToOne((type) => Size, (size) => size)
     size: string;
 
     @Column({

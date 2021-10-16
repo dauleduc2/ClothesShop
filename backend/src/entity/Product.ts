@@ -11,6 +11,8 @@ import { Type } from "./Type";
 import { Color } from "./Color";
 import { Image } from "./Image";
 //product model
+
+export type productStatus = 0 | 1;
 @Entity()
 export class Product {
     @PrimaryGeneratedColumn("uuid")
@@ -31,7 +33,10 @@ export class Product {
     @Column()
     price: number;
 
-    @Column("tinyint")
+    @Column({
+        type: "enum",
+        enum: [0, 1],
+    })
     status: number;
 
     @Column({
@@ -43,17 +48,17 @@ export class Product {
 
     @ManyToMany((type) => Size)
     @JoinTable()
-    sizes?: Size[];
+    sizes: Size[];
 
     @ManyToMany((type) => Type)
     @JoinTable()
-    types?: Type[];
+    types: Type[];
 
     @ManyToMany((type) => Color)
     @JoinTable()
-    colors?: Color[];
+    colors: Color[];
 
     @ManyToMany((type) => Image, { cascade: true })
     @JoinTable()
-    images?: Image[];
+    images: Image[];
 }

@@ -225,15 +225,15 @@ router.post(
 );
 
 //GET logout
-router.post(
-    "/me/logout",
-    authenMiddleware,
-    async (req: Request, res: Response) => {
-        res.cookie("x-auth-token", "", {
-            maxAge: -1,
-        }).send(
-            dataHelper.getResponseForm(null, null, "Đăng xuất thành công!")
-        );
-    }
-);
+// router.post(
+//     "/me/logout",
+//     authenMiddleware,
+//     async (req: Request, res: Response) => {
+//         res.cookie("x-auth-token", "", {
+//             maxAge: -1,
+//         }).send(
+//             dataHelper.getResponseForm(null, null, "Đăng xuất thành công!")
+//         );
+//     }
+// );
 export default router;

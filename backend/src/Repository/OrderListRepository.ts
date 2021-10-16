@@ -42,8 +42,13 @@ export class OrderListRepository extends Repository<OrderList> {
     }
 
     async findOrderListByID(userID: string, ID: string) {
-        const result = await this.find({
-            relations: ["orderItem"],
+        const result: OrderList = await this.findOne({
+            relations: [
+                "orderItem",
+                "orderItem.product",
+                "orderItem.size",
+                "orderItem.color",
+            ],
             where: {
                 ID,
                 user: userID,
