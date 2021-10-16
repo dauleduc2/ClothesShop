@@ -19,15 +19,6 @@ import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
 import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
-//GET get user by username
-router.get("/:username", async (req: Request, res: Response) => {
-    const { username } = req.params;
-    //get connection
-    const userRepo = await getCustomRepository(UserRepository);
-    const user = await userRepo.findByUsername(username);
-    res.send(dataHelper.getResponseForm(user, null, "get user success"));
-});
-
 //GET me
 router.get(
     "/me",
@@ -226,5 +217,14 @@ router.post(
             );
     }
 );
+
+//GET get user by username
+router.get("/:username", async (req: Request, res: Response) => {
+    const { username } = req.params;
+    //get connection
+    const userRepo = await getCustomRepository(UserRepository);
+    const user = await userRepo.findByUsername(username);
+    res.send(dataHelper.getResponseForm(user, null, "get user success"));
+});
 
 export default router;
