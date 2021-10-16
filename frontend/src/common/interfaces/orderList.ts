@@ -1,4 +1,6 @@
+import { color } from './color';
 import { Product } from './product';
+import { size } from './size';
 
 export interface OrderItemToSend {
     amount: number;
@@ -15,8 +17,8 @@ export interface OrderListToSend {
 export interface OrderItem {
     amount: number;
     price: 10;
-    size: number;
-    color: number;
+    size: size;
+    color: color;
     ID: string;
     createDate: string;
     product: Partial<Product>;
@@ -39,4 +41,5 @@ export interface ResponseOrder {
 
 export interface OrderListState {
     orderList: ResponseOrder[];
+    currentList: OrderList;
 }

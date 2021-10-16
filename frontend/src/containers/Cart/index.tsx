@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
 import { OrderItemToSend, OrderListToSend } from '../../common/interfaces/orderList';
-import { orderListApi } from '../../api/orderListApi';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 
 interface CartProps {}

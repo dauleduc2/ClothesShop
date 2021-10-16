@@ -13,6 +13,7 @@ import { ProductInCart } from '../../common/interfaces/cart';
 import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
 import { UserState } from '../../common/interfaces/user';
+import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
 interface RouteParams {
     productName: string;
 }
@@ -26,14 +27,6 @@ type Inputs = {
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
 }
-
-const defaultColor = {
-    ID: -1,
-    hexCode: '',
-    name: '',
-};
-
-const defaultSize = { ID: -1, name: '' };
 
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match }) => {
     const [selectedColor, setSelectedColor] = React.useState<color>(defaultColor);

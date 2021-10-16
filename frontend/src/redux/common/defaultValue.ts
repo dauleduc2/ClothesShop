@@ -1,4 +1,5 @@
 import { ProductInCart } from '../../common/interfaces/cart';
+import { OrderList } from '../../common/interfaces/orderList';
 import { Product } from '../../common/interfaces/product';
 import { User } from '../../common/interfaces/user';
 
@@ -51,3 +52,17 @@ export const defaultUser: User = {
     role: -1,
     createDate: '',
 };
+
+export const defaultOrderList: OrderList = {
+    status: -1,
+    orderItem: [],
+    ID: '',
+    createDate: '',
+};
+export const defaultColor = {
+    ID: -1,
+    hexCode: '',
+    name: '',
+};
+
+export const defaultSize = { ID: -1, name: '' };

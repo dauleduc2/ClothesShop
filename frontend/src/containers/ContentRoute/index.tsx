@@ -5,6 +5,7 @@ interface CustomRoute {
     exact: boolean;
     component?: any;
 }
+
 interface ContentRouteProps {
     route: CustomRoute;
 }
