@@ -8,7 +8,8 @@ import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
-import { AddSizeInfo } from "../interfaces/size";
+import { AddSizeInfoDTO } from "../interfaces/DTO/size";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //POST get all size
@@ -17,18 +18,16 @@ router.get("/", async (req: Request, res: Response) => {
     const sizeRepo = await getCustomRepository(SizeRepository);
 
     const sizeList = await sizeRepo.getAllSize();
-    return res
-        .status(200)
-        .send(
-            dataHelper.getResponseForm(sizeList, null, "get all size success!")
-        );
+    return res.send(
+        dataHelper.getResponseForm(sizeList, null, "get all size success!")
+    );
 });
 
 //POST add new size
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
-    async (req: ServerRequest<AddSizeInfo>, res: Response) => {
+    async (req: ServerRequest<AddSizeInfoDTO>, res: Response) => {
         const { name } = req.body;
         let newSize = new Size();
         newSize.name = name;
@@ -36,7 +35,7 @@ router.post(
         const { error } = validateSize(newSize);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -51,7 +50,7 @@ router.post(
         const isDuplicate = await sizeRepo.findByName(newSize.name);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -62,7 +61,7 @@ router.post(
         //add size
         await sizeRepo.addNewSize(newSize);
         return res
-            .status(200)
+            .status(statusCode.CREATED)
             .send(
                 dataHelper.getResponseForm(
                     newSize,

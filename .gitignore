@@ -1,3 +1,5 @@
 /testImages
 **/**.env.**
 /Vendors
+/Mysql
+/planning

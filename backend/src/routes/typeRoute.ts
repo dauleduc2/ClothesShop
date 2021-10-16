@@ -8,7 +8,8 @@ import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
-import { AddSizeInfo } from "../interfaces/size";
+import { AddSizeInfoDTO } from "../interfaces/DTO/size";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //POST get all type
@@ -17,18 +18,16 @@ router.get("/", async (req: Request, res: Response) => {
     const typeRepo = await getCustomRepository(TypeRepository);
 
     const sizeList = await typeRepo.getAllType();
-    return res
-        .status(200)
-        .send(
-            dataHelper.getResponseForm(sizeList, null, "get all type success!")
-        );
+    return res.send(
+        dataHelper.getResponseForm(sizeList, null, "get all type success!")
+    );
 });
 
 //POST add new type
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
-    async (req: ServerRequest<AddSizeInfo>, res: Response) => {
+    async (req: ServerRequest<AddSizeInfoDTO>, res: Response) => {
         const { name } = req.body;
         let newType = new Type();
         newType.name = name;
@@ -36,7 +35,7 @@ router.post(
         const { error } = validateType(newType);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -50,7 +49,7 @@ router.post(
         const isDuplicate = await typeRepo.findByName(newType.name);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -61,7 +60,7 @@ router.post(
         //add type
         await typeRepo.addNewType(newType);
         return res
-            .status(200)
+            .status(statusCode.CREATED)
             .send(
                 dataHelper.getResponseForm(
                     newType,

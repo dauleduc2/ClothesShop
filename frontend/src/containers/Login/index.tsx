@@ -69,7 +69,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
     };
 
     return (
-        <div className="flex flex-col justify-center py-12 overflow-y-auto bg-gray-50 sm:px-6 lg:px-8 h-contentHeight">
+        <div className="flex flex-col justify-center py-12 overflow-y-auto bg-gray-50 sm:px-6 lg:px-8 h-contentHeight intro-y">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <img
                     className="w-auto h-12 mx-auto"

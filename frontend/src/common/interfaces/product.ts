@@ -3,13 +3,17 @@ import { image } from './image';
 import { size } from './size';
 import { type } from './type';
 
+export enum ProductStatus {
+    OUT_OF_STOCK,
+    IN_STOCK,
+}
 export interface Product {
     ID: string;
     name: string;
     quantity: number;
     price: number;
     description: string;
-    status: number;
+    status: ProductStatus;
     images: image[];
     types: type[];
     colors: color[];
@@ -23,7 +27,7 @@ export interface ProductToShow {
     name: string;
     quantity: number;
     price: number;
-    status: number;
+    status: ProductStatus;
     productAvatar: string;
 }
 

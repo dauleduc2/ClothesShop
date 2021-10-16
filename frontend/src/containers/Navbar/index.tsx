@@ -9,7 +9,7 @@ import { RootState, store } from '../../redux';
 import { UserState } from '../../common/interfaces/user';
 import { userThunk } from '../../redux/user/userThunk';
 import { useHistory } from 'react-router';
-import Logo from '../../components/common/Logo';
+import Logo from '../../components/common/icon/Logo';
 import * as notificationHelper from '../../utils/notificationHelper';
 import { CartState } from '../../common/interfaces/cart';
 import { SearchIcon } from '@heroicons/react/solid';
@@ -130,7 +130,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                 leaveFrom="transform opacity-100 scale-100"
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
-                                                <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     {userLink.map((route, index) => {
                                                         if (route.to === '/user/logout') {
                                                             return (
@@ -230,7 +230,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                         <div className="text-sm font-medium text-gray-400">{userState.user.email}</div>
                                     </div>
                                 </div>
-                                <div className="px-2 mt-3 space-y-1">
+                                <div className="z-50 px-2 mt-3 space-y-1">
                                     {userMobileLink.map((route, index) => {
                                         if (route.to === '/user/logout') {
                                             return (

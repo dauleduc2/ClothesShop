@@ -1,6 +1,8 @@
 import { ProductInCart } from '../../common/interfaces/cart';
+import { OrderList, OrderStatus } from '../../common/interfaces/orderList';
 import { Product } from '../../common/interfaces/product';
-import { User } from '../../common/interfaces/user';
+import { notificationStatus } from '../../common/interfaces/UI';
+import { User, UserRole } from '../../common/interfaces/user';
 
 export const defaultProductInCart: ProductInCart = {
     ID: '',
@@ -21,7 +23,7 @@ export const defaultProductInCart: ProductInCart = {
 
 export const defaultNotification = {
     isOpenning: false,
-    status: '',
+    status: notificationStatus.SUCCESS,
     message: '',
     title: '',
 };
@@ -48,6 +50,20 @@ export const defaultUser: User = {
     avatar: '',
     email: '',
     userStatus: -1,
-    role: -1,
+    role: UserRole.CUSTOMER,
     createDate: '',
 };
+
+export const defaultOrderList: OrderList = {
+    status: OrderStatus.WAITING,
+    orderItem: [],
+    ID: '',
+    createDate: '',
+};
+export const defaultColor = {
+    ID: -1,
+    hexCode: '',
+    name: '',
+};
+
+export const defaultSize = { ID: -1, name: '' };

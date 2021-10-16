@@ -1,3 +1,4 @@
+import { ServerRequest } from "./../interfaces/common/Request";
 import { Request, Response } from "express";
 import * as express from "express";
 import { getCustomRepository } from "typeorm";
@@ -7,29 +8,24 @@ import validateColor from "../validators/Color";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import * as dataHelper from "../utils/dataHelper";
-import { RequestWithColor } from "../interfaces/color";
-
+import { AddColorInfoDTO } from "../interfaces/DTO/color";
+import * as statusCode from "../constants/statusConstants";
+import { stat } from "fs";
 const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
     //get connection
     const colorRepo = await getCustomRepository(ColorRepository);
 
     const colorList = await colorRepo.getAllColor();
-    return res
-        .status(200)
-        .send(
-            dataHelper.getResponseForm(
-                colorList,
-                null,
-                "get all color success!"
-            )
-        );
+    return res.send(
+        dataHelper.getResponseForm(colorList, null, "get all color success!")
+    );
 });
 
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
-    async (req: RequestWithColor, res: Response) => {
+    async (req: ServerRequest<AddColorInfoDTO>, res: Response) => {
         const { name, hexCode } = req.body;
         let newColor = new Color();
         newColor.name = name;
@@ -38,7 +34,7 @@ router.post(
         const { error } = validateColor(newColor);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -52,7 +48,7 @@ router.post(
         let isDuplicate = await colorRepo.findByName(newColor.name);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -64,7 +60,7 @@ router.post(
         isDuplicate = await colorRepo.findByHexCode(newColor.hexCode);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -75,7 +71,7 @@ router.post(
         //add color
         await colorRepo.addNewColor(newColor);
         return res
-            .status(200)
+            .status(statusCode.CREATED)
             .send(
                 dataHelper.getResponseForm(
                     newColor,

@@ -17,17 +17,9 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
-import { AddProductInfo } from "../interfaces/product";
+import { AddProductInfoDTO } from "../interfaces/DTO/product";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
-//GET get all product to show
-router.get("/", async (req: Request, res: Response) => {
-    //connection
-    const productRepo = getCustomRepository(ProductRepository);
-    const result = await productRepo.getAllProductToShow();
-    res.status(200).send(
-        dataHelper.getResponseForm(result, null, "get product list success!")
-    );
-});
 
 //GET specific product
 router.get("/:productName", async (req: Request, res: Response) => {
@@ -38,10 +30,21 @@ router.get("/:productName", async (req: Request, res: Response) => {
         productName.split("-").join(" ").trim()
     );
 
-    res.status(200).send(
+    res.send(
         dataHelper.getResponseForm(result, null, "get product list success!")
     );
 });
+
+//GET get all product to show
+router.get("/", async (req: Request, res: Response) => {
+    //connection
+    const productRepo = getCustomRepository(ProductRepository);
+    const result = await productRepo.getAllProductToShow();
+    res.send(
+        dataHelper.getResponseForm(result, null, "get product list success!")
+    );
+});
+
 //POST add new product to db
 router.post(
     "/",
@@ -55,7 +58,7 @@ router.post(
             ])
         ),
     ],
-    async (req: ServerRequest<AddProductInfo>, res: Response) => {
+    async (req: ServerRequest<AddProductInfoDTO>, res: Response) => {
         const {
             name,
             quantity,
@@ -83,7 +86,7 @@ router.post(
         const { error } = validateProduct(newProduct);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -110,7 +113,7 @@ router.post(
 
         if (isDuplicate.length > 0)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -147,7 +150,7 @@ router.post(
         //add product
         const result = await productRepo.addNewProduct(newProduct);
 
-        res.status(200).send(
+        res.status(statusCode.CREATED).send(
             dataHelper.getResponseForm(result, null, "add new product success!")
         );
     }

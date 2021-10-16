@@ -11,13 +11,14 @@ import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import {
-    BodyUpdateUser,
-    LoginUser,
-    RegisterUser,
-    RequestWithUser,
-} from "../interfaces/user";
-import { ServerRequest } from "../interfaces/common/Request";
+    BodyUpdateUserDTO,
+    LoginUserDTO,
+    RegisterUserDTO,
+} from "../interfaces/DTO/user";
+import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
+
 //GET me
 router.get(
     "/me",
@@ -36,7 +37,7 @@ router.get(
             role,
             createDate,
         } = user;
-        return res.status(200).send(
+        return res.send(
             dataHelper.getResponseForm(
                 {
                     username,
@@ -53,17 +54,7 @@ router.get(
         );
     }
 );
-//GET get user by username
-router.get("/:username", async (req: Request, res: Response) => {
-    const { username } = req.params;
-    //get connection
-    const userRepo = await getCustomRepository(UserRepository);
-    const user = await userRepo.findByUsername(username);
 
-    res.status(200).send(
-        dataHelper.getResponseForm(user, null, "get user success")
-    );
-});
 //GET logout
 router.get(
     "/me/logout",
@@ -72,56 +63,97 @@ router.get(
         res.cookie("x-auth-token", "", {
             maxAge: -1,
         });
-        return res
-            .status(200)
-            .send(dataHelper.getResponseForm(null, null, "logout success!"));
+        return res.send(
+            dataHelper.getResponseForm(null, null, "logout success!")
+        );
     }
 );
+
+//POST update user
+router.post(
+    "/me/update",
+    [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
+    async (req: RequestWithUser<BodyUpdateUserDTO>, res: Response) => {
+        const { ID } = req.user;
+        if (req.file) {
+            req.body.avatar = req.file.filename;
+        }
+        if (typeof req.body.avatar === "object") {
+            const { avatar, ...orther } = req.body;
+            req.body = orther;
+        }
+
+        //validate
+        const { error } = validateUpdateUser(req.body);
+        if (error)
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        error.message,
+                        "validation error"
+                    )
+                );
+
+        //get connection
+        const userRepo = getCustomRepository(UserRepository);
+        //get current data
+        const result = await userRepo.updateUserByID(ID, req.body);
+        return res.send(
+            dataHelper.getResponseForm(result, null, "update success!")
+        );
+    }
+);
+
 //POST login
-router.post("/login", async (req: ServerRequest<LoginUser>, res: Response) => {
-    const { username, password } = req.body;
-    //get connection
-    const userRepo = await getCustomRepository(UserRepository);
-    const user: User = await userRepo.findByUsername(username);
-    //check valid username
-    if (!user)
-        return res
-            .status(400)
-            .send(
-                dataHelper.getResponseForm(
-                    null,
-                    null,
-                    "username or password is invalid"
-                )
-            );
-    //check valid password
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword)
-        return res
-            .status(400)
-            .send(
-                dataHelper.getResponseForm(
-                    null,
-                    null,
-                    "username or password is invalid"
-                )
-            );
-    //set token to cookie
-    const token = await userHelper.genToken(user);
-    res.cookie("x-auth-token", token, {
-        maxAge: 86400 * 100,
-    });
-    return res
-        .status(200)
-        .send(dataHelper.getResponseForm(null, null, "login access...!"));
-});
+router.post(
+    "/login",
+    async (req: ServerRequest<LoginUserDTO>, res: Response) => {
+        const { username, password } = req.body;
+        //get connection
+        const userRepo = await getCustomRepository(UserRepository);
+        const user: User = await userRepo.findByUsername(username);
+        //check valid username
+        if (!user)
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        null,
+                        "username or password is invalid"
+                    )
+                );
+        //check valid password
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword)
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        null,
+                        "username or password is invalid"
+                    )
+                );
+        //set token to cookie
+        const token = await userHelper.genToken(user);
+        res.cookie("x-auth-token", token, {
+            maxAge: 86400 * 100,
+        });
+        return res.send(
+            dataHelper.getResponseForm(null, null, "login access...!")
+        );
+    }
+);
 
 //POST register user
 router.post(
     "/register",
     multerErrorMiddleware(upload.single("image")),
-    async (req: ServerRequest<RegisterUser>, res: Response) => {
-        const { password, email, fullName, username, role } = req.body;
+    async (req: ServerRequest<RegisterUserDTO>, res: Response) => {
+        const { password, email, fullName, username } = req.body;
         let duplicateField = {
             username: false,
             email: false,
@@ -132,12 +164,11 @@ router.post(
         user.fullName = fullName;
         user.username = username;
         // user.avatar = req.file.path;
-        // user.role = role;
         //validate user
         const { error } = validateUser(user);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -163,7 +194,7 @@ router.post(
             };
         if (duplicateField.email === true || duplicateField.username === true)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         duplicateField,
@@ -180,60 +211,20 @@ router.post(
             maxAge: 86400 * 100,
         });
         return res
-            .status(200)
+            .status(statusCode.CREATED)
             .send(
                 dataHelper.getResponseForm(null, null, "register success...!")
             );
     }
 );
 
-//POST update user
-router.post(
-    "/me/update",
-    [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
-    async (req: RequestWithUser<BodyUpdateUser>, res: Response) => {
-        const { ID } = req.user;
-        if (req.file) {
-            req.body.avatar = req.file.filename;
-        }
-        if (typeof req.body.avatar === "object") {
-            const { avatar, ...orther } = req.body;
-            req.body = orther;
-        }
+//GET get user by username
+router.get("/:username", async (req: Request, res: Response) => {
+    const { username } = req.params;
+    //get connection
+    const userRepo = await getCustomRepository(UserRepository);
+    const user = await userRepo.findByUsername(username);
+    res.send(dataHelper.getResponseForm(user, null, "get user success"));
+});
 
-        //validate
-        const { error } = validateUpdateUser(req.body);
-        if (error)
-            return res
-                .status(400)
-                .send(
-                    dataHelper.getResponseForm(
-                        null,
-                        error.message,
-                        "validation error"
-                    )
-                );
-
-        //get connection
-        const userRepo = getCustomRepository(UserRepository);
-        //get current data
-        const result = await userRepo.updateUserByID(ID, req.body);
-        return res.send(
-            dataHelper.getResponseForm(result, null, "update success!")
-        );
-    }
-);
-
-//GET logout
-router.post(
-    "/me/logout",
-    authenMiddleware,
-    async (req: Request, res: Response) => {
-        res.cookie("x-auth-token", "", {
-            maxAge: -1,
-        }).send(
-            dataHelper.getResponseForm(null, null, "Đăng xuất thành công!")
-        );
-    }
-);
 export default router;

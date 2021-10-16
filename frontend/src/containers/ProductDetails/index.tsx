@@ -13,6 +13,9 @@ import { ProductInCart } from '../../common/interfaces/cart';
 import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
 import { UserState } from '../../common/interfaces/user';
+import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
+import MinusIcon from '../../components/common/icon/Minus';
+import AddIcon from '../../components/common/icon/Add';
 interface RouteParams {
     productName: string;
 }
@@ -26,14 +29,6 @@ type Inputs = {
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
 }
-
-const defaultColor = {
-    ID: -1,
-    hexCode: '',
-    name: '',
-};
-
-const defaultSize = { ID: -1, name: '' };
 
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match }) => {
     const [selectedColor, setSelectedColor] = React.useState<color>(defaultColor);
@@ -84,7 +79,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                     <nav aria-label="Breadcrumb" className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"></nav>
                     <div className="max-w-2xl px-4 mx-auto mt-8 sm:px-6 lg:max-w-7xl lg:px-8">
                         <div className="lg:grid lg:grid-cols-12 lg:auto-rows-min lg:gap-x-8">
-                            <div className="lg:col-start-8 lg:col-span-5">
+                            <div className="lg:col-start-8 lg:col-span-5 intro-y">
                                 <div className="flex justify-between">
                                     <h1 className="text-xl font-medium text-gray-900">
                                         {productState.currentProduct.name}
@@ -99,24 +94,24 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                             <div className="mt-8 lg:mt-0 lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:row-span-3">
                                 <h2 className="sr-only">Images</h2>
 
-                                <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
                                     <img
                                         src={`${process.env.REACT_APP_SERVER_URL}/${productState.currentProduct.productAvatar}`}
                                         alt="productAvatar"
-                                        className="w-full h-full rounded-lg lg:col-span-2 lg:row-span-2"
+                                        className="w-full rounded-lg lg:col-span-2 lg:row-span-2 intro-y"
                                     />
                                     {productState.currentProduct.images.map((image, index) => (
                                         <img
                                             key={index}
                                             src={`${process.env.REACT_APP_SERVER_URL}/${image.imageLink}`}
                                             alt={image.ID}
-                                            className="hidden rounded-lg shadow-xl lg:block"
+                                            className="hidden rounded-lg shadow-xl lg:block intro-y"
                                         />
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="mt-8 lg:col-span-5">
+                            <div className="mt-8 lg:col-span-5 intro-y">
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     {/* Color picker */}
                                     <div className="flex flex-col">
@@ -206,17 +201,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                     });
                                                 }}
                                             >
-                                                <svg
-                                                    className="w-8 h-8"
-                                                    fill="none"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
+                                                <MinusIcon />
                                             </button>
                                             <input className="w-3 mx-3 text-lg text-gray-700" value={amount} />
                                             <button
@@ -226,17 +211,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                     setAmount(() => amount + 1);
                                                 }}
                                             >
-                                                <svg
-                                                    className="w-8 h-8"
-                                                    fill="none"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
+                                                <AddIcon />
                                             </button>
                                         </div>
                                     </div>

@@ -33,7 +33,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
         notificationHelper.success('Update success!');
     };
     return (
-        <div className="flex flex-col items-center justify-center flex-1">
+        <div className="flex flex-col items-center justify-center flex-1 intro-y">
             <form
                 className="w-full overflow-hidden bg-white sm:shadow sm:rounded-lg sm:w-180"
                 onSubmit={handleSubmit(onSubmit)}
@@ -78,7 +78,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                             />
                         </InformationField>
                         <InformationField label="Create date">
-                            <p>{userState.user.createDate}</p>
+                            <p>{new Date(userState.user.createDate).toDateString()}</p>
                         </InformationField>
                     </dl>
                 </div>

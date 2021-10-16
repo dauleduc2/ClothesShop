@@ -91,7 +91,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
         }
     };
     return (
-        <div className="flex flex-col justify-center bg-gray-50 sm:px-6 lg:px-8 ">
+        <div className="flex flex-col justify-center bg-gray-50 sm:px-6 lg:px-8 intro-y">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mb-3 text-3xl font-extrabold text-center text-gray-900 ">Register</h2>
             </div>

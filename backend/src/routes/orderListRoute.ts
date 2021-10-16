@@ -6,34 +6,63 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import validateOrderList from "../validators/OrderList";
 import { OrderListRepository } from "../Repository/OrderListRepository";
 import { UserRepository } from "../Repository/UserRepository";
-import { RequestWithOrderList } from "../interfaces/orderList";
+import { RequestWithOrderListDTO } from "../interfaces/DTO/orderList";
 import { ProductRepository } from "../Repository/ProductRepository";
 import { OrderList } from "../entity/OrderList";
 import { Product } from "../entity/Product";
 import { OrderItem } from "../entity/OrderItem";
-import { RequestWithUser } from "../interfaces/user";
+import { RequestWithUser } from "../interfaces/common/Request";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
-//GET
-router.get("/", async (req: Request, res: Response) => {
-    //get connection
+//GET order list by orderID
+router.get(
+    "/:orderID",
+    [authenMiddleware],
+    async (req: RequestWithUser<any>, res: Response) => {
+        const { orderID } = req.params;
 
-    return res
-        .status(200)
-        .send(dataHelper.getResponseForm(null, null, "get order list!"));
-});
+        //get connection
+        const connection = await Promise.all<any>([
+            getCustomRepository(OrderListRepository),
+        ]);
+        const orderListRepo: OrderListRepository = connection[0];
+
+        const result = await orderListRepo.findOrderListByID(
+            req.user.ID,
+            orderID
+        );
+        return res.send(
+            dataHelper.getResponseForm(result, null, "get order list!")
+        );
+    }
+);
+
+//GET all order list
+router.get(
+    "/",
+    [authenMiddleware],
+    async (req: RequestWithUser<any>, res: Response) => {
+        //get connection
+        const orderListRepo = await getCustomRepository(OrderListRepository);
+        const result = await orderListRepo.findAllOrderList(req.user.ID);
+        return res.send(
+            dataHelper.getResponseForm(result, null, "get order list!")
+        );
+    }
+);
 
 //POST add new order list
 router.post(
     "/",
     [authenMiddleware],
-    async (req: RequestWithUser<RequestWithOrderList>, res: Response) => {
+    async (req: RequestWithUser<RequestWithOrderListDTO>, res: Response) => {
         //validate
         const { error } = validateOrderList(req.body);
         const { orderItem, status } = req.body;
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -46,14 +75,20 @@ router.post(
         orderList.user = req.user.ID;
         orderList.status = status;
         //get connection
-        const userRepo = await getCustomRepository(UserRepository);
-        const productRepo = await getCustomRepository(ProductRepository);
-        const orderListRepo = await getCustomRepository(OrderListRepository);
+        const connection = await Promise.all<any>([
+            getCustomRepository(UserRepository),
+            getCustomRepository(ProductRepository),
+            getCustomRepository(OrderListRepository),
+        ]);
+
+        const userRepo: UserRepository = connection[0];
+        const productRepo: ProductRepository = connection[1];
+        const orderListRepo: OrderListRepository = connection[2];
         //check existed userID
         const isDuplicate = await userRepo.findByID(req.user.ID);
         if (!isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -81,8 +116,9 @@ router.post(
         );
         //add new orderList
         const result = await orderListRepo.addNewOrderList(orderList);
+
         return res
-            .status(200)
+            .status(statusCode.CREATED)
             .send(
                 dataHelper.getResponseForm(
                     result,

@@ -5,6 +5,8 @@ import ProductPage from '../containers/ProductDetails';
 import LoginPage from '../containers/Login';
 import Register from '../containers/Register';
 import Cart from '../containers/Cart';
+import OrderPage from '../containers/Order';
+import CurrentOrder from '../containers/CurrentOrder';
 interface Route {
     to: string;
     exact: boolean;
@@ -34,6 +36,11 @@ export const userLink: routeList = [
         buttonName: 'Your Profile',
     },
     {
+        to: '/user/order',
+        exact: true,
+        buttonName: 'My order',
+    },
+    {
         to: '/user/logout',
         exact: true,
         buttonName: 'Sign out',
@@ -50,6 +57,11 @@ export const userMobileLink: routeList = [
         to: '/user/cart',
         exact: true,
         buttonName: 'Your Cart',
+    },
+    {
+        to: '/user/order',
+        exact: true,
+        buttonName: 'My order',
     },
     {
         to: '/user/logout',
@@ -93,5 +105,15 @@ export const routes: routeList = [
         to: '/user/cart',
         exact: true,
         component: Cart,
+    },
+    {
+        to: '/user/order',
+        exact: true,
+        component: OrderPage,
+    },
+    {
+        to: '/user/order/:orderID',
+        exact: true,
+        component: CurrentOrder,
     },
 ];

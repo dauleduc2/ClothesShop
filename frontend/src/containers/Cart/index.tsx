@@ -7,8 +7,10 @@ import { cartListAction } from '../../redux/cart/cart';
 import { Link } from 'react-router-dom';
 import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
-import { OrderItemToSend, OrderListToSend } from '../../common/interfaces/orderList';
-import { orderListApi } from '../../api/orderListApi';
+import { OrderItemToSend, OrderListToSend, OrderStatus } from '../../common/interfaces/orderList';
+import { orderListThunk } from '../../redux/orderList/orderListThunk';
+import MinusIcon from '../../components/common/icon/Minus';
+import AddIcon from '../../components/common/icon/Add';
 
 interface CartProps {}
 
@@ -43,12 +45,11 @@ const Cart: React.FunctionComponent<CartProps> = () => {
             };
         });
         const orderListToSend: OrderListToSend = {
-            status: 0,
+            status: OrderStatus.WAITING,
             orderItem: orderItemList,
         };
-
-        const result = await orderListApi.addNewOrderList(orderListToSend);
-        if (result.status === 200) {
+        const result = await store.dispatch(orderListThunk.addOrderList(orderListToSend));
+        if (result.meta.requestStatus === 'fulfilled') {
             store.dispatch(cartListAction.resetState());
 
             store.dispatch(
@@ -87,7 +88,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
 
                                 <ul className="border-t border-b border-gray-200 divide-y divide-gray-200">
                                     {cartState.productList.map((product, productIdx) => (
-                                        <li key={productIdx} className="flex py-6 sm:py-10">
+                                        <li key={productIdx} className="flex py-6 sm:py-10 intro-x">
                                             <div className="flex-shrink-0">
                                                 <img
                                                     src={`${process.env.REACT_APP_SERVER_URL}/${product.productAvatar}`}
@@ -148,17 +149,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                                                     }
                                                                 }}
                                                             >
-                                                                <svg
-                                                                    className="w-8 h-8"
-                                                                    fill="none"
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                                </svg>
+                                                                <MinusIcon />
                                                             </button>
                                                             <input
                                                                 className="w-3 mx-3 text-lg text-gray-700"
@@ -176,17 +167,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                                                     );
                                                                 }}
                                                             >
-                                                                <svg
-                                                                    className="w-8 h-8"
-                                                                    fill="none"
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                                </svg>
+                                                                <AddIcon />
                                                             </button>
                                                         </div>
 
@@ -222,7 +203,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                             {/* Order summary */}
                             <section
                                 aria-labelledby="summary-heading"
-                                className="px-4 py-6 mt-16 rounded-lg bg-gray-50 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5"
+                                className="px-4 py-6 mt-16 rounded-lg bg-gray-50 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5 intro-y"
                             >
                                 <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
                                     Order summary
