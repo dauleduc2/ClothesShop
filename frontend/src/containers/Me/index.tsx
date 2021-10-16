@@ -78,7 +78,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                             />
                         </InformationField>
                         <InformationField label="Create date">
-                            <p>{userState.user.createDate}</p>
+                            <p>{new Date(userState.user.createDate).toDateString()}</p>
                         </InformationField>
                     </dl>
                 </div>

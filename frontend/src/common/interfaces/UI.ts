@@ -1,10 +1,15 @@
 import { ProductInCart } from './cart';
 
+export enum notificationStatus {
+    SUCCESS = 'success',
+    WARNING = 'warning',
+    ERROR = 'error',
+}
 export interface UIState {
     isLoading: boolean;
     notification: {
         isOpenning: boolean;
-        status: string;
+        status: notificationStatus;
         title: string;
         message: string;
     };
@@ -23,7 +28,7 @@ export interface UIState {
 }
 
 export interface SetNotificationPayload {
-    status: string;
+    status: notificationStatus;
     title: string;
     message: string;
 }

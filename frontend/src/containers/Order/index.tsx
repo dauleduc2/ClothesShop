@@ -1,10 +1,9 @@
-import { ShoppingBagIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { useSelector } from 'react-redux';
-import { OrderListState } from '../../common/interfaces/orderList';
+import { OrderListState, OrderStatus } from '../../common/interfaces/orderList';
 interface OrderPageProps {}
 
 const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
@@ -29,36 +28,30 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                             <h3 className="text-sm font-medium text-gray-900 truncate">
                                                 #{order.orderID.substring(0, 8)}
                                             </h3>
-                                            {order.status === 0 ? (
+                                            {order.status === OrderStatus.WAITING && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-yellow-800 text-xs font-medium bg-yellow-100 rounded-full">
                                                     Waiting
                                                 </span>
-                                            ) : (
-                                                ''
                                             )}
-                                            {order.status === 1 ? (
+                                            {order.status === OrderStatus.SHIPPING && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-blue-800 text-xs font-medium bg-blue-100 rounded-full">
                                                     Shipping
                                                 </span>
-                                            ) : (
-                                                ''
                                             )}
-                                            {order.status === 2 ? (
+                                            {order.status === OrderStatus.DONE && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
                                                     Done
                                                 </span>
-                                            ) : (
-                                                ''
                                             )}
-                                            {order.status === 3 ? (
+                                            {order.status === OrderStatus.CANCEL && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-red-800 text-xs font-medium bg-red-100 rounded-full">
                                                     Cancel
                                                 </span>
-                                            ) : (
-                                                ''
                                             )}
                                         </div>
-                                        <p className="mt-1 text-sm text-gray-500 truncate">Date : {order.createDate}</p>
+                                        <p className="mt-1 text-sm text-gray-500 truncate">
+                                            Date : {new Date(order.createDate).toDateString()}
+                                        </p>
                                         <p className="mt-1 text-sm text-gray-500 truncate">
                                             Total product : {order.totalProduct}
                                         </p>
@@ -66,7 +59,7 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                             Total price : {order.totalPrice}
                                         </p>
                                     </div>
-                                    {order.status === 0 ? (
+                                    {order.status === OrderStatus.WAITING ? (
                                         <div className="p-1 bg-yellow-400 rounded-full">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +79,7 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                     ) : (
                                         ''
                                     )}
-                                    {order.status === 1 ? (
+                                    {order.status === OrderStatus.SHIPPING ? (
                                         <div className="p-1 bg-blue-400 rounded-full">
                                             <svg
                                                 className="w-6 h-6 text-white"
@@ -106,7 +99,7 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                     ) : (
                                         ''
                                     )}
-                                    {order.status === 2 ? (
+                                    {order.status === OrderStatus.DONE ? (
                                         <div className="p-1 bg-green-400 rounded-full">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +119,7 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                     ) : (
                                         ''
                                     )}
-                                    {order.status === 3 ? (
+                                    {order.status === OrderStatus.CANCEL ? (
                                         <div className="p-1 bg-red-400 rounded-full">
                                             <svg
                                                 className="w-6 h-6 text-white"

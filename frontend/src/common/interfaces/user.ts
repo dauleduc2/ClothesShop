@@ -1,20 +1,24 @@
+export enum UserRole {
+    CUSTOMER,
+    ADMIN,
+}
 export interface User {
     ID: string;
     username: string;
     fullName: string;
-    avatar?: string;
+    avatar: string;
     email: string;
     userStatus: number;
-    role: number;
-    createDate?: string;
+    role: UserRole;
+    createDate: string;
 }
 
 export interface PossibleUpdateUserField {
-    fullName?: string;
-    avatar?: string;
-    email?: string;
-    userStatus?: number;
-    createDate?: string;
+    fullName: string;
+    avatar: string;
+    email: string;
+    userStatus: number;
+    createDate: string;
 }
 
 export interface UserState {

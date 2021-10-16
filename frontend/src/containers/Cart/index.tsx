@@ -7,7 +7,7 @@ import { cartListAction } from '../../redux/cart/cart';
 import { Link } from 'react-router-dom';
 import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
-import { OrderItemToSend, OrderListToSend } from '../../common/interfaces/orderList';
+import { OrderItemToSend, OrderListToSend, OrderStatus } from '../../common/interfaces/orderList';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 
 interface CartProps {}
@@ -43,11 +43,9 @@ const Cart: React.FunctionComponent<CartProps> = () => {
             };
         });
         const orderListToSend: OrderListToSend = {
-            status: 0,
+            status: OrderStatus.WAITING,
             orderItem: orderItemList,
         };
-
-        // const result = await orderListApi.addNewOrderList(orderListToSend);
         const result = await store.dispatch(orderListThunk.addOrderList(orderListToSend));
         if (result.meta.requestStatus === 'fulfilled') {
             store.dispatch(cartListAction.resetState());

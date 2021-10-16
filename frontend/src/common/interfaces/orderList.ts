@@ -2,6 +2,12 @@ import { color } from './color';
 import { Product } from './product';
 import { size } from './size';
 
+export enum OrderStatus {
+    WAITING = 'waiting',
+    SHIPPING = 'shipping',
+    DONE = 'done',
+    CANCEL = 'cancel',
+}
 export interface OrderItemToSend {
     amount: number;
     productID: string;
@@ -10,7 +16,7 @@ export interface OrderItemToSend {
 }
 
 export interface OrderListToSend {
-    status: number;
+    status: OrderStatus;
     orderItem: OrderItemToSend[];
 }
 
@@ -25,7 +31,7 @@ export interface OrderItem {
 }
 
 export interface OrderList {
-    status: number;
+    status: OrderStatus;
     orderItem: OrderItem[];
     ID: string;
     createDate: string;
@@ -33,7 +39,7 @@ export interface OrderList {
 
 export interface ResponseOrder {
     orderID: string;
-    status: number;
+    status: OrderStatus;
     createDate: string;
     totalProduct: number;
     totalPrice: number;
