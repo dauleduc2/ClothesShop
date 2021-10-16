@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { RequestWithUser } from "../interfaces/common/Request";
 import * as dataHelper from "../utils/dataHelper";
+import * as status from "../constants/statusConstants";
 const jwt = require("jsonwebtoken");
 export function authenMiddleware(
     req: RequestWithUser<any>,
@@ -10,7 +11,7 @@ export function authenMiddleware(
     const token = req.cookies["x-auth-token"];
     if (!token)
         return res
-            .status(401)
+            .status(status.UNAUTHORIZED)
             .send(dataHelper.getResponseForm(null, null, "No token in cookie"));
 
     try {
@@ -19,7 +20,7 @@ export function authenMiddleware(
         next();
     } catch (error) {
         return res
-            .status(400)
+            .status(status.BAD_REQUEST)
             .send(dataHelper.getResponseForm(null, null, "Invalid token"));
     }
 }

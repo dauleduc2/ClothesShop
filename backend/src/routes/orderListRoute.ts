@@ -11,9 +11,8 @@ import { ProductRepository } from "../Repository/ProductRepository";
 import { OrderList } from "../entity/OrderList";
 import { Product } from "../entity/Product";
 import { OrderItem } from "../entity/OrderItem";
-import { SizeRepository } from "../Repository/SizeRepository";
-import { ColorRepository } from "../Repository/ColorRepository";
 import { RequestWithUser } from "../interfaces/common/Request";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //GET order list by orderID
@@ -64,7 +63,7 @@ router.post(
         const { orderItem, status } = req.body;
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -81,20 +80,16 @@ router.post(
             getCustomRepository(UserRepository),
             getCustomRepository(ProductRepository),
             getCustomRepository(OrderListRepository),
-            getCustomRepository(SizeRepository),
-            getCustomRepository(ColorRepository),
         ]);
 
         const userRepo: UserRepository = connection[0];
         const productRepo: ProductRepository = connection[1];
         const orderListRepo: OrderListRepository = connection[2];
-        const sizeRepo: SizeRepository = connection[3];
-        const colorRepo: ColorRepository = connection[4];
         //check existed userID
         const isDuplicate = await userRepo.findByID(req.user.ID);
         if (!isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -123,13 +118,15 @@ router.post(
         //add new orderList
         const result = await orderListRepo.addNewOrderList(orderList);
 
-        return res.send(
-            dataHelper.getResponseForm(
-                result,
-                null,
-                "add new orderList success!"
-            )
-        );
+        return res
+            .status(statusCode.CREATED)
+            .send(
+                dataHelper.getResponseForm(
+                    result,
+                    null,
+                    "add new orderList success!"
+                )
+            );
     }
 );
 export default router;

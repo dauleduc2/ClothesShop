@@ -18,6 +18,7 @@ import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
 import { AddProductInfoDTO } from "../interfaces/DTO/product";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //GET specific product
@@ -85,7 +86,7 @@ router.post(
         const { error } = validateProduct(newProduct);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -112,7 +113,7 @@ router.post(
 
         if (isDuplicate.length > 0)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -149,7 +150,7 @@ router.post(
         //add product
         const result = await productRepo.addNewProduct(newProduct);
 
-        res.send(
+        res.status(statusCode.CREATED).send(
             dataHelper.getResponseForm(result, null, "add new product success!")
         );
     }

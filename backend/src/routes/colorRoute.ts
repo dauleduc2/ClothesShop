@@ -9,7 +9,8 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import * as dataHelper from "../utils/dataHelper";
 import { AddColorInfoDTO } from "../interfaces/DTO/color";
-
+import * as statusCode from "../constants/statusConstants";
+import { stat } from "fs";
 const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
     //get connection
@@ -33,7 +34,7 @@ router.post(
         const { error } = validateColor(newColor);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -47,7 +48,7 @@ router.post(
         let isDuplicate = await colorRepo.findByName(newColor.name);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -59,7 +60,7 @@ router.post(
         isDuplicate = await colorRepo.findByHexCode(newColor.hexCode);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -69,9 +70,15 @@ router.post(
                 );
         //add color
         await colorRepo.addNewColor(newColor);
-        return res.send(
-            dataHelper.getResponseForm(newColor, null, "add new color success!")
-        );
+        return res
+            .status(statusCode.CREATED)
+            .send(
+                dataHelper.getResponseForm(
+                    newColor,
+                    null,
+                    "add new color success!"
+                )
+            );
     }
 );
 export default router;

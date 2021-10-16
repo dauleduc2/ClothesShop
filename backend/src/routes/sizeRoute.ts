@@ -9,6 +9,7 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
 import { AddSizeInfoDTO } from "../interfaces/DTO/size";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //POST get all size
@@ -34,7 +35,7 @@ router.post(
         const { error } = validateSize(newSize);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -49,7 +50,7 @@ router.post(
         const isDuplicate = await sizeRepo.findByName(newSize.name);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -59,9 +60,15 @@ router.post(
                 );
         //add size
         await sizeRepo.addNewSize(newSize);
-        return res.send(
-            dataHelper.getResponseForm(newSize, null, "add new size success!")
-        );
+        return res
+            .status(statusCode.CREATED)
+            .send(
+                dataHelper.getResponseForm(
+                    newSize,
+                    null,
+                    "add new size success!"
+                )
+            );
     }
 );
 export default router;

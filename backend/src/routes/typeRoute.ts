@@ -9,6 +9,7 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
 import { AddSizeInfoDTO } from "../interfaces/DTO/size";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //POST get all type
@@ -34,7 +35,7 @@ router.post(
         const { error } = validateType(newType);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -48,7 +49,7 @@ router.post(
         const isDuplicate = await typeRepo.findByName(newType.name);
         if (isDuplicate)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -58,9 +59,15 @@ router.post(
                 );
         //add type
         await typeRepo.addNewType(newType);
-        return res.send(
-            dataHelper.getResponseForm(newType, null, "add new type success!")
-        );
+        return res
+            .status(statusCode.CREATED)
+            .send(
+                dataHelper.getResponseForm(
+                    newType,
+                    null,
+                    "add new type success!"
+                )
+            );
     }
 );
 

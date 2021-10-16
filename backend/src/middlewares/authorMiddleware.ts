@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { RequestWithUser } from "../interfaces/common/Request";
 import * as dataHelper from "../utils/dataHelper";
+import * as status from "../constants/statusConstants";
 export function authorMiddleware(
     req: RequestWithUser<any>,
     res: Response,
@@ -10,7 +11,7 @@ export function authorMiddleware(
     if (role === 1) {
         next();
     } else {
-        res.status(401).send(
+        res.status(status.FORBIDDEN).send(
             dataHelper.getResponseForm(
                 null,
                 null,

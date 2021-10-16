@@ -16,6 +16,7 @@ import {
     RegisterUserDTO,
 } from "../interfaces/DTO/user";
 import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
+import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //GET get user by username
@@ -95,7 +96,7 @@ router.post(
         const { error } = validateUpdateUser(req.body);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -125,7 +126,7 @@ router.post(
         //check valid username
         if (!user)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -137,7 +138,7 @@ router.post(
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -176,7 +177,7 @@ router.post(
         const { error } = validateUser(user);
         if (error)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
@@ -202,7 +203,7 @@ router.post(
             };
         if (duplicateField.email === true || duplicateField.username === true)
             return res
-                .status(400)
+                .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         duplicateField,
@@ -218,9 +219,11 @@ router.post(
         await res.cookie("x-auth-token", token, {
             maxAge: 86400 * 100,
         });
-        return res.send(
-            dataHelper.getResponseForm(null, null, "register success...!")
-        );
+        return res
+            .status(statusCode.CREATED)
+            .send(
+                dataHelper.getResponseForm(null, null, "register success...!")
+            );
     }
 );
 
