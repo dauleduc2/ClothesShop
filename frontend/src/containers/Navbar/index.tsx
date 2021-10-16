@@ -9,7 +9,7 @@ import { RootState, store } from '../../redux';
 import { UserState } from '../../common/interfaces/user';
 import { userThunk } from '../../redux/user/userThunk';
 import { useHistory } from 'react-router';
-import Logo from '../../components/common/Logo';
+import Logo from '../../components/common/icon/Logo';
 import * as notificationHelper from '../../utils/notificationHelper';
 import { CartState } from '../../common/interfaces/cart';
 import { SearchIcon } from '@heroicons/react/solid';

@@ -14,6 +14,8 @@ import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
 import { UserState } from '../../common/interfaces/user';
 import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
+import MinusIcon from '../../components/common/icon/Minus';
+import AddIcon from '../../components/common/icon/Add';
 interface RouteParams {
     productName: string;
 }
@@ -199,17 +201,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                     });
                                                 }}
                                             >
-                                                <svg
-                                                    className="w-8 h-8"
-                                                    fill="none"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
+                                                <MinusIcon />
                                             </button>
                                             <input className="w-3 mx-3 text-lg text-gray-700" value={amount} />
                                             <button
@@ -219,17 +211,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                     setAmount(() => amount + 1);
                                                 }}
                                             >
-                                                <svg
-                                                    className="w-8 h-8"
-                                                    fill="none"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
+                                                <AddIcon />
                                             </button>
                                         </div>
                                     </div>

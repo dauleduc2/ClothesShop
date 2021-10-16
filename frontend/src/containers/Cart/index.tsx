@@ -9,6 +9,8 @@ import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
 import { OrderItemToSend, OrderListToSend, OrderStatus } from '../../common/interfaces/orderList';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
+import MinusIcon from '../../components/common/icon/Minus';
+import AddIcon from '../../components/common/icon/Add';
 
 interface CartProps {}
 
@@ -147,17 +149,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                                                     }
                                                                 }}
                                                             >
-                                                                <svg
-                                                                    className="w-8 h-8"
-                                                                    fill="none"
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                                </svg>
+                                                                <MinusIcon />
                                                             </button>
                                                             <input
                                                                 className="w-3 mx-3 text-lg text-gray-700"
@@ -175,17 +167,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                                                     );
                                                                 }}
                                                             >
-                                                                <svg
-                                                                    className="w-8 h-8"
-                                                                    fill="none"
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                                </svg>
+                                                                <AddIcon />
                                                             </button>
                                                         </div>
 

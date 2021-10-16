@@ -4,6 +4,11 @@ import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { useSelector } from 'react-redux';
 import { OrderListState, OrderStatus } from '../../common/interfaces/orderList';
+import WaitingIcon from '../../components/common/icon/Waiting';
+import ShippingIcon from '../../components/common/icon/Shipping';
+import DoneIcon from '../../components/common/icon/Done';
+import CancelIcon from '../../components/common/icon/Error';
+import DetailIcon from '../../components/common/icon/Detail';
 interface OrderPageProps {}
 
 const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
@@ -59,85 +64,25 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                             Total price : {order.totalPrice}
                                         </p>
                                     </div>
-                                    {order.status === OrderStatus.WAITING ? (
-                                        <div className="p-1 bg-yellow-400 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="w-6 h-6 text-white"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                                                />
-                                            </svg>
+                                    {order.status === OrderStatus.WAITING && (
+                                        <div className="p-1 text-white bg-yellow-400 rounded-full">
+                                            <WaitingIcon />
                                         </div>
-                                    ) : (
-                                        ''
                                     )}
-                                    {order.status === OrderStatus.SHIPPING ? (
-                                        <div className="p-1 bg-blue-400 rounded-full">
-                                            <svg
-                                                className="w-6 h-6 text-white"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                                                ></path>
-                                            </svg>
+                                    {order.status === OrderStatus.SHIPPING && (
+                                        <div className="p-1 text-white bg-blue-400 rounded-full">
+                                            <ShippingIcon />
                                         </div>
-                                    ) : (
-                                        ''
                                     )}
-                                    {order.status === OrderStatus.DONE ? (
-                                        <div className="p-1 bg-green-400 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="w-6 h-6 text-white"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M5 13l4 4L19 7"
-                                                />
-                                            </svg>
+                                    {order.status === OrderStatus.DONE && (
+                                        <div className="p-1 text-white bg-green-400 rounded-full">
+                                            <DoneIcon />
                                         </div>
-                                    ) : (
-                                        ''
                                     )}
-                                    {order.status === OrderStatus.CANCEL ? (
-                                        <div className="p-1 bg-red-400 rounded-full">
-                                            <svg
-                                                className="w-6 h-6 text-white"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                ></path>
-                                            </svg>
+                                    {order.status === OrderStatus.CANCEL && (
+                                        <div className="p-1 text-white bg-red-400 rounded-full">
+                                            <CancelIcon />
                                         </div>
-                                    ) : (
-                                        ''
                                     )}
                                 </div>
                                 <div>
@@ -147,20 +92,9 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                                 to={`/user/order/${order.orderID}`}
                                                 className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px text-sm font-medium text-gray-700 border border-transparent rounded-bl-lg hover:text-gray-500"
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="w-6 h-6"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                                                    />
-                                                </svg>
+                                                <div className="">
+                                                    <DetailIcon />
+                                                </div>
                                                 <span className="ml-3">Detail</span>
                                             </Link>
                                         </div>
