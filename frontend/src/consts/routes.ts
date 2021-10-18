@@ -7,6 +7,7 @@ import Register from '../containers/Register';
 import Cart from '../containers/Cart';
 import OrderPage from '../containers/Order';
 import CurrentOrder from '../containers/CurrentOrder';
+import NotFoundPage from '../components/NotFoundPage';
 interface Route {
     to: string;
     exact: boolean;
@@ -115,5 +116,10 @@ export const routes: routeList = [
         to: '/user/order/:orderID',
         exact: true,
         component: CurrentOrder,
+    },
+    {
+        to: '/',
+        exact: false,
+        component: NotFoundPage,
     },
 ];
