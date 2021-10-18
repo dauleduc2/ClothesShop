@@ -1,5 +1,6 @@
 import axiosClient from '../axios/config';
 import { ServerResponse } from '../common/interfaces/api';
+import { LoginUserDTO, RegisterUserDTO } from '../common/interfaces/form';
 import { User } from '../common/interfaces/user';
 
 export const userApi = {
@@ -37,5 +38,13 @@ export const userApi = {
         const url = '/api/user/me/logout';
         const res = await axiosClient.get(url);
         return res;
+    },
+    loginUser: async (input: LoginUserDTO) => {
+        const url = '/api/user/login';
+        return await axiosClient.post<ServerResponse<any>>(url, input);
+    },
+    registerUser: async (input: RegisterUserDTO) => {
+        const url = '/api/user/register';
+        return await axiosClient.post<ServerResponse<any>>(url, input);
     },
 };

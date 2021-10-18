@@ -1,70 +1,30 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import './style.css';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import * as validateHelper from '../../utils/validateHelper';
-import axiosClient from '../../axios/config';
 import { useHistory } from 'react-router-dom';
-import { store } from '../../redux';
-import { userListAction } from '../../redux/user/user';
+import { RootState, store } from '../../redux';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
+import { formThunk } from '../../redux/form/formThunk';
+import { formState, LoginUserDTO } from '../../common/interfaces/form';
+import { useSelector } from 'react-redux';
 interface LoginProps {}
-interface LoginField {
-    username: string;
-    password: string;
-}
-
-const defaultValues: LoginField = {
-    username: '',
-    password: '',
-};
 
 const Login: React.FunctionComponent<LoginProps> = () => {
-    const [errorList, setErrorList] = useState<LoginField>(defaultValues);
-    const { handleSubmit, register } = useForm<LoginField>({
-        defaultValues,
-    });
+    const { handleSubmit, register } = useForm<LoginUserDTO>();
     const history = useHistory();
-
-    //validation
-    const validation = (data: LoginField) => {
-        let errorList = { ...defaultValues };
-        //username
-        if (!validateHelper.length(data.username, 6, 255))
-            errorList.username = 'The number of character must between 6 - 255';
-        if (!data.username) errorList.username = 'Required';
-        //password
-        if (!validateHelper.length(data.password, 6, 255))
-            errorList.password = 'The number of character must between 6 - 255';
-        if (!data.password) errorList.password = 'Required';
-
-        //return
-        return errorList;
-    };
-    const onSubmit = async (data: LoginField) => {
-        const validateResult = validation(data);
-        setErrorList(validateResult);
-        if (JSON.stringify(validateResult) === JSON.stringify(defaultValues)) {
-            const response: any = await axiosClient
-                .post('/api/user/login', {
-                    username: data.username,
-                    password: data.password,
-                })
-                .catch((error) => {
-                    const message = error.response?.data.detail.message;
-                    if (message) {
-                        notificationHelper.warning(message);
-                    } else {
-                        notificationHelper.warning('Server error', 'There something wrong during connect to server!');
-                    }
-                });
-            if (response) {
-                store.dispatch(userListAction.setLogin(true));
-                notificationHelper.success('Login success!');
-                history.push('/user/me');
+    const formState = useSelector<RootState, formState>((state) => state.form);
+    const onSubmit = async (data: LoginUserDTO) => {
+        const result = await store.dispatch(formThunk.login(data));
+        if (result.meta.requestStatus === 'rejected') {
+            if (formState.login.general) {
+                notificationHelper.warning(formState.login.general);
             }
+        }
+
+        if (result.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success('Login success!');
+            history.push('/user/me');
         }
     };
 
@@ -86,8 +46,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                             <InputField
                                 label="Username"
                                 field="username"
-                                error={Boolean(errorList?.username)}
-                                message={errorList?.username}
+                                message={formState.login.username}
                                 register={register}
                                 type="text"
                             />
@@ -97,8 +56,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                             type="password"
                             label="Password"
                             field="password"
-                            error={Boolean(errorList?.password)}
-                            message={errorList?.password}
+                            message={formState.login.password}
                             register={register}
                         />
 

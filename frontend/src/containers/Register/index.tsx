@@ -1,93 +1,25 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import * as validateHelper from '../../utils/validateHelper';
-import { useState } from 'react';
-import axiosClient from '../../axios/config';
 import { useHistory } from 'react-router-dom';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
+import { formState, RegisterUserDTO } from '../../common/interfaces/form';
+import { RootState, store } from '../../redux';
+import { formThunk } from '../../redux/form/formThunk';
+import { useSelector } from 'react-redux';
 interface RegisterProps {}
-interface RegisterField {
-    username: string;
-    password: string;
-    confirmPassword: string;
-    email: string;
-    fullName: string;
-}
-interface duplicateError {
-    username?: string;
-    email?: string;
-}
-const defaultValues: RegisterField = {
-    username: '',
-    password: '',
-    confirmPassword: '',
-    email: '',
-    fullName: '',
-};
+
 const Register: React.FunctionComponent<RegisterProps> = () => {
-    const [errorList, setErrorList] = useState<RegisterField>(defaultValues);
-    const { handleSubmit, register } = useForm<RegisterField>();
+    const { handleSubmit, register } = useForm<RegisterUserDTO>();
+    const formState = useSelector<RootState, formState>((state) => state.form);
     const history = useHistory();
-    //validation
-    const validation = (data: RegisterField): RegisterField => {
-        let errorList: RegisterField = { ...defaultValues };
-        //email validation
-        if (!validateHelper.validateEmail(data.email)) errorList.email = 'Invalid email';
-        if (!data.email) errorList.email = 'Required';
-        //full name
-        if (!validateHelper.length(data.fullName, 3, 255))
-            errorList.fullName = 'The number of character must between 3 - 255';
-        if (!data.fullName) errorList.fullName = 'Required';
-        //username
-        if (!validateHelper.length(data.username, 6, 255))
-            errorList.username = 'The number of character must between 6 - 255';
-        if (!data.username) errorList.username = 'Required';
-        //password
-        if (!validateHelper.length(data.password, 6, 255))
-            errorList.password = 'The number of character must between 6 - 255';
-        if (!data.password) errorList.password = 'Required';
-        //confirmPassword
-        if (data.password !== data.confirmPassword)
-            errorList.confirmPassword = 'Confirm password must be the same as password';
-        if (!data.confirmPassword) errorList.confirmPassword = 'Required';
 
-        //return
-        return errorList;
-    };
     //on submit
-    const onSubmit = async (data: RegisterField) => {
-        const validateResult = validation(data);
-        setErrorList(validateResult);
-        if (JSON.stringify(validateResult) === JSON.stringify(defaultValues)) {
-            const response: any = await axiosClient
-                .post('/api/user/register', {
-                    username: data.username,
-                    password: data.password,
-                    email: data.email,
-                    fullName: data.fullName,
-                })
-                .catch((error) => {
-                    const message = error.response?.data.detail.message;
-                    const responseData = error.response?.data.data;
-                    let duplicateError: duplicateError = {};
-                    if (message) {
-                        console.log(responseData);
-                        if (responseData.username === true) duplicateError.username = 'The username is already existed';
-
-                        if (responseData.email === true) duplicateError.email = 'The email is already existed';
-                        setErrorList({
-                            ...errorList,
-                            ...duplicateError,
-                        });
-                    } else {
-                        notificationHelper.warning('There something wrong during connect to server!');
-                    }
-                });
-            if (response) {
-                notificationHelper.success('Register success!');
-                history.push('/user/login');
-            }
+    const onSubmit = async (data: RegisterUserDTO) => {
+        const result = await store.dispatch(formThunk.register(data));
+        if (result.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success('Register success!');
+            history.push('/user/login');
         }
     };
     return (
@@ -101,8 +33,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                         <InputField
                             label="Email"
                             field="email"
-                            error={Boolean(errorList?.email)}
-                            message={errorList?.email}
+                            message={formState.register.email}
                             register={register}
                             type="text"
                         />
@@ -110,8 +41,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                         <InputField
                             label="Full name"
                             field="fullName"
-                            error={Boolean(errorList?.fullName)}
-                            message={errorList?.fullName}
+                            message={formState.register.fullName}
                             register={register}
                             type="text"
                         />
@@ -119,8 +49,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                         <InputField
                             label="username"
                             field="username"
-                            error={Boolean(errorList?.username)}
-                            message={errorList?.username}
+                            message={formState.register.username}
                             register={register}
                             type="text"
                         />
@@ -129,16 +58,14 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                             type="password"
                             label="Password"
                             field="password"
-                            error={Boolean(errorList?.password)}
-                            message={errorList?.password}
+                            message={formState.register.password}
                             register={register}
                         />
                         <InputField
                             type="password"
                             label="Confirm Password"
                             field="confirmPassword"
-                            error={Boolean(errorList?.confirmPassword)}
-                            message={errorList?.confirmPassword}
+                            message={formState.register.confirmPassword}
                             register={register}
                         />
 

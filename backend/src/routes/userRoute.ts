@@ -3,7 +3,11 @@ import { Request, Response } from "express";
 import upload from "../utils/multerHelper";
 import * as express from "express";
 import { User } from "../entity/User";
-import { validateUser, validateUpdateUser } from "../validators/User";
+import {
+    validateUser,
+    validateUpdateUser,
+    validateLoginUser,
+} from "../validators/User";
 import * as bcrypt from "bcrypt";
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../Repository/UserRepository";
@@ -11,7 +15,7 @@ import * as userHelper from "../utils/userHelper";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import {
-    BodyUpdateUserDTO,
+    UpdateUserDTO,
     LoginUserDTO,
     RegisterUserDTO,
 } from "../interfaces/DTO/user";
@@ -73,7 +77,7 @@ router.get(
 router.post(
     "/me/update",
     [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
-    async (req: RequestWithUser<BodyUpdateUserDTO>, res: Response) => {
+    async (req: RequestWithUser<UpdateUserDTO>, res: Response) => {
         const { ID } = req.user;
         if (req.file) {
             req.body.avatar = req.file.filename;
@@ -85,16 +89,22 @@ router.post(
 
         //validate
         const { error } = validateUpdateUser(req.body);
-        if (error)
+        if (error) {
+            let errorToSend = {};
+            error.details.forEach((detailError) => {
+                errorToSend[`${detailError.path[0]}`] = detailError.message;
+            });
+            console.log(errorToSend);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
-                        error.message,
+                        errorToSend,
                         "validation error"
                     )
                 );
+        }
 
         //get connection
         const userRepo = getCustomRepository(UserRepository);
@@ -114,6 +124,24 @@ router.post(
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         const user: User = await userRepo.findByUsername(username);
+        //validate
+        const { error } = validateLoginUser(req.body);
+        if (error) {
+            let errorToSend = {};
+            error.details.forEach((detailError) => {
+                errorToSend[`${detailError.path[0]}`] = detailError.message;
+            });
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        errorToSend,
+                        "validate error"
+                    )
+                );
+        }
+
         //check valid username
         if (!user)
             return res
@@ -121,7 +149,7 @@ router.post(
                 .send(
                     dataHelper.getResponseForm(
                         null,
-                        null,
+                        { general: "username or password is invalid" },
                         "username or password is invalid"
                     )
                 );
@@ -133,7 +161,7 @@ router.post(
                 .send(
                     dataHelper.getResponseForm(
                         null,
-                        null,
+                        { general: "username or password is invalid" },
                         "username or password is invalid"
                     )
                 );
@@ -153,29 +181,40 @@ router.post(
     "/register",
     multerErrorMiddleware(upload.single("image")),
     async (req: ServerRequest<RegisterUserDTO>, res: Response) => {
-        const { password, email, fullName, username } = req.body;
+        const { password, email, fullName, username, confirmPassword } =
+            req.body;
         let duplicateField = {
-            username: false,
-            email: false,
+            username: "",
+            email: "",
         };
         let user = new User();
         user.password = password;
         user.email = email;
         user.fullName = fullName;
         user.username = username;
-        // user.avatar = req.file.path;
+
         //validate user
-        const { error } = validateUser(user);
-        if (error)
+        const { error } = validateUser({
+            ...req.body,
+            confirmPassword: confirmPassword,
+        });
+
+        if (error) {
+            let errorToSend = {};
+            error.details.forEach((detailError) => {
+                errorToSend[`${detailError.path[0]}`] = detailError.message;
+            });
             return res
                 .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
-                        error.details,
+                        errorToSend,
                         "validation error"
                     )
                 );
+        }
+
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         //check is esxisted user
@@ -183,22 +222,22 @@ router.post(
         if (isExistedUser)
             duplicateField = {
                 ...duplicateField,
-                email: true,
+                email: "This email already existed",
             };
 
         isExistedUser = await userRepo.findByUsername(username);
         if (isExistedUser)
             duplicateField = {
                 ...duplicateField,
-                username: true,
+                username: "This username already existed",
             };
-        if (duplicateField.email === true || duplicateField.username === true)
+        if (duplicateField.email !== "" || duplicateField.username !== "")
             return res
                 .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
-                        duplicateField,
                         null,
+                        duplicateField,
                         "Duplicate information"
                     )
                 );

@@ -1,26 +1,62 @@
-import { User } from "./../entity/User";
 import * as Joi from "joi";
 import { JoiPassword } from "joi-password";
-import { BodyUpdateUserDTO } from "../interfaces/DTO/user";
-const userSchema = Joi.object<User>({
-    username: Joi.string().max(255).required(),
-    password: JoiPassword.string().noWhiteSpaces().required(),
-    fullName: Joi.string().max(255).required(),
-    email: Joi.string().email().max(255).required(),
-    userStatus: Joi.number().valid(0, 1).max(50).default(0),
-    role: Joi.number().valid(0, 1).max(50).default(0),
+import {
+    UpdateUserDTO,
+    LoginUserDTO,
+    RegisterUserDTO,
+} from "../interfaces/DTO/user";
+import {
+    stringCustomConfirmPassword,
+    stringCustomEmail,
+    stringCustomMessage,
+} from "./common/message";
+
+const userSchema = Joi.object<RegisterUserDTO>({
+    username: Joi.string()
+        .min(3)
+        .max(255)
+        .required()
+        .messages(stringCustomMessage),
+    password: JoiPassword.string()
+        .min(3)
+        .noWhiteSpaces()
+        .required()
+        .messages(stringCustomMessage),
+    confirmPassword: Joi.string()
+        .min(3)
+        .required()
+        .valid(Joi.ref("password"))
+        .messages(stringCustomConfirmPassword),
+    fullName: Joi.string().max(255).required().messages(stringCustomMessage),
+    email: Joi.string().email().max(255).required().messages(stringCustomEmail),
 });
 
-const updateUserSchema = Joi.object<User>({
-    fullName: Joi.string().min(3).max(255),
-    email: Joi.string().email().min(4).max(255),
-    avatar: Joi.any(),
+const updateUserSchema = Joi.object<UpdateUserDTO>({
+    fullName: Joi.string().min(3).max(255).messages(stringCustomMessage),
+    email: Joi.string().email().max(255).messages(stringCustomEmail),
 });
 
-export const validateUser = (user: User) => {
+const userLoginSchema = Joi.object<LoginUserDTO>({
+    username: Joi.string()
+        .min(3)
+        .max(255)
+        .required()
+        .messages(stringCustomMessage),
+    password: JoiPassword.string()
+        .min(3)
+        .noWhiteSpaces()
+        .required()
+        .messages(stringCustomMessage),
+});
+
+export const validateUser = (user: RegisterUserDTO) => {
     return userSchema.validate(user, { abortEarly: false });
 };
 
-export const validateUpdateUser = (data: BodyUpdateUserDTO) => {
+export const validateLoginUser = (user: LoginUserDTO) => {
+    return userLoginSchema.validate(user, { abortEarly: false });
+};
+
+export const validateUpdateUser = (data: UpdateUserDTO) => {
     return updateUserSchema.validate(data, { abortEarly: false });
 };

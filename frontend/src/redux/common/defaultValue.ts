@@ -1,4 +1,6 @@
+import { user } from './../user/user';
 import { ProductInCart } from '../../common/interfaces/cart';
+import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/form';
 import { OrderList, OrderStatus } from '../../common/interfaces/orderList';
 import { Product } from '../../common/interfaces/product';
 import { notificationStatus } from '../../common/interfaces/UI';
@@ -67,3 +69,26 @@ export const defaultColor = {
 };
 
 export const defaultSize = { ID: -1, name: '' };
+
+//form
+export const defautLoginUser: LoginUserDTO = {
+    username: '',
+    password: '',
+    general: '',
+};
+
+export const defaultRegisterUser: RegisterUserDTO = {
+    email: '',
+    fullName: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    general: '',
+};
+
+export const defaultUpdateUser: UpdateUserDTO = {
+    fullName: '',
+    avatar: '',
+    email: '',
+    general: '',
+};
