@@ -16,15 +16,11 @@ const Login: React.FunctionComponent<LoginProps> = () => {
     const formState = useSelector<RootState, formState>((state) => state.form);
     const onSubmit = async (data: LoginUserDTO) => {
         const result = await store.dispatch(formThunk.login(data));
-        if (result.meta.requestStatus === 'rejected') {
-            if (formState.login.general) {
-                notificationHelper.warning(formState.login.general);
-            }
-        }
 
         if (result.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Login success!');
             history.push('/user/me');
+            return;
         }
     };
 

@@ -118,8 +118,10 @@ export const routes: routeList = [
         component: CurrentOrder,
     },
     {
-        to: '/',
-        exact: false,
+        to: '*',
+        exact: true,
         component: NotFoundPage,
     },
 ];
+
+export const adminRoute: routeList = [];
