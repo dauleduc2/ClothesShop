@@ -17,10 +17,10 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
         store.dispatch(orderListThunk.getAllOrderList());
     }, []);
     return (
-        <div className="p-2 lg:p-10">
+        <div className="flex-1 pt-16 lg:p-10">
             {orderListState.orderList.length !== 0 ? (
                 <>
-                    <h2 className="mb-4">Recent order</h2>
+                    <h2 className="mt-12 mb-4">Recent order</h2>
                     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {orderListState.orderList.map((order) => (
                             <li

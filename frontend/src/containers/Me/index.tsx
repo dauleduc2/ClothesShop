@@ -34,7 +34,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
         notificationHelper.success('Update success!');
     };
     return (
-        <div className="flex flex-col items-center justify-center flex-1 intro-y">
+        <div className="flex flex-col items-center justify-center flex-1 pt-16 intro-y">
             <form
                 className="w-full overflow-hidden bg-white sm:shadow sm:rounded-lg sm:w-180"
                 onSubmit={handleSubmit(onSubmit)}

@@ -19,12 +19,12 @@ const CurrentOrder: React.FunctionComponent<CurrentOrderProps> = ({ match }) => 
         store.dispatch(orderListThunk.getOrderListById(match.params.orderID));
     }, [match.params.orderID]);
     return (
-        <main className="w-full px-4 py-16 mx-auto lg:w-8/12 sm:px-6 lg:pb-24 lg:px-8">
+        <main className="flex-1 w-full p-16 px-4 py-16 mx-auto lg:w-8/12 sm:px-6 lg:pb-24 lg:px-8">
             <div className="max-w-xl">
-                <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Order history</h1>
+                <h1 className="mt-8 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Order history</h1>
             </div>
 
-            <section aria-labelledby="recent-heading" className="mt-16">
+            <section aria-labelledby="recent-heading" className="mt-8">
                 <h2 id="recent-heading" className="sr-only">
                     Recent orders
                 </h2>

@@ -23,7 +23,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
     const cartState = useSelector<RootState, CartState>((state) => state.cart);
     const history = useHistory();
     return (
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="fixed top-0 z-30 w-full h-16 bg-gray-800">
             {({ open }) => (
                 <>
                     <div className="px-2 mx-auto max-w-7xl sm:px-4 lg:px-8">

@@ -14,6 +14,8 @@ interface Route {
     buttonName?: string;
     component?: any;
     icon?: any;
+    isLoginRequire?: boolean;
+    isAdminRequire?: boolean;
 }
 type routeList = Route[];
 
@@ -96,6 +98,7 @@ export const routes: routeList = [
         to: '/user/me',
         exact: true,
         component: MePage,
+        isLoginRequire: true,
     },
     {
         to: '/user/login',
@@ -111,11 +114,13 @@ export const routes: routeList = [
         to: '/user/order',
         exact: true,
         component: OrderPage,
+        isLoginRequire: true,
     },
     {
         to: '/user/order/:orderID',
         exact: true,
         component: CurrentOrder,
+        isLoginRequire: true,
     },
     {
         to: '*',
