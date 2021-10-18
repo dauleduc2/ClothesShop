@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "../entity/User";
 import * as bcrypt from "bcrypt";
-import { BodyUpdateUserDTO } from "../interfaces/DTO/user";
+import { UpdateUserDTO } from "../interfaces/DTO/user";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
     async addNewUser(user: User) {
@@ -15,7 +15,7 @@ export class UserRepository extends Repository<User> {
         return result;
     }
 
-    async updateUserByID(ID: string, data: BodyUpdateUserDTO) {
+    async updateUserByID(ID: string, data: UpdateUserDTO) {
         const currentData = await this.findByID(ID);
 
         const result = await this.save({

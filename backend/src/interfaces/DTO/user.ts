@@ -1,4 +1,4 @@
-export interface BodyUpdateUserDTO {
+export interface UpdateUserDTO {
     fullName?: string;
     avatar?: string;
     email?: string;
@@ -14,4 +14,5 @@ export interface RegisterUserDTO {
     fullName: string;
     username: string;
     password: string;
+    confirmPassword: string;
 }
