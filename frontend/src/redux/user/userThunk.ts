@@ -6,10 +6,14 @@ export const userThunk = {
         const res = await userApi.getCurrentUser();
         return res.data.data;
     }),
-    updateUser: createAsyncThunk('/user/updateUser', async (data: UpdateUserField) => {
-        const res = await userApi.updateUser(data);
-        const { fullName, avatar, email } = res.data.data;
-        return { fullName, avatar, email };
+    updateUser: createAsyncThunk('/user/updateUser', async (data: UpdateUserField, { rejectWithValue }) => {
+        try {
+            const res = await userApi.updateUser(data);
+            const { fullName, avatar, email } = res.data.data;
+            return { fullName, avatar, email };
+        } catch (error: any) {
+            return rejectWithValue(error.response.data);
+        }
     }),
     logout: createAsyncThunk('/user/logout', async () => {
         await userApi.logout();

@@ -7,7 +7,6 @@ export const productThunk = {
     }),
     getSpecificProduct: createAsyncThunk('product/getSpecificProduct', async (productName: string) => {
         const res = await productApi.getSpecificProduct(productName);
-
         return res.data.data[0];
     }),
 };

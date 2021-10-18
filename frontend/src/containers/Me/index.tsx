@@ -9,6 +9,7 @@ import * as notificationHelper from '../../utils/notificationHelper';
 import InputField from '../../components/common/InputField';
 import InputAvatar from '../../components/common/InputAvatar';
 import InformationField from '../../components/common/InformationField';
+import { formState } from '../../common/interfaces/form';
 
 interface MeProps {}
 
@@ -16,7 +17,7 @@ const defaultValues: UpdateUserField = { email: '', fullName: '', avatar: null }
 
 const Me: React.FunctionComponent<MeProps> = () => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
-
+    const formState = useSelector<RootState, formState>((state) => state.form);
     const [file, setFile] = React.useState<File | null>();
     const { handleSubmit, register, setValue } = useForm<UpdateUserField>({ defaultValues: defaultValues });
     //set default value on first render
@@ -50,8 +51,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                         <InformationField label="Full name">
                             <InputField
                                 field="fullName"
-                                error={false}
-                                message=""
+                                message={formState.updateUser.fullName}
                                 defaultValue={userState.user.fullName}
                                 register={register}
                             />
@@ -59,8 +59,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                         <InformationField label="Email">
                             <InputField
                                 field="email"
-                                error={false}
-                                message=""
+                                message={formState.updateUser.email}
                                 defaultValue={userState.user.email}
                                 register={register}
                             />
