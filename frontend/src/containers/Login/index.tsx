@@ -8,28 +8,30 @@ import * as notificationHelper from '../../utils/notificationHelper';
 import { formThunk } from '../../redux/form/formThunk';
 import { formState, LoginUserDTO } from '../../common/interfaces/form';
 import { useSelector } from 'react-redux';
+import { UserState } from '../../common/interfaces/user';
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
     const { handleSubmit, register } = useForm<LoginUserDTO>();
     const history = useHistory();
     const formState = useSelector<RootState, formState>((state) => state.form);
+    const userState = useSelector<RootState, UserState>((state) => state.user);
+    React.useEffect(() => {
+        if (userState.isLogin) {
+            history.goBack();
+        }
+    }, [userState.isLogin, history]);
     const onSubmit = async (data: LoginUserDTO) => {
         const result = await store.dispatch(formThunk.login(data));
-        if (result.meta.requestStatus === 'rejected') {
-            if (formState.login.general) {
-                notificationHelper.warning(formState.login.general);
-            }
-        }
-
         if (result.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Login success!');
             history.push('/user/me');
+            return;
         }
     };
 
     return (
-        <div className="flex flex-col justify-center py-12 overflow-y-auto bg-gray-50 sm:px-6 lg:px-8 h-contentHeight intro-y">
+        <div className="flex flex-col justify-center flex-1 pt-16 bg-gray-50 sm:px-6 lg:px-8 intro-y">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <img
                     className="w-auto h-12 mx-auto"

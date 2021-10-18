@@ -7,12 +7,15 @@ import Register from '../containers/Register';
 import Cart from '../containers/Cart';
 import OrderPage from '../containers/Order';
 import CurrentOrder from '../containers/CurrentOrder';
+import NotFoundPage from '../components/NotFoundPage';
 interface Route {
     to: string;
     exact: boolean;
     buttonName?: string;
     component?: any;
     icon?: any;
+    isLoginRequire?: boolean;
+    isAdminRequire?: boolean;
 }
 type routeList = Route[];
 
@@ -95,6 +98,7 @@ export const routes: routeList = [
         to: '/user/me',
         exact: true,
         component: MePage,
+        isLoginRequire: true,
     },
     {
         to: '/user/login',
@@ -110,10 +114,19 @@ export const routes: routeList = [
         to: '/user/order',
         exact: true,
         component: OrderPage,
+        isLoginRequire: true,
     },
     {
         to: '/user/order/:orderID',
         exact: true,
         component: CurrentOrder,
+        isLoginRequire: true,
+    },
+    {
+        to: '*',
+        exact: true,
+        component: NotFoundPage,
     },
 ];
+
+export const adminRoute: routeList = [];

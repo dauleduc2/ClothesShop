@@ -63,7 +63,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
     return (
         <>
             {cartState.productList.length === 0 ? (
-                <div className="flex flex-col justify-center w-full mt-32 align-middle">
+                <div className="flex flex-col justify-center w-full pt-16 mt-20 align-middle">
                     <img src="/images/empty-cart.png" className="m-auto w-80" alt="empty cart" />
                     <h2 className="m-auto text-lg font-semibold">Your cart is empty </h2>
                     <p className="m-auto text-base">Go shopping now to see product in your cart</p>
@@ -75,7 +75,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                     </Link>
                 </div>
             ) : (
-                <div className="bg-white">
+                <div className="flex-1 pt-16 bg-white">
                     <div className="max-w-2xl px-4 pt-16 pb-24 mx-auto sm:px-6 lg:max-w-7xl lg:px-8">
                         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                             Shopping Cart

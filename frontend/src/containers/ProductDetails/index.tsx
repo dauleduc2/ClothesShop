@@ -73,7 +73,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
         store.dispatch(productThunk.getSpecificProduct(productName));
     }, [match.params]);
     return (
-        <div className="overflow-y-auto h-contentHeight">
+        <div className="flex-1 pt-16">
             <div className="bg-white">
                 <div className="pt-6 pb-16 sm:pb-24">
                     <nav aria-label="Breadcrumb" className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"></nav>
@@ -102,7 +102,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                     />
                                     {productState.currentProduct.images.map((image, index) => (
                                         <img
-                                            key={index}
+                                            key={image.ID}
                                             src={`${process.env.REACT_APP_SERVER_URL}/${image.imageLink}`}
                                             alt={image.ID}
                                             className="hidden rounded-lg shadow-xl lg:block intro-y"
@@ -123,7 +123,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                             <div className="flex items-center space-x-3">
                                                 {productState.currentProduct.colors.map((color) => (
                                                     <RadioGroup.Option
-                                                        key={color.name}
+                                                        key={color.ID}
                                                         value={color}
                                                         className={({ active, checked }) =>
                                                             classNames(
@@ -163,7 +163,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                             <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
                                                 {productState.currentProduct.sizes.map((size) => (
                                                     <RadioGroup.Option
-                                                        key={size.name}
+                                                        key={size.ID}
                                                         value={size}
                                                         className={({ active, checked }) =>
                                                             classNames(

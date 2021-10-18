@@ -19,7 +19,7 @@ function App() {
         store.dispatch(UIListAction.resetSuccessModel());
     };
     return (
-        <div>
+        <>
             <DashBoard />
             <Notification
                 status={UIState.notification.status}
@@ -40,7 +40,7 @@ function App() {
                 title={UIState.successModel.title}
                 onCloseSuccessModel={onCloseSuccessModel}
             />
-        </div>
+        </>
     );
 }
 

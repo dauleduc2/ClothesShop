@@ -1,7 +1,7 @@
 interface CategoryPageProps {}
 
 const CategoryPage: React.FunctionComponent<CategoryPageProps> = () => {
-    return <div className="overflow-y-auto h-contentHeight">Category Page</div>;
+    return <div className="flex-1 p-16">Category Page</div>;
 };
 
 export default CategoryPage;

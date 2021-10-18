@@ -12,7 +12,7 @@ const HomePage: React.FunctionComponent<HomePageProps> = () => {
         store.dispatch(productThunk.getAllProduct());
     }, []);
     return (
-        <div className="overflow-y-auto text-4xl h-contentHeight">
+        <div className="flex-1 mt-5 text-4xl">
             <ProductContainer products={productState.productToShowList} />
         </div>
     );

@@ -7,12 +7,17 @@ import { formState, RegisterUserDTO } from '../../common/interfaces/form';
 import { RootState, store } from '../../redux';
 import { formThunk } from '../../redux/form/formThunk';
 import { useSelector } from 'react-redux';
+import { UserState } from '../../common/interfaces/user';
+import * as React from 'react';
+
 interface RegisterProps {}
 
 const Register: React.FunctionComponent<RegisterProps> = () => {
     const { handleSubmit, register } = useForm<RegisterUserDTO>();
-    const formState = useSelector<RootState, formState>((state) => state.form);
     const history = useHistory();
+    const formState = useSelector<RootState, formState>((state) => state.form);
+
+    const userState = useSelector<RootState, UserState>((state) => state.user);
 
     //on submit
     const onSubmit = async (data: RegisterUserDTO) => {
@@ -22,9 +27,15 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
             history.push('/user/login');
         }
     };
+
+    React.useEffect(() => {
+        if (userState.isLogin) {
+            history.goBack();
+        }
+    }, [userState.isLogin, history]);
     return (
-        <div className="flex flex-col justify-center bg-gray-50 sm:px-6 lg:px-8 intro-y">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="flex flex-col justify-center flex-1 pt-16 bg-gray-50 sm:px-6 lg:px-8 intro-y">
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mb-3 text-3xl font-extrabold text-center text-gray-900 ">Register</h2>
             </div>
             <div className=" sm:mx-auto sm:w-full sm:max-w-md">
