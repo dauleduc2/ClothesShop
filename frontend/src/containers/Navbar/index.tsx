@@ -43,7 +43,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                     exact={route.exact}
                                                     className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                                                     activeClassName="px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-md"
-                                                    key={index}
+                                                    key={route.to}
                                                 >
                                                     {route.buttonName}
                                                 </NavLink>
@@ -137,7 +137,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                 <Menu.Item>
                                                                     {({ active }) => (
                                                                         <div
-                                                                            key={index}
+                                                                            key={route.to}
                                                                             className={classNames(
                                                                                 active ? 'bg-gray-100' : '',
                                                                                 'block px-4 py-2 text-sm text-gray-700'
@@ -161,7 +161,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                 {({ active }) => (
                                                                     <NavLink
                                                                         to={route.to}
-                                                                        key={index}
+                                                                        key={route.to}
                                                                         exact={route.exact}
                                                                         className={classNames(
                                                                             active ? 'bg-gray-100' : '',
@@ -202,7 +202,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                         exact={route.exact}
                                         className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                                         activeClassName="block px-3 py-2 text-base font-medium text-white bg-gray-900 rounded-md"
-                                        key={index}
+                                        key={route.to}
                                     >
                                         {route.buttonName}
                                     </NavLink>
@@ -235,7 +235,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                         if (route.to === '/user/logout') {
                                             return (
                                                 <div
-                                                    key={index}
+                                                    key={route.to}
                                                     className="block px-3 py-2 text-base font-medium text-gray-400 rounded-md "
                                                     onClick={() => {
                                                         store.dispatch(userThunk.logout());
@@ -250,7 +250,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                         return (
                                             <NavLink
                                                 to={route.to}
-                                                key={index}
+                                                key={route.to}
                                                 exact={route.exact}
                                                 className="block px-3 py-2 text-base font-medium text-gray-400 rounded-md hover:text-white hover:bg-gray-700"
                                             >

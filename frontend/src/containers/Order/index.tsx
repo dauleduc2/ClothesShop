@@ -22,9 +22,9 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                 <>
                     <h2 className="mb-4">Recent order</h2>
                     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {orderListState.orderList.map((order, index) => (
+                        {orderListState.orderList.map((order) => (
                             <li
-                                key={index}
+                                key={order.orderID}
                                 className="col-span-1 bg-white divide-y divide-gray-200 rounded-lg shadow-lg intro-y"
                             >
                                 <div className="flex items-center justify-between w-full p-6 space-x-6">
