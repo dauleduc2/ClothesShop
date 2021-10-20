@@ -22,18 +22,25 @@ import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
 //GET specific product
-router.get("/:productName", async (req: Request, res: Response) => {
-    const { productName } = req.params;
-    //connection
-    const productRepo = getCustomRepository(ProductRepository);
-    const result = await productRepo.findByName(
-        productName.split("-").join(" ").trim()
-    );
+router.get(
+    "/:productName",
+    async (req: Request<{ productName: string }>, res: Response) => {
+        const { productName } = req.params;
+        //connection
+        const productRepo = getCustomRepository(ProductRepository);
+        const result = await productRepo.findByName(
+            productName.split("-").join(" ").trim()
+        );
 
-    res.send(
-        dataHelper.getResponseForm(result, null, "get product list success!")
-    );
-});
+        res.send(
+            dataHelper.getResponseForm(
+                result,
+                null,
+                "get product list success!"
+            )
+        );
+    }
+);
 
 //GET get all product to show
 router.get("/", async (req: Request, res: Response) => {

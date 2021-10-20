@@ -7,6 +7,9 @@ import colorRouter from "../routes/colorRoute";
 import sizeRouter from "../routes/sizeRoute";
 import typeRouter from "../routes/typeRoute";
 import orderListRoute from "../routes/orderListRoute";
+import adminOrderRouter from "../routes/adminOrderRoute";
+import { authenMiddleware } from "../middlewares/authenMiddleware";
+import { authorMiddleware } from "../middlewares/authorMiddleware";
 export default function (app: Application) {
     app.use(express.json());
     app.use(helmet());
@@ -17,4 +20,9 @@ export default function (app: Application) {
     app.use("/api/size", sizeRouter);
     app.use("/api/type", typeRouter);
     app.use("/api/orderlist", orderListRoute);
+    app.use(
+        "/api/admin/order",
+        [authenMiddleware, authorMiddleware],
+        adminOrderRouter
+    );
 }
