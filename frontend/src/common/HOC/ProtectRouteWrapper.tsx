@@ -5,6 +5,7 @@ import NotFoundPage from '../../components/NotFoundPage';
 import { RootState } from '../../redux';
 import { UserState } from '../interfaces/user';
 import * as notificationHelper from '../../utils/notificationHelper';
+import AdminPage from '../../containers/Admin';
 interface ProtectRouteWrapperProps {
     isLoginRequire?: boolean;
     isAdminRequire?: boolean;
@@ -15,10 +16,10 @@ function getCookie(cname: string) {
     let ca = decodedCookie.split(';');
     for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
@@ -42,12 +43,15 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> = (
         }
         if (isAdminRequire && userState.user.role === 0) {
             setIsAccess(false);
-            history.push('/');
-            notificationHelper.warning('Access denied', 'You need permission to see this page');
+            // history.push('/');
+            // notificationHelper.warning('Access denied', 'You need permission to see this page');
             return;
         }
         setIsAccess(true);
     }, [userState.isLogin, userState.user.role, isLoginRequire, isAdminRequire, history]);
+    if (isAdminRequire) {
+        return <>{isAccess ? <AdminPage>{children}</AdminPage> : <NotFoundPage />}</>;
+    }
 
     return <> {isAccess ? children : <NotFoundPage />} </>;
 };

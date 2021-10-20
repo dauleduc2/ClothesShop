@@ -29,8 +29,8 @@ export const DashBoard = (props: DashBoardProps) => {
     };
     return (
         <div className="flex flex-col flex-1 min-h-screen text-4xl">
-            <Navbar />
             <AutoLoginWrapper>
+                <Navbar />
                 <Switch>{renderContent()}</Switch>
             </AutoLoginWrapper>
         </div>
