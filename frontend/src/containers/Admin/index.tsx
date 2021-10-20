@@ -28,7 +28,7 @@ const AdminPage: React.FunctionComponent<AdminPageProps> = ({ children }) => {
                     </nav>
 
                     {/* Main area */}
-                    <main className="flex-1 min-w-0 p-6 border-t border-gray-200 lg:flex">{children}</main>
+                    <main className="flex-1 min-w-0 p-10 border-t border-gray-200 lg:flex">{children}</main>
                 </div>
             </div>
         </>

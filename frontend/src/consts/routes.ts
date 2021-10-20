@@ -49,7 +49,7 @@ export const userLink: routeList = [
         buttonName: 'My order',
     },
     {
-        to: '/admin/order',
+        to: '/admin/order/?limit=10&page=1',
         exact: true,
         buttonName: 'Manager ',
     },
@@ -82,7 +82,7 @@ export const userMobileLink: routeList = [
         buttonName: 'Sign out',
     },
     {
-        to: '/admin/order',
+        to: '/admin/order?limit=10&page=1',
         exact: true,
         buttonName: 'Manager ',
     },
@@ -167,7 +167,7 @@ export const routes: routeList = [
 
 export const adminRoute: routeList = [
     {
-        to: '/admin/order',
+        to: '/admin/order/?limit=10&page=1',
         exact: true,
         icon: ArchiveIcon,
     },

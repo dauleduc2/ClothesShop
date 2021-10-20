@@ -14,4 +14,11 @@ export const orderListThunk = {
         const res = await orderListApi.getOrderListById(orderID);
         return res.data.data;
     }),
+    adminGetAllOrderList: createAsyncThunk(
+        'orderList/adminGetAllOrderList',
+        async ({ limit, page }: { limit: string; page: string }) => {
+            const res = await orderListApi.adminGetAllOrderList(limit, page);
+            return res.data.data;
+        }
+    ),
 };
