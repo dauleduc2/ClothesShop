@@ -94,7 +94,6 @@ router.post(
             error.details.forEach((detailError) => {
                 errorToSend[`${detailError.path[0]}`] = detailError.message;
             });
-            console.log(errorToSend);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .send(

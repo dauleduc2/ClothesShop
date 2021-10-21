@@ -18,3 +18,8 @@ export interface RequestWithOrderListDTO {
 export interface OrderListWithDetailUserDTO extends Omit<OrderList, "user"> {
     user: Partial<User>;
 }
+
+export interface UpdateOrderListStatusDTO {
+    status: OrderListStatus;
+    ID: string;
+}

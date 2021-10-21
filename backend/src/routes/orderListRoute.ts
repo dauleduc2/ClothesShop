@@ -3,7 +3,6 @@ import * as express from "express";
 import { getCustomRepository } from "typeorm";
 import * as dataHelper from "../utils/dataHelper";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
-import validateOrderList from "../validators/OrderList";
 import { OrderListRepository } from "../Repository/OrderListRepository";
 import { UserRepository } from "../Repository/UserRepository";
 import { RequestWithOrderListDTO } from "../interfaces/DTO/orderList";
@@ -13,6 +12,7 @@ import { Product } from "../entity/Product";
 import { OrderItem } from "../entity/OrderItem";
 import { RequestWithUser } from "../interfaces/common/Request";
 import * as statusCode from "../constants/statusConstants";
+import { validateOrderList } from "../validators/OrderList";
 const router = express.Router();
 
 //GET order list by orderID
