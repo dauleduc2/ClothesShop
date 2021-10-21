@@ -51,6 +51,7 @@ export interface OrderListState {
     currentList: OrderList;
     admin: {
         currentToShow: OrderListWithUserDetailDTO[];
+        count: number;
     };
 }
 

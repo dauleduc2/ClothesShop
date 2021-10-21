@@ -1,5 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
-import { ServerResponse } from '../common/interfaces/api';
+import axios, { AxiosInstance } from 'axios';
 
 const axiosClient: AxiosInstance = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,

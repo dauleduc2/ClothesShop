@@ -16,7 +16,7 @@ export const orderListThunk = {
     }),
     adminGetAllOrderList: createAsyncThunk(
         'orderList/adminGetAllOrderList',
-        async ({ limit, page }: { limit: string; page: string }) => {
+        async ({ limit, page }: { limit: number; page: number }) => {
             const res = await orderListApi.adminGetAllOrderList(limit, page);
             return res.data.data;
         }

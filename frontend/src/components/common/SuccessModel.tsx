@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/outline';
 interface SuccessModelProps {
@@ -14,7 +14,6 @@ const SuccessModel: React.FunctionComponent<SuccessModelProps> = ({
     message,
     onCloseSuccessModel,
 }) => {
-    const [open, setOpen] = useState(true);
     return (
         <Transition.Root show={isOpenning} as={Fragment}>
             <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={() => onCloseSuccessModel()}>

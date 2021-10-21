@@ -1,6 +1,7 @@
 import { ServerResponse } from './../common/interfaces/api';
 import axiosClient from '../axios/config';
 import { OrderList, OrderListToSend, OrderListWithUserDetailDTO, ResponseOrder } from '../common/interfaces/orderList';
+import { ResponseWithCount } from '../common/interfaces/Common/response';
 
 export const orderListApi = {
     addNewOrderList: async (orderList: OrderListToSend) => {
@@ -15,8 +16,8 @@ export const orderListApi = {
         const url = `/api/orderList/${orderID}`;
         return await axiosClient.get<ServerResponse<OrderList>>(url);
     },
-    adminGetAllOrderList: async (limit: string, page: string) => {
+    adminGetAllOrderList: async (limit: number, page: number) => {
         const url = `/api/admin/order?limit=${limit}&page=${page}`;
-        return await axiosClient.get<ServerResponse<OrderListWithUserDetailDTO[]>>(url);
+        return await axiosClient.get<ServerResponse<ResponseWithCount<OrderListWithUserDetailDTO[]>>>(url);
     },
 };

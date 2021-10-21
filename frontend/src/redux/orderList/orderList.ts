@@ -8,6 +8,7 @@ const initialState: OrderListState = {
     currentList: defaultOrderList,
     admin: {
         currentToShow: [],
+        count: 0,
     },
 };
 
@@ -43,7 +44,8 @@ export const orderList = createSlice({
             return {
                 ...state,
                 admin: {
-                    currentToShow: payload,
+                    currentToShow: payload.data,
+                    count: payload.count,
                 },
             };
         });
