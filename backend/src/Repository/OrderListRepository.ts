@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { OrderList } from "../entity/OrderList";
+import { ResponseDataWithCount } from "../interfaces/common/Request";
 import { OrderListWithDetailUserDTO } from "../interfaces/DTO/orderList";
 @EntityRepository(OrderList)
 export class OrderListRepository extends Repository<OrderList> {
@@ -48,8 +49,11 @@ export class OrderListRepository extends Repository<OrderList> {
         return result;
     }
 
-    async getAllOrderList(limit: number, page: number) {
-        const result = await this.find({
+    async getAllOrderList(
+        limit: number,
+        page: number
+    ): Promise<ResponseDataWithCount<OrderListWithDetailUserDTO>> {
+        const response = await this.findAndCount({
             relations: [
                 "user",
                 "orderItem",
@@ -63,7 +67,7 @@ export class OrderListRepository extends Repository<OrderList> {
             take: limit,
             skip: (page - 1) * limit,
         });
-        let decoyOrderList = result as any;
+        let decoyOrderList = response[0] as any;
         decoyOrderList = decoyOrderList.map((orderList) => {
             const { password, ...ortherUserProps } = orderList.user;
             return {
@@ -74,6 +78,9 @@ export class OrderListRepository extends Repository<OrderList> {
             };
         });
 
-        return decoyOrderList;
+        return {
+            data: decoyOrderList,
+            count: response[1],
+        };
     }
 }

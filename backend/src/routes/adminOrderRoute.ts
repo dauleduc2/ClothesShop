@@ -3,6 +3,8 @@ import * as express from "express";
 import { getCustomRepository } from "typeorm";
 import * as dataHelper from "../utils/dataHelper";
 import { OrderListRepository } from "../Repository/OrderListRepository";
+import { ResponseDataWithCount } from "../interfaces/common/Request";
+import { OrderListWithDetailUserDTO } from "../interfaces/DTO/orderList";
 
 const router = express.Router();
 //GET - get all orderList
@@ -20,13 +22,13 @@ router.get(
     ) => {
         //get connection
         const orderRepo = await getCustomRepository(OrderListRepository);
-        const orderList = await orderRepo.getAllOrderList(
+        const orderListWithCount = await orderRepo.getAllOrderList(
             req.query.limit,
             req.query.page
         );
         return res.send(
             dataHelper.getResponseForm(
-                orderList,
+                orderListWithCount,
                 null,
                 "get all order list success!"
             )
