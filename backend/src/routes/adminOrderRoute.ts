@@ -48,9 +48,15 @@ router.post(
             error.details.forEach((detailError) => {
                 errorToSend[`${detailError.path[0]}`] = detailError.message;
             });
-            res.status(400).send(
-                dataHelper.getResponseForm(null, errorToSend, "validate error")
-            );
+            return res
+                .status(400)
+                .send(
+                    dataHelper.getResponseForm(
+                        null,
+                        errorToSend,
+                        "validate error"
+                    )
+                );
         }
         //get connection
         const orderRepo = await getCustomRepository(OrderListRepository);

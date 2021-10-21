@@ -9,7 +9,7 @@ import { IsDate } from "class-validator";
 import { User } from "./User";
 import { OrderItem } from "./OrderItem";
 //product model
-export type OrderListStatus = "waiting" | "shipping" | "done" | "cancel";
+export type OrderListStatus = "WAITING" | "SHIPPING" | "DONE" | "CANCEL";
 @Entity()
 export class OrderList {
     @ManyToOne((type) => User, (user) => user.ID, { nullable: false })
@@ -20,8 +20,8 @@ export class OrderList {
 
     @Column({
         type: "enum",
-        enum: ["waiting", "shipping", "done", "cancel"],
-        default: "waiting",
+        enum: ["WAITING", "SHIPPING", "DONE", "CANCEL"],
+        default: "WAITING",
     })
     status: OrderListStatus;
 

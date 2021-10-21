@@ -17,7 +17,7 @@ const orderListSchema = Joi.object({
         })
     ),
     status: Joi.string()
-        .valid("waiting", "shipping", "done", "cancel")
+        .valid("WAITING", "SHIPPING", "DONE", "CANCEL")
         .default(0)
         .required(),
 });
@@ -25,7 +25,7 @@ const orderListSchema = Joi.object({
 const updateOrderListSchema = Joi.object({
     ID: Joi.string().required(),
     status: Joi.string()
-        .valid("waiting", "shipping", "done", "cancel")
+        .valid("WAITING", "SHIPPING", "DONE", "CANCEL")
         .default(0)
         .required(),
 });
