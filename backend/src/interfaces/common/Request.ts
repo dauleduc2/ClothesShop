@@ -9,3 +9,8 @@ export interface RequestWithUser<T> extends Request {
     user: User;
     body: T;
 }
+
+export interface ResponseDataWithCount<T> {
+    data: T;
+    count: number;
+}

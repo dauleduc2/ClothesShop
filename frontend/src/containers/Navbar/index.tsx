@@ -156,6 +156,9 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                 </Menu.Item>
                                                             );
                                                         }
+                                                        if (userState.user.role === 0 && route.to === '/admin') {
+                                                            return <></>;
+                                                        }
                                                         return (
                                                             <Menu.Item>
                                                                 {({ active }) => (

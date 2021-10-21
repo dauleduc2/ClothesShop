@@ -28,7 +28,7 @@ router.get(
         ]);
         const orderListRepo: OrderListRepository = connection[0];
 
-        const result = await orderListRepo.findOrderListByID(
+        const result = await orderListRepo.findOrderListByIDWithUser(
             req.user.ID,
             orderID
         );
@@ -45,7 +45,9 @@ router.get(
     async (req: RequestWithUser<any>, res: Response) => {
         //get connection
         const orderListRepo = await getCustomRepository(OrderListRepository);
-        const result = await orderListRepo.findAllOrderList(req.user.ID);
+        const result = await orderListRepo.findAllOrderListWithUser(
+            req.user.ID
+        );
         return res.send(
             dataHelper.getResponseForm(result, null, "get order list!")
         );

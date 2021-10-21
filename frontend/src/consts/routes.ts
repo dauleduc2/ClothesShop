@@ -8,6 +8,11 @@ import Cart from '../containers/Cart';
 import OrderPage from '../containers/Order';
 import CurrentOrder from '../containers/CurrentOrder';
 import NotFoundPage from '../components/NotFoundPage';
+import { ArchiveIcon, PencilAltIcon } from '@heroicons/react/outline';
+import UserGroup from '../components/common/icon/UserGroup';
+import OrderManagerPage from '../containers/OrderManager';
+import UserManagerPage from '../containers/UserManager';
+import ProductManagerPage from '../containers/ProductManager';
 interface Route {
     to: string;
     exact: boolean;
@@ -44,6 +49,11 @@ export const userLink: routeList = [
         buttonName: 'My order',
     },
     {
+        to: '/admin/order/?limit=10&page=1',
+        exact: true,
+        buttonName: 'Manager ',
+    },
+    {
         to: '/user/logout',
         exact: true,
         buttonName: 'Sign out',
@@ -70,6 +80,11 @@ export const userMobileLink: routeList = [
         to: '/user/logout',
         exact: true,
         buttonName: 'Sign out',
+    },
+    {
+        to: '/admin/order?limit=10&page=1',
+        exact: true,
+        buttonName: 'Manager ',
     },
 ];
 
@@ -123,10 +138,47 @@ export const routes: routeList = [
         isLoginRequire: true,
     },
     {
+        to: '/admin/order',
+        exact: true,
+        component: OrderManagerPage,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
+        to: '/admin/user',
+        exact: true,
+        component: UserManagerPage,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
+        to: '/admin/product',
+        exact: true,
+        component: ProductManagerPage,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
         to: '*',
         exact: true,
         component: NotFoundPage,
     },
 ];
 
-export const adminRoute: routeList = [];
+export const adminRoute: routeList = [
+    {
+        to: '/admin/order/?limit=10&page=1',
+        exact: true,
+        icon: ArchiveIcon,
+    },
+    {
+        to: '/admin/user',
+        exact: true,
+        icon: UserGroup,
+    },
+    {
+        to: '/admin/product',
+        exact: true,
+        icon: PencilAltIcon,
+    },
+];

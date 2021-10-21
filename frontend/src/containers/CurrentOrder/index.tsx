@@ -119,7 +119,7 @@ const CurrentOrder: React.FunctionComponent<CurrentOrderProps> = ({ match }) => 
                                         <td className="hidden py-6 pr-8 sm:table-cell">{orderItem.amount}</td>
                                         <td className="py-6 font-medium text-right whitespace-nowrap">
                                             <Link to={`/product/${orderItem.product.name}`} className="text-indigo-600">
-                                                View<span className="hidden lg:inline"> Product</span>
+                                                View Product
                                             </Link>
                                         </td>
                                     </tr>

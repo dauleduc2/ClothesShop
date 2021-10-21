@@ -24,7 +24,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
             store.dispatch(cartListAction.deleteProduct(UIState.confirmPopUp.productToDelete));
         }
         store.dispatch(UIListAction.resetConfirmPopup());
-    }, [UIState.confirmPopUp.isConfirm]);
+    }, [UIState.confirmPopUp.isConfirm, UIState.confirmPopUp.productToDelete]);
     //recalculate the total price when a product in cart was changed
     React.useEffect(() => {
         setTotalPrice(

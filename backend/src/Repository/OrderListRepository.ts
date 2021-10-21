@@ -1,5 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { OrderList } from "../entity/OrderList";
+import { ResponseDataWithCount } from "../interfaces/common/Request";
+import { OrderListWithDetailUserDTO } from "../interfaces/DTO/orderList";
 @EntityRepository(OrderList)
 export class OrderListRepository extends Repository<OrderList> {
     async addNewOrderList(OrderList: OrderList) {
@@ -7,17 +9,7 @@ export class OrderListRepository extends Repository<OrderList> {
         const res: OrderList = await this.manager
             .save(OrderList)
             .catch((err) => err.sqlMessage);
-        // const result: ResponseOrder = {
-        //     orderID: res.ID,
-        //     status: res.status,
-        //     createDate: res.createDate,
-        //     totalProduct: res.orderItem.reduce((total, current) => {
-        //         return total + current.amount;
-        //     }, 0),
-        //     totalPrice: res.orderItem.reduce((total, current) => {
-        //         return total + current.price * current.amount;
-        //     }, 0),
-        // };
+
         return res;
     }
 
@@ -26,7 +18,7 @@ export class OrderListRepository extends Repository<OrderList> {
         return OrderList;
     }
 
-    async findAllOrderList(userID: string) {
+    async findAllOrderListWithUser(userID: string) {
         const OrderList = await this.query(
             `SELECT ol.ID as orderID, ol.status, ol.createDate as createDate, SUM(oi.amount) as totalProduct, SUM(oi.price * oi.amount) as totalPrice
                     FROM order_list ol
@@ -40,7 +32,7 @@ export class OrderListRepository extends Repository<OrderList> {
         return OrderList;
     }
 
-    async findOrderListByID(userID: string, ID: string) {
+    async findOrderListByIDWithUser(userID: string, ID: string) {
         const result: OrderList = await this.findOne({
             relations: [
                 "orderItem",
@@ -55,5 +47,40 @@ export class OrderListRepository extends Repository<OrderList> {
         });
 
         return result;
+    }
+
+    async getAllOrderList(
+        limit: number,
+        page: number
+    ): Promise<ResponseDataWithCount<OrderListWithDetailUserDTO>> {
+        const response = await this.findAndCount({
+            relations: [
+                "user",
+                "orderItem",
+                "orderItem.product",
+                "orderItem.size",
+                "orderItem.color",
+            ],
+            order: {
+                createDate: "DESC",
+            },
+            take: limit,
+            skip: (page - 1) * limit,
+        });
+        let decoyOrderList = response[0] as any;
+        decoyOrderList = decoyOrderList.map((orderList) => {
+            const { password, ...ortherUserProps } = orderList.user;
+            return {
+                ...orderList,
+                user: {
+                    ...ortherUserProps,
+                },
+            };
+        });
+
+        return {
+            data: decoyOrderList,
+            count: response[1],
+        };
     }
 }

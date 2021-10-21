@@ -196,7 +196,6 @@ router.post(
         //validate user
         const { error } = validateUser({
             ...req.body,
-            confirmPassword: confirmPassword,
         });
 
         if (error) {
@@ -258,12 +257,15 @@ router.post(
 );
 
 //GET get user by username
-router.get("/:username", async (req: Request, res: Response) => {
-    const { username } = req.params;
-    //get connection
-    const userRepo = await getCustomRepository(UserRepository);
-    const user = await userRepo.findByUsername(username);
-    res.send(dataHelper.getResponseForm(user, null, "get user success"));
-});
+router.get(
+    "/:username",
+    async (req: Request<{ username: string }>, res: Response) => {
+        const { username } = req.params;
+        //get connection
+        const userRepo = await getCustomRepository(UserRepository);
+        const user = await userRepo.findByUsername(username);
+        res.send(dataHelper.getResponseForm(user, null, "get user success"));
+    }
+);
 
 export default router;

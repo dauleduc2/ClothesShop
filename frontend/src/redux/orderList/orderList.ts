@@ -6,6 +6,10 @@ import { orderListThunk } from './orderListThunk';
 const initialState: OrderListState = {
     orderList: [],
     currentList: defaultOrderList,
+    admin: {
+        currentToShow: [],
+        count: 0,
+    },
 };
 
 export const orderList = createSlice({
@@ -34,6 +38,15 @@ export const orderList = createSlice({
             return {
                 ...state,
                 currentList: payload,
+            };
+        });
+        builder.addCase(orderListThunk.adminGetAllOrderList.fulfilled, (state: OrderListState, { payload }) => {
+            return {
+                ...state,
+                admin: {
+                    currentToShow: payload.data,
+                    count: payload.count,
+                },
             };
         });
     },

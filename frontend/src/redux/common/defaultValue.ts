@@ -1,4 +1,3 @@
-import { user } from './../user/user';
 import { ProductInCart } from '../../common/interfaces/cart';
 import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/form';
 import { OrderList, OrderStatus } from '../../common/interfaces/orderList';

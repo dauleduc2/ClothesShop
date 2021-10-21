@@ -1,6 +1,7 @@
 import { color } from './color';
 import { Product } from './product';
 import { size } from './size';
+import { User } from './user';
 
 export enum OrderStatus {
     WAITING = 'waiting',
@@ -48,4 +49,12 @@ export interface ResponseOrder {
 export interface OrderListState {
     orderList: ResponseOrder[];
     currentList: OrderList;
+    admin: {
+        currentToShow: OrderListWithUserDetailDTO[];
+        count: number;
+    };
+}
+
+export interface OrderListWithUserDetailDTO extends OrderList {
+    user: User;
 }
