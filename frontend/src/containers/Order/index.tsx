@@ -3,7 +3,7 @@ import React from 'react';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { useSelector } from 'react-redux';
-import { OrderListState, OrderStatus } from '../../common/interfaces/orderList';
+import { OrderListState } from '../../common/interfaces/orderList';
 import WaitingIcon from '../../components/common/icon/Waiting';
 import ShippingIcon from '../../components/common/icon/Shipping';
 import DoneIcon from '../../components/common/icon/Done';
@@ -33,22 +33,22 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                             <h3 className="text-sm font-medium text-gray-900 truncate">
                                                 #{order.orderID.substring(0, 8)}
                                             </h3>
-                                            {order.status === OrderStatus.WAITING && (
+                                            {order.status.toUpperCase() === 'WAITING' && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-yellow-800 text-xs font-medium bg-yellow-100 rounded-full">
                                                     Waiting
                                                 </span>
                                             )}
-                                            {order.status === OrderStatus.SHIPPING && (
+                                            {order.status.toUpperCase() === 'SHIPPING' && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-blue-800 text-xs font-medium bg-blue-100 rounded-full">
                                                     Shipping
                                                 </span>
                                             )}
-                                            {order.status === OrderStatus.DONE && (
+                                            {order.status.toUpperCase() === 'DONE' && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
                                                     Done
                                                 </span>
                                             )}
-                                            {order.status === OrderStatus.CANCEL && (
+                                            {order.status.toUpperCase() === 'CANCEL' && (
                                                 <span className="flex-shrink-0 inline-block px-2 py-0.5 text-red-800 text-xs font-medium bg-red-100 rounded-full">
                                                     Cancel
                                                 </span>
@@ -64,22 +64,22 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                             Total price : {order.totalPrice}
                                         </p>
                                     </div>
-                                    {order.status === OrderStatus.WAITING && (
+                                    {order.status.toUpperCase() === 'WAITING' && (
                                         <div className="p-1 text-white bg-yellow-400 rounded-full">
                                             <WaitingIcon />
                                         </div>
                                     )}
-                                    {order.status === OrderStatus.SHIPPING && (
+                                    {order.status.toUpperCase() === 'SHIPPING' && (
                                         <div className="p-1 text-white bg-blue-400 rounded-full">
                                             <ShippingIcon />
                                         </div>
                                     )}
-                                    {order.status === OrderStatus.DONE && (
+                                    {order.status.toUpperCase() === 'DONE' && (
                                         <div className="p-1 text-white bg-green-400 rounded-full">
                                             <DoneIcon />
                                         </div>
                                     )}
-                                    {order.status === OrderStatus.CANCEL && (
+                                    {order.status.toUpperCase() === 'CANCEL' && (
                                         <div className="p-1 text-white bg-red-400 rounded-full">
                                             <CancelIcon />
                                         </div>

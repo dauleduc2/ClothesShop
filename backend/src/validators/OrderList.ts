@@ -1,4 +1,5 @@
 import * as Joi from "joi";
+import { OrderListStatus } from "../entity/OrderList";
 import {
     OrderItemRequestDTO,
     RequestWithOrderListDTO,
@@ -15,13 +16,30 @@ const orderListSchema = Joi.object({
             colorID: Joi.number().required(),
         })
     ),
-    status: Joi.number()
-        .valid("waiting", "shipping", "done", "cancel")
+    status: Joi.string()
+        .valid("WAITING", "SHIPPING", "DONE", "CANCEL")
         .default(0)
         .required(),
 });
 
-const validateOrderList = (orderList: RequestWithOrderListDTO) => {
+const updateOrderListSchema = Joi.object({
+    ID: Joi.string().required(),
+    status: Joi.string()
+        .valid("WAITING", "SHIPPING", "DONE", "CANCEL")
+        .default(0)
+        .required(),
+});
+
+export const validateOrderList = (orderList: RequestWithOrderListDTO) => {
     return orderListSchema.validate(orderList, { abortEarly: false });
 };
-export default validateOrderList;
+
+export const validateUpdateOrderList = (
+    status: OrderListStatus,
+    ID: string
+) => {
+    return updateOrderListSchema.validate(
+        { status, ID },
+        { abortEarly: false }
+    );
+};

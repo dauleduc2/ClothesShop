@@ -5,12 +5,13 @@ import React from 'react';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { useSelector } from 'react-redux';
-import { OrderList, OrderListState, OrderStatus } from '../../common/interfaces/orderList';
+import { OrderListState, OrderListWithUserDetailDTO, OrderStatusString } from '../../common/interfaces/orderList';
 import { capitalizeFirstLetter } from '../../utils/textHelper';
 import { RouteComponentProps } from 'react-router';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import { defaultOrderListWithUserDetail } from '../../redux/common/defaultValue';
 interface OrderManagerProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -18,7 +19,7 @@ interface QueryProps {
     page: string;
 }
 
-const status = ['Waiting', 'Shipping', 'Done', 'Cancel'];
+const status = ['WAITING', 'SHIPPING', 'DONE', 'CANCEL'];
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
@@ -27,21 +28,23 @@ function classNames(...classes: any) {
 const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location }) => {
     let params: QueryProps = queryString.parse(location.search) as any;
     const orderListState = useSelector<RootState, OrderListState>((state) => state.orderList);
-    const [selected, setSelected] = useState('Shipping');
-    const [currentOrderList, setCurrentOrderList] = useState<OrderList>();
+    const [selected, setSelected] = useState<OrderStatusString>('WAITING');
+    const [currentOrderList, setCurrentOrderList] =
+        useState<OrderListWithUserDetailDTO>(defaultOrderListWithUserDetail);
     const [limit, setLimit] = useState<number>(Number(params.limit));
     const [page, setPage] = useState<number>(Number(params.page));
 
-    const paginationConfig = {
-        curPage: page,
-        numLinksTwoSide: 1,
-        totalPage: Math.ceil(orderListState.admin.count / limit),
+    //variable for pagination
+    let isTruncate = false; //this variable for checking is render truncated box or not
+    const numLinksTwoSide = 1;
+    const totalPage = Math.ceil(orderListState.admin.count / limit);
+    const minRange = numLinksTwoSide + 4;
+    const numberOfTruncLeft = page - numLinksTwoSide;
+    const numberOfTruncRight = page + numLinksTwoSide;
+
+    const onHandleSubmit = () => {
+        store.dispatch(orderListThunk.adminUpdateStatusOfOrderList({ ID: currentOrderList?.ID, status: selected }));
     };
-    //this variable for checking is render truncated box or not
-    let isTruncate = false;
-    const minRange = paginationConfig.numLinksTwoSide + 4;
-    const numberOfTruncLeft = paginationConfig.curPage - paginationConfig.numLinksTwoSide;
-    const numberOfTruncRight = paginationConfig.curPage + paginationConfig.numLinksTwoSide;
 
     React.useEffect(() => {
         setLimit(Number(params.limit));
@@ -111,24 +114,24 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                                 }, 0)}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                {order.status === OrderStatus.CANCEL && (
+                                                {order.status.toUpperCase() === 'CANCEL' && (
                                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-red-100 text-gray-800">
-                                                        {capitalizeFirstLetter(order.status)}
+                                                        {capitalizeFirstLetter(order.status.toLowerCase())}
                                                     </span>
                                                 )}
-                                                {order.status === OrderStatus.DONE && (
+                                                {order.status.toUpperCase() === 'DONE' && (
                                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-gray-800">
-                                                        {capitalizeFirstLetter(order.status)}
+                                                        {capitalizeFirstLetter(order.status.toLowerCase())}
                                                     </span>
                                                 )}
-                                                {order.status === OrderStatus.SHIPPING && (
+                                                {order.status.toUpperCase() === 'SHIPPING' && (
                                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-gray-800">
-                                                        {capitalizeFirstLetter(order.status)}
+                                                        {capitalizeFirstLetter(order.status.toLowerCase())}
                                                     </span>
                                                 )}
-                                                {order.status === OrderStatus.WAITING && (
+                                                {order.status.toUpperCase() === 'WAITING' && (
                                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-yellow-100 text-gray-800">
-                                                        {capitalizeFirstLetter(order.status)}
+                                                        {capitalizeFirstLetter(order.status.toLowerCase())}
                                                     </span>
                                                 )}
                                             </td>
@@ -136,7 +139,7 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                                 className="px-6 py-4 text-sm font-medium text-right cursor-pointer whitespace-nowrap"
                                                 onClick={() => {
                                                     setCurrentOrderList(order);
-                                                    setSelected(capitalizeFirstLetter(order.status));
+                                                    setSelected(order.status);
                                                 }}
                                             >
                                                 <div className="text-indigo-600 hover:text-indigo-900">View</div>
@@ -211,10 +214,10 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                         <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
                                     </Link>
                                     {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-                                    {[...Array(paginationConfig.totalPage)].map((value, index) => {
+                                    {[...Array(totalPage)].map((value, index) => {
                                         const pos = index + 1;
                                         //truncate left
-                                        if (pos < paginationConfig.totalPage - minRange + 1) {
+                                        if (pos < totalPage - minRange + 1) {
                                             if (numberOfTruncLeft > 3 && pos !== 1 && pos <= numberOfTruncLeft - 1) {
                                                 if (!isTruncate) {
                                                     isTruncate = true;
@@ -230,11 +233,10 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
 
                                         //truncate right
                                         if (
-                                            numberOfTruncRight < paginationConfig.totalPage - 3 + 1 &&
-                                            pos !== paginationConfig.totalPage &&
+                                            numberOfTruncRight < totalPage - 3 + 1 &&
+                                            pos !== totalPage &&
                                             pos > numberOfTruncRight
                                         ) {
-                                            // if (paginationConfig.curPage >= paginationConfig.totalPage - minRange) {
                                             if (pos > minRange) {
                                                 if (!isTruncate) {
                                                     isTruncate = true;
@@ -266,8 +268,8 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
 
                                     <Link
                                         to={
-                                            page === paginationConfig.totalPage
-                                                ? `/admin/order?limit=${limit}&page=${paginationConfig.totalPage}`
+                                            page === totalPage
+                                                ? `/admin/order?limit=${limit}&page=${totalPage}`
                                                 : `/admin/order?limit=${limit}&page=${page + 1}`
                                         }
                                         className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50"
@@ -281,7 +283,7 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                     </div>
                 </div>
                 {/* Order summary */}
-                {currentOrderList && (
+                {JSON.stringify(currentOrderList) !== JSON.stringify(defaultOrderListWithUserDetail) && (
                     <section
                         aria-labelledby="summary-heading"
                         className="flex-grow max-w-xl px-4 py-6 ml-20 bg-gray-100 rounded-lg sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5 intro-y"
@@ -364,7 +366,9 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                         <Listbox value={selected} onChange={setSelected}>
                             <div className="relative mt-1">
                                 <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <span className="block truncate">{selected}</span>
+                                    <span className="block truncate">
+                                        {capitalizeFirstLetter(selected.toLowerCase())}
+                                    </span>
                                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                         <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
                                     </span>
@@ -396,7 +400,7 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                                                 'block truncate'
                                                             )}
                                                         >
-                                                            {status}
+                                                            {capitalizeFirstLetter(status.toLowerCase())}
                                                         </span>
 
                                                         {selected ? (
@@ -421,7 +425,7 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                             <button
                                 type="button"
                                 className="w-full px-4 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-                                // onClick={onHandleOrderClick}
+                                onClick={() => onHandleSubmit()}
                             >
                                 Submit
                             </button>

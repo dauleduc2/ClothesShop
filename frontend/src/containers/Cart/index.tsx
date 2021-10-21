@@ -7,7 +7,7 @@ import { cartListAction } from '../../redux/cart/cart';
 import { Link } from 'react-router-dom';
 import { UIState } from '../../common/interfaces/UI';
 import { UIListAction } from '../../redux/UI/UI';
-import { OrderItemToSend, OrderListToSend, OrderStatus } from '../../common/interfaces/orderList';
+import { OrderItemToSend, OrderListToSend } from '../../common/interfaces/orderList';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import MinusIcon from '../../components/common/icon/Minus';
 import AddIcon from '../../components/common/icon/Add';
@@ -45,7 +45,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
             };
         });
         const orderListToSend: OrderListToSend = {
-            status: OrderStatus.WAITING,
+            status: 'WAITING',
             orderItem: orderItemList,
         };
         const result = await store.dispatch(orderListThunk.addOrderList(orderListToSend));

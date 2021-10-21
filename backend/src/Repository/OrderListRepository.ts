@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
-import { OrderList } from "../entity/OrderList";
+import { OrderList, OrderListStatus } from "../entity/OrderList";
 import { ResponseDataWithCount } from "../interfaces/common/Request";
 import { OrderListWithDetailUserDTO } from "../interfaces/DTO/orderList";
 @EntityRepository(OrderList)
@@ -46,6 +46,11 @@ export class OrderListRepository extends Repository<OrderList> {
             },
         });
 
+        return result;
+    }
+
+    async updateOrderListStatus(ID: string, status: OrderListStatus) {
+        const result = await this.update({ ID }, { status });
         return result;
     }
 
