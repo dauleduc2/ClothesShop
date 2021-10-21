@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { OrderListState, OrderStatus } from '../../common/interfaces/orderList';
+import { OrderListState } from '../../common/interfaces/orderList';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { Link } from 'react-router-dom';
@@ -54,22 +54,22 @@ const CurrentOrder: React.FunctionComponent<CurrentOrderProps> = ({ match }) => 
                                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
                                     <dt className="font-medium text-gray-900">Status</dt>
                                     <dd className="sm:mt-1">
-                                        {orderListState.currentList.status === OrderStatus.WAITING && (
+                                        {orderListState.currentList.status === 'WAITING' && (
                                             <span className="flex-shrink-0 inline-block px-2 py-0.5 text-yellow-800 text-xs font-medium bg-yellow-100 rounded-full">
                                                 Waiting
                                             </span>
                                         )}
-                                        {orderListState.currentList.status === OrderStatus.SHIPPING && (
+                                        {orderListState.currentList.status === 'SHIPPING' && (
                                             <span className="flex-shrink-0 inline-block px-2 py-0.5 text-blue-800 text-xs font-medium bg-blue-100 rounded-full">
                                                 Shipping
                                             </span>
                                         )}
-                                        {orderListState.currentList.status === OrderStatus.DONE && (
+                                        {orderListState.currentList.status === 'DONE' && (
                                             <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
                                                 Done
                                             </span>
                                         )}
-                                        {orderListState.currentList.status === OrderStatus.CANCEL && (
+                                        {orderListState.currentList.status === 'CANCEL' && (
                                             <span className="flex-shrink-0 inline-block px-2 py-0.5 text-red-800 text-xs font-medium bg-red-100 rounded-full">
                                                 Cancel
                                             </span>

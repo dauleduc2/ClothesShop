@@ -4,11 +4,13 @@ import { size } from './size';
 import { User } from './user';
 
 export enum OrderStatus {
-    WAITING = 'waiting',
-    SHIPPING = 'shipping',
-    DONE = 'done',
-    CANCEL = 'cancel',
+    WAITING = 'WAITING',
+    SHIPPING = 'SHIPPING',
+    DONE = 'DONE',
+    CANCEL = 'CANCEL',
 }
+
+export type OrderStatusString = keyof typeof OrderStatus;
 export interface OrderItemToSend {
     amount: number;
     productID: string;
@@ -17,7 +19,7 @@ export interface OrderItemToSend {
 }
 
 export interface OrderListToSend {
-    status: OrderStatus;
+    status: OrderStatusString;
     orderItem: OrderItemToSend[];
 }
 
@@ -32,7 +34,7 @@ export interface OrderItem {
 }
 
 export interface OrderList {
-    status: OrderStatus;
+    status: OrderStatusString;
     orderItem: OrderItem[];
     ID: string;
     createDate: string;
@@ -40,7 +42,7 @@ export interface OrderList {
 
 export interface ResponseOrder {
     orderID: string;
-    status: OrderStatus;
+    status: OrderStatusString;
     createDate: string;
     totalProduct: number;
     totalPrice: number;

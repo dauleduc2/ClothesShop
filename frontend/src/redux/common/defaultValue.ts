@@ -1,6 +1,6 @@
 import { ProductInCart } from '../../common/interfaces/cart';
 import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/form';
-import { OrderList, OrderStatus } from '../../common/interfaces/orderList';
+import { OrderList, OrderListWithUserDetailDTO } from '../../common/interfaces/orderList';
 import { Product } from '../../common/interfaces/product';
 import { notificationStatus } from '../../common/interfaces/UI';
 import { User, UserRole } from '../../common/interfaces/user';
@@ -56,7 +56,7 @@ export const defaultUser: User = {
 };
 
 export const defaultOrderList: OrderList = {
-    status: OrderStatus.WAITING,
+    status: 'WAITING',
     orderItem: [],
     ID: '',
     createDate: '',
@@ -90,4 +90,12 @@ export const defaultUpdateUser: UpdateUserDTO = {
     avatar: '',
     email: '',
     general: '',
+};
+
+export const defaultOrderListWithUserDetail: OrderListWithUserDetailDTO = {
+    ID: '',
+    orderItem: [],
+    createDate: '',
+    status: 'WAITING',
+    user: defaultUser,
 };

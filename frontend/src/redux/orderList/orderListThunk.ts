@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { orderListApi } from '../../api/orderListApi';
-import { OrderListToSend } from '../../common/interfaces/orderList';
+import { OrderListToSend, OrderStatusString } from '../../common/interfaces/orderList';
 export const orderListThunk = {
     addOrderList: createAsyncThunk('orderList/addOrderList', async (orderList: OrderListToSend) => {
         const res = await orderListApi.addNewOrderList(orderList);
@@ -19,6 +19,13 @@ export const orderListThunk = {
         async ({ limit, page }: { limit: number; page: number }) => {
             const res = await orderListApi.adminGetAllOrderList(limit, page);
             return res.data.data;
+        }
+    ),
+    adminUpdateStatusOfOrderList: createAsyncThunk(
+        'orderList/adminUpdateStatusOfOrderList',
+        async ({ ID, status }: { ID: string; status: OrderStatusString }) => {
+            await orderListApi.adminUpdateStatusOfOrderList(ID, status);
+            return { ID, status };
         }
     ),
 };

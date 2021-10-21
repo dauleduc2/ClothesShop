@@ -49,6 +49,24 @@ export const orderList = createSlice({
                 },
             };
         });
+        builder.addCase(orderListThunk.adminUpdateStatusOfOrderList.fulfilled, (state: OrderListState, { payload }) => {
+            const decoyCurrentToShow = [...state.admin.currentToShow];
+            decoyCurrentToShow.forEach((OrderList, index) => {
+                if (OrderList.ID === payload.ID) {
+                    decoyCurrentToShow[index] = {
+                        ...decoyCurrentToShow[index],
+                        status: payload.status,
+                    };
+                }
+            });
+            return {
+                ...state,
+                admin: {
+                    ...state.admin,
+                    currentToShow: decoyCurrentToShow,
+                },
+            };
+        });
     },
 });
 export const cartListAction = { ...orderList.actions };
