@@ -13,6 +13,8 @@ export interface OrderItemRequestDTO {
 export interface RequestWithOrderListDTO {
     orderItem: OrderItemRequestDTO[];
     status: OrderListStatus;
+    address: string;
+    phoneNumber: string;
 }
 
 export interface OrderListWithDetailUserDTO extends Omit<OrderList, "user"> {

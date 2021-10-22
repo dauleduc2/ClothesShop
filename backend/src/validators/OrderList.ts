@@ -4,6 +4,7 @@ import {
     OrderItemRequestDTO,
     RequestWithOrderListDTO,
 } from "../interfaces/DTO/orderList";
+import { stringCustomMessage } from "./common/message";
 
 const orderListSchema = Joi.object({
     orderItem: Joi.array().items(
@@ -18,8 +19,18 @@ const orderListSchema = Joi.object({
     ),
     status: Joi.string()
         .valid("WAITING", "SHIPPING", "DONE", "CANCEL")
-        .default(0)
-        .required(),
+        .default("WAITING"),
+    address: Joi.string().required().messages(stringCustomMessage),
+    phoneNumber: Joi.string()
+        .required()
+        .min(7)
+        .max(15)
+        .messages({
+            ...stringCustomMessage,
+            "string.min": "length should be less than 7 numbers",
+            "string.max": "length should be less than 15 numbers",
+            "string.pattern.base": "invalid phone number",
+        }),
 });
 
 const updateOrderListSchema = Joi.object({
