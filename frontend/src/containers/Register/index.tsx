@@ -9,6 +9,7 @@ import { formThunk } from '../../redux/form/formThunk';
 import { useSelector } from 'react-redux';
 import { UserState } from '../../common/interfaces/user';
 import * as React from 'react';
+import { formAction } from '../../redux/form/form';
 
 interface RegisterProps {}
 
@@ -24,9 +25,13 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
         const result = await store.dispatch(formThunk.register(data));
         if (result.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Register success!');
+            store.dispatch(formAction.resetRegisterForm());
             history.push('/user/login');
         }
     };
+    React.useEffect(() => {
+        store.dispatch(formAction.resetRegisterForm());
+    }, []);
 
     React.useEffect(() => {
         if (userState.isLogin) {

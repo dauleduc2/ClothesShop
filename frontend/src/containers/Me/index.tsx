@@ -11,6 +11,7 @@ import InputAvatar from '../../components/common/InputAvatar';
 import InformationField from '../../components/common/InformationField';
 import { FormState } from '../../common/interfaces/form';
 import { cleanObject } from '../../utils/dataHelper';
+import { formAction } from '../../redux/form/form';
 
 interface MeProps {}
 
@@ -27,14 +28,21 @@ const Me: React.FunctionComponent<MeProps> = () => {
         setValue('fullName', userState.user.fullName);
         setValue('address', userState.user.address);
         setValue('phoneNumber', userState.user.phoneNumber);
-    }, [userState.user.email, userState.user.fullName, setValue]);
+    }, [userState.user.email, userState.user.fullName, setValue, userState.user.address, userState.user.phoneNumber]);
+
+    React.useEffect(() => {
+        store.dispatch(formAction.resetUpdateUserForm());
+    }, []);
 
     const onSubmit = async (data: UpdateUserField) => {
         if (file) {
             data.avatar = file;
         }
         const result = await store.dispatch(userThunk.updateUser(cleanObject(data)));
-        if (result.meta.requestStatus === 'fulfilled') notificationHelper.success('Update success!');
+        if (result.meta.requestStatus === 'fulfilled') {
+            store.dispatch(formAction.resetUpdateUserForm());
+            notificationHelper.success('Update success!');
+        }
     };
     return (
         <div className="flex flex-col items-center justify-center flex-1 pt-16 intro-y">

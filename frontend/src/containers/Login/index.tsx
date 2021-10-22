@@ -9,6 +9,7 @@ import { formThunk } from '../../redux/form/formThunk';
 import { FormState, LoginUserDTO } from '../../common/interfaces/form';
 import { useSelector } from 'react-redux';
 import { UserState } from '../../common/interfaces/user';
+import { formAction } from '../../redux/form/form';
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
@@ -21,10 +22,16 @@ const Login: React.FunctionComponent<LoginProps> = () => {
             history.goBack();
         }
     }, [userState.isLogin, history]);
+
+    React.useEffect(() => {
+        notificationHelper.success('Login success!');
+    }, []);
+
     const onSubmit = async (data: LoginUserDTO) => {
         const result = await store.dispatch(formThunk.login(data));
         if (result.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Login success!');
+            store.dispatch(formAction.resetLoginForm());
             history.push('/user/me');
             return;
         }

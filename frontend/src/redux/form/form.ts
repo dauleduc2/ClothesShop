@@ -18,6 +18,24 @@ export const form = createSlice({
                 ...initialState,
             };
         },
+        resetLoginForm: (state) => {
+            return {
+                ...state,
+                login: { ...defautLoginUser },
+            };
+        },
+        resetRegisterForm: (state) => {
+            return {
+                ...state,
+                register: { ...defaultRegisterUser },
+            };
+        },
+        resetUpdateUserForm: (state) => {
+            return {
+                ...state,
+                updateUser: { ...defaultUpdateUser },
+            };
+        },
     },
     extraReducers: (builder) => {
         //login
@@ -66,5 +84,5 @@ export const form = createSlice({
     },
 });
 
-export const productAction = { ...form.actions };
+export const formAction = { ...form.actions };
 export default form.reducer;
