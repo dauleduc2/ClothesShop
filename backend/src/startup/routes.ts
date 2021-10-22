@@ -8,6 +8,7 @@ import sizeRouter from "../routes/sizeRoute";
 import typeRouter from "../routes/typeRoute";
 import orderListRoute from "../routes/orderListRoute";
 import adminOrderRouter from "../routes/adminOrderRoute";
+import adminUserRouter from "../routes/adminUserRoute";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 export default function (app: Application) {
@@ -24,5 +25,10 @@ export default function (app: Application) {
         "/api/admin/order",
         [authenMiddleware, authorMiddleware],
         adminOrderRouter
+    );
+    app.use(
+        "/api/admin/user",
+        [authenMiddleware, authorMiddleware],
+        adminUserRouter
     );
 }

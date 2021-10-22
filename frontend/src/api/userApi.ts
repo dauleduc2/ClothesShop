@@ -1,13 +1,13 @@
 import axiosClient from '../axios/config';
 import { ServerResponse } from '../common/interfaces/api';
+import { ResponseWithCount } from '../common/interfaces/Common/response';
 import { LoginUserDTO, RegisterUserDTO } from '../common/interfaces/form';
 import { User } from '../common/interfaces/user';
 
 export const userApi = {
     getCurrentUser: async () => {
         const url = '/api/user/me';
-        const res = await axiosClient.get<ServerResponse<User>>(url);
-        return res;
+        return await axiosClient.get<ServerResponse<User>>(url);
     },
     updateUser: async (data: any) => {
         const url = '/api/user/me/update';
@@ -26,18 +26,16 @@ export const userApi = {
                 }
             }
         }
-        const res = await axiosClient.post<ServerResponse<User>>(url, form, {
+        return await axiosClient.post<ServerResponse<User>>(url, form, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
-
-        return res;
     },
     logout: async () => {
         const url = '/api/user/me/logout';
-        const res = await axiosClient.get(url);
-        return res;
+
+        return await axiosClient.get(url);
     },
     loginUser: async (input: LoginUserDTO) => {
         const url = '/api/user/login';
@@ -46,5 +44,9 @@ export const userApi = {
     registerUser: async (input: RegisterUserDTO) => {
         const url = '/api/user/register';
         return await axiosClient.post<ServerResponse<any>>(url, input);
+    },
+    getAllUser: async (limit: number, page: number) => {
+        const url = `/api/admin/user?limit=${limit}&page=${page}`;
+        return await axiosClient.get<ServerResponse<ResponseWithCount<User[]>>>(url);
     },
 };

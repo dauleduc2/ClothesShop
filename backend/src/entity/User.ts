@@ -31,6 +31,12 @@ export class User {
     @IsEmail()
     email: string;
 
+    @Column()
+    phoneNumber: string;
+
+    @Column()
+    address: string;
+
     @Column({
         type: "enum",
         enum: [0, 1],

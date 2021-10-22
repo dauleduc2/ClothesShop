@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as statusCode from "../constants/statusConstants";
-import multer = require("multer");
-
+import * as multer from "multer";
 export function multerErrorMiddleware(multerAction: any) {
     return (req: Request, res: Response, next: NextFunction) => {
         multerAction(req, res, (err) => {

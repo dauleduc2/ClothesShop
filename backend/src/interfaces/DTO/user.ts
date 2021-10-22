@@ -2,6 +2,8 @@ export interface UpdateUserDTO {
     fullName?: string;
     avatar?: string;
     email?: string;
+    address?: string;
+    phoneNumber?: string;
 }
 
 export interface LoginUserDTO {

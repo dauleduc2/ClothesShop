@@ -41,11 +41,11 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
     const minRange = numLinksTwoSide + 4;
     const numberOfTruncLeft = page - numLinksTwoSide;
     const numberOfTruncRight = page + numLinksTwoSide;
-
+    //on submit form
     const onHandleSubmit = () => {
         store.dispatch(orderListThunk.adminUpdateStatusOfOrderList({ ID: currentOrderList?.ID, status: selected }));
     };
-
+    //set limit and page and call api to get order list by that
     React.useEffect(() => {
         setLimit(Number(params.limit));
         setPage(Number(params.page));
@@ -421,6 +421,26 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                 </Transition>
                             </div>
                         </Listbox>
+
+                        <div className="border-t border-gray-200 sm:p-0">
+                            <dl className="flex flex-col sm:divide-y sm:divide-gray-200">
+                                <div className="py-4 sm:py-5 sm:flex sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium text-gray-900">Address : </dt>
+                                    <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-2 sm:mt-0 sm:col-span-2">
+                                        {currentOrderList.address}
+                                    </dd>
+                                </div>
+                            </dl>
+                            <dl className="flex flex-col sm:divide-y sm:divide-gray-200">
+                                <div className=" sm:flex sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium text-gray-900">Phone number : </dt>
+                                    <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-2 sm:mt-0 sm:col-span-2">
+                                        {currentOrderList.phoneNumber}
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+
                         <div className="mt-6">
                             <button
                                 type="button"

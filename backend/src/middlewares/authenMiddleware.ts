@@ -2,7 +2,8 @@ import { NextFunction, Response } from "express";
 import { RequestWithUser } from "../interfaces/common/Request";
 import * as dataHelper from "../utils/dataHelper";
 import * as status from "../constants/statusConstants";
-const jwt = require("jsonwebtoken");
+import * as jwt from "jsonwebtoken";
+import { User } from "../entity/User";
 export function authenMiddleware(
     req: RequestWithUser<any>,
     res: Response,
@@ -15,7 +16,7 @@ export function authenMiddleware(
             .send(dataHelper.getResponseForm(null, null, "No token in cookie"));
 
     try {
-        const data = jwt.verify(token, process.env.JWTSECRETKEY);
+        const data = jwt.verify(token, process.env.JWTSECRETKEY) as User;
         req.user = data;
         next();
     } catch (error) {

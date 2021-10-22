@@ -1,3 +1,5 @@
+import { ResponseWithCount } from './Common/response';
+
 export enum UserRole {
     CUSTOMER,
     ADMIN,
@@ -9,8 +11,10 @@ export interface User {
     avatar: string;
     email: string;
     userStatus: number;
+    address: string;
     role: UserRole;
     createDate: string;
+    phoneNumber: string;
 }
 
 export interface PossibleUpdateUserField {
@@ -24,10 +28,16 @@ export interface PossibleUpdateUserField {
 export interface UserState {
     isLogin: boolean;
     user: User;
+    admin: {
+        userList: User[];
+        count: number;
+    };
 }
 
 export interface UpdateUserField {
     fullName: string;
     email: string;
     avatar: File | string | null;
+    address: string;
+    phoneNumber: string;
 }
