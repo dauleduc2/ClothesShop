@@ -32,25 +32,11 @@ router.get(
         //get connection
         const userRepo = await getCustomRepository(UserRepository);
         const user = await userRepo.findByID(ID);
-        const {
-            username,
-            fullName,
-            avatar,
-            email,
-            userStatus,
-            role,
-            createDate,
-        } = user;
+        const { ID: userID, password, ...ortherInfo } = user;
         return res.send(
             dataHelper.getResponseForm(
                 {
-                    username,
-                    fullName,
-                    avatar,
-                    email,
-                    userStatus,
-                    role,
-                    createDate,
+                    ...ortherInfo,
                 },
                 null,
                 "get current user information success"
@@ -86,9 +72,9 @@ router.post(
             const { avatar, ...orther } = req.body;
             req.body = orther;
         }
-
         //validate
         const { error } = validateUpdateUser(req.body);
+
         if (error) {
             let errorToSend = {};
             error.details.forEach((detailError) => {

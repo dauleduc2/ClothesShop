@@ -1,4 +1,5 @@
 import { ProductInCart } from '../../common/interfaces/cart';
+import { ResponseWithCount } from '../../common/interfaces/Common/response';
 import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/form';
 import { OrderList, OrderListWithUserDetailDTO } from '../../common/interfaces/orderList';
 import { Product } from '../../common/interfaces/product';
@@ -53,6 +54,13 @@ export const defaultUser: User = {
     userStatus: -1,
     role: UserRole.CUSTOMER,
     createDate: '',
+    address: '',
+    phoneNumber: '',
+};
+
+export const defaultAdminUser: ResponseWithCount<User[]> = {
+    data: [],
+    count: -1,
 };
 
 export const defaultOrderList: OrderList = {
@@ -60,6 +68,8 @@ export const defaultOrderList: OrderList = {
     orderItem: [],
     ID: '',
     createDate: '',
+    address: '',
+    phoneNumber: '',
 };
 export const defaultColor = {
     ID: -1,
@@ -90,6 +100,8 @@ export const defaultUpdateUser: UpdateUserDTO = {
     avatar: '',
     email: '',
     general: '',
+    address: '',
+    phoneNumber: '',
 };
 
 export const defaultOrderListWithUserDetail: OrderListWithUserDetailDTO = {
@@ -98,4 +110,6 @@ export const defaultOrderListWithUserDetail: OrderListWithUserDetailDTO = {
     createDate: '',
     status: 'WAITING',
     user: defaultUser,
+    address: '',
+    phoneNumber: '',
 };

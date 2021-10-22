@@ -61,21 +61,29 @@ router.post(
     async (req: RequestWithUser<RequestWithOrderListDTO>, res: Response) => {
         //validate
         const { error } = validateOrderList(req.body);
-        const { orderItem, status } = req.body;
-        if (error)
+        const { orderItem, address, phoneNumber } = req.body;
+        if (error) {
+            let errorToSend = {};
+            error.details.forEach((detailError) => {
+                errorToSend[`${detailError.path[0]}`] = detailError.message;
+            });
             return res
                 .status(statusCode.BAD_REQUEST)
                 .send(
                     dataHelper.getResponseForm(
                         null,
-                        error.details,
+                        errorToSend,
                         "validation error"
                     )
                 );
+        }
+
         //create new order list
         let orderList = new OrderList();
         orderList.user = req.user.ID;
-        orderList.status = status;
+        orderList.status = "WAITING";
+        orderList.address = address;
+        orderList.phoneNumber = phoneNumber;
         //get connection
         const connection = await Promise.all<any>([
             getCustomRepository(UserRepository),

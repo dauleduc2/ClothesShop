@@ -9,13 +9,17 @@ export const userThunk = {
     updateUser: createAsyncThunk('/user/updateUser', async (data: UpdateUserField, { rejectWithValue }) => {
         try {
             const res = await userApi.updateUser(data);
-            const { fullName, avatar, email } = res.data.data;
-            return { fullName, avatar, email };
+            const { fullName, avatar, email, address } = res.data.data;
+            return { fullName, avatar, email, address };
         } catch (error: any) {
             return rejectWithValue(error.response.data);
         }
     }),
     logout: createAsyncThunk('/user/logout', async () => {
         await userApi.logout();
+    }),
+    getAllUser: createAsyncThunk('/user/getAllUser', async ({ limit, page }: { limit: number; page: number }) => {
+        const res = await userApi.getAllUser(limit, page);
+        return res.data.data;
     }),
 };

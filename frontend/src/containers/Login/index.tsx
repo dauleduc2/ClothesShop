@@ -6,26 +6,29 @@ import { RootState, store } from '../../redux';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
 import { formThunk } from '../../redux/form/formThunk';
-import { formState, LoginUserDTO } from '../../common/interfaces/form';
+import { FormState, LoginUserDTO } from '../../common/interfaces/form';
 import { useSelector } from 'react-redux';
 import { UserState } from '../../common/interfaces/user';
+import { formAction } from '../../redux/form/form';
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
     const { handleSubmit, register } = useForm<LoginUserDTO>();
     const history = useHistory();
-    const formState = useSelector<RootState, formState>((state) => state.form);
+    const formState = useSelector<RootState, FormState>((state) => state.form);
     const userState = useSelector<RootState, UserState>((state) => state.user);
     React.useEffect(() => {
         if (userState.isLogin) {
             history.goBack();
         }
     }, [userState.isLogin, history]);
+
     const onSubmit = async (data: LoginUserDTO) => {
         const result = await store.dispatch(formThunk.login(data));
         if (result.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Login success!');
-            history.push('/user/me');
+            store.dispatch(formAction.resetLoginForm());
+            history.push('/');
             return;
         }
     };
@@ -43,7 +46,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
 
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
+                    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <InputField
                                 label="Username"

@@ -36,4 +36,10 @@ export class OrderList {
         cascade: true,
     })
     orderItem: OrderItem[];
+
+    @Column()
+    address: string;
+
+    @Column()
+    phoneNumber: string;
 }

@@ -2,7 +2,7 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Popover, Transition } from '@headlessui/react';
 import { MenuIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
-import { navigationLink, userLink, userMobileLink } from '../../consts/routes';
+import { adminUserLink, navigationLink, userLink, userMobileLink } from '../../consts/routes';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../../redux';
@@ -131,6 +131,26 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
                                                 <Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    {userState.user.role === 1 &&
+                                                        adminUserLink.map((route) => {
+                                                            return (
+                                                                <Menu.Item>
+                                                                    {({ active }) => (
+                                                                        <NavLink
+                                                                            to={route.to}
+                                                                            key={route.to}
+                                                                            exact={route.exact}
+                                                                            className={classNames(
+                                                                                active ? 'bg-gray-100' : '',
+                                                                                'block px-4 py-2 text-sm text-gray-700'
+                                                                            )}
+                                                                        >
+                                                                            {route.buttonName}
+                                                                        </NavLink>
+                                                                    )}
+                                                                </Menu.Item>
+                                                            );
+                                                        })}
                                                     {userLink.map((route, index) => {
                                                         if (route.to === '/user/logout') {
                                                             return (
@@ -195,7 +215,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                         </div>
                     </div>
 
-                    <Disclosure.Panel className="lg:hidden">
+                    <Disclosure.Panel className="bg-gray-800 lg:hidden">
                         <div className="px-2 pt-2 pb-3 space-y-1">
                             {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                             {navigationLink.map((route, index) => {

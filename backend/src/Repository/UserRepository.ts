@@ -1,3 +1,4 @@
+import { ResponseDataWithCount } from "./../interfaces/common/Request";
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "../entity/User";
 import * as bcrypt from "bcrypt";
@@ -34,8 +35,22 @@ export class UserRepository extends Repository<User> {
         const user = await this.findOne({ username }).catch((err) => err);
         return user;
     }
-    async findByID(ID: string) {
+    async findByID(ID: string): Promise<User> {
         const user = await this.findOne({ ID }).catch((err) => err);
         return user;
+    }
+
+    async getAllUserAndCount(
+        limit: number,
+        page: number
+    ): Promise<ResponseDataWithCount<User[]>> {
+        const userList = await this.findAndCount({
+            take: limit,
+            skip: (page - 1) * limit,
+        });
+        return {
+            data: userList[0],
+            count: userList[1],
+        };
     }
 }

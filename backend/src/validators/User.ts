@@ -34,6 +34,17 @@ const userSchema = Joi.object<RegisterUserDTO>({
 const updateUserSchema = Joi.object<UpdateUserDTO>({
     fullName: Joi.string().min(3).max(255).messages(stringCustomMessage),
     email: Joi.string().email().max(255).messages(stringCustomEmail),
+    address: Joi.string().min(3).max(500).messages(stringCustomMessage),
+    phoneNumber: Joi.string()
+        .min(7)
+        .max(15)
+        .pattern(/^[0-9]+$/)
+        .messages({
+            ...stringCustomMessage,
+            "string.min": "length should be less than 7 numbers",
+            "string.max": "length should be less than 15 numbers",
+            "string.pattern.base": "invalid phone number",
+        }),
 });
 
 const userLoginSchema = Joi.object<LoginUserDTO>({
