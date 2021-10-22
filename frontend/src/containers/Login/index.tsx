@@ -50,7 +50,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
 
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
+                    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <InputField
                                 label="Username"

@@ -21,6 +21,8 @@ export interface OrderItemToSend {
 export interface OrderListToSend {
     status: OrderStatusString;
     orderItem: OrderItemToSend[];
+    address: string;
+    phoneNumber: string;
 }
 
 export interface OrderItem {
@@ -38,18 +40,22 @@ export interface OrderList {
     orderItem: OrderItem[];
     ID: string;
     createDate: string;
+    address: string;
+    phoneNumber: string;
 }
 
-export interface ResponseOrder {
+export interface ResponseOrderDTO {
     orderID: string;
     status: OrderStatusString;
     createDate: string;
     totalProduct: number;
     totalPrice: number;
+    address: string;
+    phoneNumber: string;
 }
 
 export interface OrderListState {
-    orderList: ResponseOrder[];
+    orderList: ResponseOrderDTO[];
     currentList: OrderList;
     admin: {
         currentToShow: OrderListWithUserDetailDTO[];
@@ -60,3 +66,5 @@ export interface OrderListState {
 export interface OrderListWithUserDetailDTO extends OrderList {
     user: User;
 }
+
+export interface ShipmentDetailDTO extends Pick<User, 'address' | 'phoneNumber'> {}

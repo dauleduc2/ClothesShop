@@ -62,6 +62,8 @@ export const defaultOrderList: OrderList = {
     orderItem: [],
     ID: '',
     createDate: '',
+    address: '',
+    phoneNumber: '',
 };
 export const defaultColor = {
     ID: -1,
@@ -102,4 +104,6 @@ export const defaultOrderListWithUserDetail: OrderListWithUserDetailDTO = {
     createDate: '',
     status: 'WAITING',
     user: defaultUser,
+    address: '',
+    phoneNumber: '',
 };

@@ -5,18 +5,18 @@ import {
     OrderListToSend,
     OrderListWithUserDetailDTO,
     OrderStatusString,
-    ResponseOrder,
+    ResponseOrderDTO,
 } from '../common/interfaces/orderList';
 import { ResponseWithCount } from '../common/interfaces/Common/response';
 
 export const orderListApi = {
     addNewOrderList: async (orderList: OrderListToSend) => {
         const url = '/api/orderlist';
-        return await axiosClient.post<ServerResponse<ResponseOrder>>(url, orderList);
+        return await axiosClient.post<ServerResponse<ResponseOrderDTO>>(url, orderList);
     },
     getAllOrderList: async () => {
         const url = '/api/orderlist';
-        return await axiosClient.get<ServerResponse<ResponseOrder[]>>(url);
+        return await axiosClient.get<ServerResponse<ResponseOrderDTO[]>>(url);
     },
     getOrderListById: async (orderID: string) => {
         const url = `/api/orderList/${orderID}`;
