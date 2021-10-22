@@ -7,6 +7,10 @@ import { userThunk } from './userThunk';
 const initialState: UserState = {
     isLogin: false,
     user: defaultUser,
+    admin: {
+        userList: [],
+        count: -1,
+    },
 };
 
 export const user = createSlice({
@@ -41,6 +45,7 @@ export const user = createSlice({
     extraReducers: (builder) => {
         builder.addCase(userThunk.getCurrentUser.fulfilled, (state, { payload }) => {
             return {
+                ...state,
                 isLogin: true,
                 user: { ...payload },
             };
@@ -58,7 +63,18 @@ export const user = createSlice({
         });
         builder.addCase(userThunk.logout.fulfilled, (state, { payload }) => {
             return {
-                ...initialState,
+                ...state,
+                isLogin: false,
+                user: defaultUser,
+            };
+        });
+        builder.addCase(userThunk.getAllUser.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                admin: {
+                    count: payload.count,
+                    userList: payload.data,
+                },
             };
         });
     },

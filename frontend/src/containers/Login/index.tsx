@@ -23,16 +23,12 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         }
     }, [userState.isLogin, history]);
 
-    React.useEffect(() => {
-        notificationHelper.success('Login success!');
-    }, []);
-
     const onSubmit = async (data: LoginUserDTO) => {
         const result = await store.dispatch(formThunk.login(data));
         if (result.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Login success!');
             store.dispatch(formAction.resetLoginForm());
-            history.push('/user/me');
+            history.push('/');
             return;
         }
     };

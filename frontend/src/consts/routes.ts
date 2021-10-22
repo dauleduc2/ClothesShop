@@ -165,12 +165,12 @@ export const routes: routeList = [
 
 export const adminRoute: routeList = [
     {
-        to: '/admin/order/?limit=10&page=1',
+        to: '/admin/order?limit=10&page=1',
         exact: true,
         icon: ArchiveIcon,
     },
     {
-        to: '/admin/user',
+        to: '/admin/user?limit=10&page=1',
         exact: true,
         icon: UserGroup,
     },

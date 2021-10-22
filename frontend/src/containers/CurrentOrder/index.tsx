@@ -5,7 +5,6 @@ import { OrderListState } from '../../common/interfaces/orderList';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { Link } from 'react-router-dom';
-import { PaperClipIcon } from '@heroicons/react/outline';
 interface RouteParams {
     orderID: string;
 }

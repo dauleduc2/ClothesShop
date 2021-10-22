@@ -1,5 +1,6 @@
 import axiosClient from '../axios/config';
 import { ServerResponse } from '../common/interfaces/api';
+import { ResponseWithCount } from '../common/interfaces/Common/response';
 import { LoginUserDTO, RegisterUserDTO } from '../common/interfaces/form';
 import { User } from '../common/interfaces/user';
 
@@ -43,5 +44,9 @@ export const userApi = {
     registerUser: async (input: RegisterUserDTO) => {
         const url = '/api/user/register';
         return await axiosClient.post<ServerResponse<any>>(url, input);
+    },
+    getAllUser: async (limit: number, page: number) => {
+        const url = `/api/admin/user?limit=${limit}&page=${page}`;
+        return await axiosClient.get<ServerResponse<ResponseWithCount<User[]>>>(url);
     },
 };

@@ -1,4 +1,5 @@
 import { ProductInCart } from '../../common/interfaces/cart';
+import { ResponseWithCount } from '../../common/interfaces/Common/response';
 import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/form';
 import { OrderList, OrderListWithUserDetailDTO } from '../../common/interfaces/orderList';
 import { Product } from '../../common/interfaces/product';
@@ -55,6 +56,11 @@ export const defaultUser: User = {
     createDate: '',
     address: '',
     phoneNumber: '',
+};
+
+export const defaultAdminUser: ResponseWithCount<User[]> = {
+    data: [],
+    count: -1,
 };
 
 export const defaultOrderList: OrderList = {

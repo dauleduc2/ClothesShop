@@ -18,4 +18,8 @@ export const userThunk = {
     logout: createAsyncThunk('/user/logout', async () => {
         await userApi.logout();
     }),
+    getAllUser: createAsyncThunk('/user/getAllUser', async ({ limit, page }: { limit: number; page: number }) => {
+        const res = await userApi.getAllUser(limit, page);
+        return res.data.data;
+    }),
 };
