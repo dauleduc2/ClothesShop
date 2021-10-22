@@ -40,19 +40,10 @@ export const user = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(userThunk.getCurrentUser.fulfilled, (state, { payload }) => {
-            const newState = { ...state };
-            newState.isLogin = true;
-            newState.user = {
-                ID: payload.ID,
-                avatar: payload.avatar,
-                createDate: payload.createDate,
-                email: payload.email,
-                fullName: payload.fullName,
-                role: payload.role,
-                userStatus: payload.userStatus,
-                username: payload.username,
+            return {
+                isLogin: true,
+                user: { ...payload },
             };
-            return newState;
         });
         builder.addCase(userThunk.updateUser.fulfilled, (state, { payload }) => {
             const newState = {

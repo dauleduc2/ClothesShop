@@ -6,8 +6,7 @@ import { User } from '../common/interfaces/user';
 export const userApi = {
     getCurrentUser: async () => {
         const url = '/api/user/me';
-        const res = await axiosClient.get<ServerResponse<User>>(url);
-        return res;
+        return await axiosClient.get<ServerResponse<User>>(url);
     },
     updateUser: async (data: any) => {
         const url = '/api/user/me/update';
@@ -26,18 +25,16 @@ export const userApi = {
                 }
             }
         }
-        const res = await axiosClient.post<ServerResponse<User>>(url, form, {
+        return await axiosClient.post<ServerResponse<User>>(url, form, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
-
-        return res;
     },
     logout: async () => {
         const url = '/api/user/me/logout';
-        const res = await axiosClient.get(url);
-        return res;
+
+        return await axiosClient.get(url);
     },
     loginUser: async (input: LoginUserDTO) => {
         const url = '/api/user/login';

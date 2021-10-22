@@ -9,8 +9,10 @@ export interface User {
     avatar: string;
     email: string;
     userStatus: number;
+    address: string;
     role: UserRole;
     createDate: string;
+    phoneNumber: string;
 }
 
 export interface PossibleUpdateUserField {
@@ -30,4 +32,6 @@ export interface UpdateUserField {
     fullName: string;
     email: string;
     avatar: File | string | null;
+    address: string;
+    phoneNumber: string;
 }

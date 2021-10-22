@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
-import { formState, RegisterUserDTO } from '../../common/interfaces/form';
+import { FormState, RegisterUserDTO } from '../../common/interfaces/form';
 import { RootState, store } from '../../redux';
 import { formThunk } from '../../redux/form/formThunk';
 import { useSelector } from 'react-redux';
@@ -15,7 +15,7 @@ interface RegisterProps {}
 const Register: React.FunctionComponent<RegisterProps> = () => {
     const { handleSubmit, register } = useForm<RegisterUserDTO>();
     const history = useHistory();
-    const formState = useSelector<RootState, formState>((state) => state.form);
+    const formState = useSelector<RootState, FormState>((state) => state.form);
 
     const userState = useSelector<RootState, UserState>((state) => state.user);
 

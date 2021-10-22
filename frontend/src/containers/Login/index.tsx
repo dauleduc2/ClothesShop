@@ -6,7 +6,7 @@ import { RootState, store } from '../../redux';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
 import { formThunk } from '../../redux/form/formThunk';
-import { formState, LoginUserDTO } from '../../common/interfaces/form';
+import { FormState, LoginUserDTO } from '../../common/interfaces/form';
 import { useSelector } from 'react-redux';
 import { UserState } from '../../common/interfaces/user';
 interface LoginProps {}
@@ -14,7 +14,7 @@ interface LoginProps {}
 const Login: React.FunctionComponent<LoginProps> = () => {
     const { handleSubmit, register } = useForm<LoginUserDTO>();
     const history = useHistory();
-    const formState = useSelector<RootState, formState>((state) => state.form);
+    const formState = useSelector<RootState, FormState>((state) => state.form);
     const userState = useSelector<RootState, UserState>((state) => state.user);
     React.useEffect(() => {
         if (userState.isLogin) {

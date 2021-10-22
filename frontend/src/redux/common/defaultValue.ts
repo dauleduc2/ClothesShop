@@ -53,6 +53,8 @@ export const defaultUser: User = {
     userStatus: -1,
     role: UserRole.CUSTOMER,
     createDate: '',
+    address: '',
+    phoneNumber: '',
 };
 
 export const defaultOrderList: OrderList = {
@@ -90,6 +92,8 @@ export const defaultUpdateUser: UpdateUserDTO = {
     avatar: '',
     email: '',
     general: '',
+    address: '',
+    phoneNumber: '',
 };
 
 export const defaultOrderListWithUserDetail: OrderListWithUserDetailDTO = {

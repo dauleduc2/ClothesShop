@@ -1,4 +1,4 @@
-export interface formState {
+export interface FormState {
     login: LoginUserDTO;
     register: RegisterUserDTO;
     updateUser: UpdateUserDTO;
@@ -20,5 +20,7 @@ export interface UpdateUserDTO {
     fullName: string;
     avatar: string;
     email: string;
+    address: string;
+    phoneNumber: string;
     general: string;
 }

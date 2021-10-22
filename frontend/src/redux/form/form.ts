@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { formState } from '../../common/interfaces/form';
+import { FormState } from '../../common/interfaces/form';
 import { defaultRegisterUser, defaultUpdateUser, defautLoginUser } from '../common/defaultValue';
 import { userThunk } from '../user/userThunk';
 import { formThunk } from './formThunk';
 
-const initialState: formState = {
+const initialState: FormState = {
     login: defautLoginUser,
     register: defaultRegisterUser,
     updateUser: defaultUpdateUser,

@@ -9,29 +9,32 @@ import * as notificationHelper from '../../utils/notificationHelper';
 import InputField from '../../components/common/InputField';
 import InputAvatar from '../../components/common/InputAvatar';
 import InformationField from '../../components/common/InformationField';
-import { formState } from '../../common/interfaces/form';
+import { FormState } from '../../common/interfaces/form';
+import { cleanObject } from '../../utils/dataHelper';
 
 interface MeProps {}
 
-const defaultValues: UpdateUserField = { email: '', fullName: '', avatar: null };
+const defaultValues: UpdateUserField = { email: '', fullName: '', avatar: null, address: '', phoneNumber: '' };
 
 const Me: React.FunctionComponent<MeProps> = () => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
-    const formState = useSelector<RootState, formState>((state) => state.form);
+    const formState = useSelector<RootState, FormState>((state) => state.form);
     const [file, setFile] = React.useState<File | null>();
     const { handleSubmit, register, setValue } = useForm<UpdateUserField>({ defaultValues: defaultValues });
     //set default value on first render
     React.useEffect(() => {
         setValue('email', userState.user.email);
         setValue('fullName', userState.user.fullName);
+        setValue('address', userState.user.address);
+        setValue('phoneNumber', userState.user.phoneNumber);
     }, [userState.user.email, userState.user.fullName, setValue]);
 
-    const onSubmit = (data: UpdateUserField) => {
+    const onSubmit = async (data: UpdateUserField) => {
         if (file) {
             data.avatar = file;
         }
-        store.dispatch(userThunk.updateUser(data));
-        notificationHelper.success('Update success!');
+        const result = await store.dispatch(userThunk.updateUser(cleanObject(data)));
+        if (result.meta.requestStatus === 'fulfilled') notificationHelper.success('Update success!');
     };
     return (
         <div className="flex flex-col items-center justify-center flex-1 pt-16 intro-y">
@@ -61,6 +64,22 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                 field="email"
                                 message={formState.updateUser.email}
                                 defaultValue={userState.user.email}
+                                register={register}
+                            />
+                        </InformationField>
+                        <InformationField label="Address">
+                            <InputField
+                                field="address"
+                                message={formState.updateUser.address}
+                                defaultValue={userState.user.address}
+                                register={register}
+                            />
+                        </InformationField>
+                        <InformationField label="Phone number">
+                            <InputField
+                                field="phoneNumber"
+                                message={formState.updateUser.phoneNumber}
+                                defaultValue={userState.user.phoneNumber}
                                 register={register}
                             />
                         </InformationField>
