@@ -5,6 +5,7 @@ import { OrderListState } from '../../common/interfaces/orderList';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { Link } from 'react-router-dom';
+import { PaperClipIcon } from '@heroicons/react/outline';
 interface RouteParams {
     orderID: string;
 }
@@ -31,11 +32,7 @@ const CurrentOrder: React.FunctionComponent<CurrentOrderProps> = ({ match }) => 
 
                 <div className="space-y-20">
                     <div>
-                        <h3 className="sr-only">
-                            Order placed on <time>{orderListState.currentList.createDate}</time>
-                        </h3>
-
-                        <div className="px-4 py-6 rounded-lg bg-gray-50 sm:px-6 sm:flex sm:items-center sm:justify-between sm:space-x-6 lg:space-x-8">
+                        <div className="px-4 py-8 rounded-lg bg-gray-50 sm:px-6 sm:flex sm:items-center sm:justify-between sm:space-x-6 lg:space-x-8">
                             <dl className="flex-auto space-y-6 text-sm text-gray-600 divide-y divide-gray-200 sm:divide-y-0 sm:space-y-0 sm:grid sm:grid-cols-4 sm:gap-x-6 lg:w-full lg:flex-none lg:gap-x-8">
                                 <div className="flex justify-between pt-6 sm:block sm:pt-0">
                                     <dt className="font-medium text-gray-900">Order ID</dt>
@@ -76,9 +73,34 @@ const CurrentOrder: React.FunctionComponent<CurrentOrderProps> = ({ match }) => 
                                         )}
                                     </dd>
                                 </div>
+                                <div className="flex justify-between pt-6 font-medium text-gray-900 sm:block sm:pt-0">
+                                    <dt className="sm:mt-8">Address</dt>
+                                    <dd className="sm:mt-1">{orderListState.currentList.address}</dd>
+                                </div>
+                                <div className="flex justify-between pt-6 font-medium text-gray-900 sm:block sm:pt-0">
+                                    <dt className="sm:mt-8">Phone number</dt>
+                                    <dd className="sm:mt-1">{orderListState.currentList.phoneNumber}</dd>
+                                </div>
                             </dl>
                         </div>
-
+                        {/* <div className="px-4 py-6 rounded-lg bg-gray-50 sm:px-6 sm:flex sm:items-center sm:justify-between sm:space-x-6 lg:space-x-8">
+                            <div className="border-t border-gray-200 sm:p-0">
+                                <dl className="flex flex-col sm:divide-y sm:divide-gray-200">
+                                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium text-gray-900">Address</dt>
+                                        <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-20 sm:mt-0 sm:col-span-2">
+                                            {orderListState.currentList.address}
+                                        </dd>
+                                    </div>
+                                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium text-gray-900">Phone number</dt>
+                                        <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-20 sm:mt-0 sm:col-span-2">
+                                            {orderListState.currentList.phoneNumber}
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div> */}
                         <table className="w-full mt-4 text-gray-500 sm:mt-6">
                             <thead className="text-sm text-left text-gray-500 sr-only sm:not-sr-only">
                                 <tr>
