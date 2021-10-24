@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { OrderList, OrderListStatus } from "../entity/OrderList";
+import { adminQueryPage } from "../interfaces/common/Query";
 import { ResponseDataWithCount } from "../interfaces/common/Request";
 import { OrderListWithDetailUserDTO } from "../interfaces/DTO/orderList";
 @EntityRepository(OrderList)
@@ -54,10 +55,12 @@ export class OrderListRepository extends Repository<OrderList> {
         return result;
     }
 
-    async getAllOrderList(
-        limit: number,
-        page: number
-    ): Promise<ResponseDataWithCount<OrderListWithDetailUserDTO>> {
+    async getAllOrderList({
+        limit,
+        page,
+    }: adminQueryPage): Promise<
+        ResponseDataWithCount<OrderListWithDetailUserDTO>
+    > {
         const response = await this.findAndCount({
             relations: [
                 "user",

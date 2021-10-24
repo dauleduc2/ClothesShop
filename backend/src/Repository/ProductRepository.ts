@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Product } from "../entity/Product";
+import { adminQueryPage } from "../interfaces/common/Query";
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
     async addNewProduct(product: Product) {
@@ -21,6 +22,11 @@ export class ProductRepository extends Repository<Product> {
                 status: product.status,
             };
         });
+        return result;
+    }
+
+    async adminGetAllProduct({ limit, page }: adminQueryPage) {
+        let result = await this.find({});
         return result;
     }
 
