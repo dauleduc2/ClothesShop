@@ -28,6 +28,7 @@ export const orderListApi = {
     },
     adminUpdateStatusOfOrderList: async (ID: string, status: OrderStatusString) => {
         const url = `/api/admin/order/status`;
-        return await axiosClient.post<ServerResponse<any>>(url, { ID, status });
+        const result = await axiosClient.post<ServerResponse<any>>(url, { ID, status });
+        return result;
     },
 };

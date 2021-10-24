@@ -68,3 +68,8 @@ export interface OrderListWithUserDetailDTO extends OrderList {
 }
 
 export interface ShipmentDetailDTO extends Pick<User, 'address' | 'phoneNumber'> {}
+
+export interface UpdateStatusResponseDTO {
+    ID: string;
+    status: OrderStatusString;
+}

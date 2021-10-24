@@ -12,6 +12,7 @@ import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { defaultOrderListWithUserDetail } from '../../redux/common/defaultValue';
+import * as notificationHelper from '../../utils/notificationHelper';
 interface OrderManagerProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -42,8 +43,20 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
     const numberOfTruncLeft = page - numLinksTwoSide;
     const numberOfTruncRight = page + numLinksTwoSide;
     //on submit form
-    const onHandleSubmit = () => {
-        store.dispatch(orderListThunk.adminUpdateStatusOfOrderList({ ID: currentOrderList?.ID, status: selected }));
+    const onHandleSubmit = async () => {
+        const res = await store.dispatch(
+            orderListThunk.adminUpdateStatusOfOrderList({ ID: currentOrderList?.ID, status: selected })
+        );
+
+        if (orderListThunk.adminUpdateStatusOfOrderList.fulfilled.match(res)) {
+            notificationHelper.success('Change status success!');
+        } else {
+            if (res.payload) {
+                notificationHelper.error('Out of stock', res.payload.detail.error.message);
+            } else {
+                notificationHelper.error('Error', res.error.message);
+            }
+        }
     };
     //set limit and page and call api to get order list by that
     React.useEffect(() => {
@@ -99,7 +112,8 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                     {orderListState.admin.currentToShow.map((order, index) => (
                                         <tr key={order.ID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
                                             <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                                                #{order.ID.substring(0, 8)}
+                                                {/* #{order.ID.substring(0, 8)} */}
+                                                {order.ID}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                                 {order.user.fullName}
