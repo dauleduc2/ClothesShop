@@ -126,7 +126,6 @@ router.post(
         );
         //add new orderList
         const result = await orderListRepo.addNewOrderList(orderList);
-
         return res
             .status(statusCode.CREATED)
             .send(

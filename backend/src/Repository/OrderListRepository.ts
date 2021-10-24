@@ -13,8 +13,8 @@ export class OrderListRepository extends Repository<OrderList> {
         return res;
     }
 
-    async findByID(ID: string) {
-        const OrderList = await this.findOne({ ID });
+    async findByID(ID: string, relation: Array<string>) {
+        const OrderList = await this.findOne({ ID }, { relations: relation });
         return OrderList;
     }
 
