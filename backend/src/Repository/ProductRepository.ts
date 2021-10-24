@@ -38,4 +38,34 @@ export class ProductRepository extends Repository<Product> {
         const product: Product = await this.findOne({ ID }).catch((err) => err);
         return product;
     }
+
+    async checkQuantityOfProduct(ID: string, amount: number) {
+        const currentProduct = await this.findOne({ ID });
+        const currentQuantity = currentProduct.quantity;
+        if (currentQuantity - amount < 0) {
+            return Promise.reject(currentProduct.name);
+        }
+        return Promise.resolve();
+    }
+
+    async minusQuantityProduct(ID: string, amount: number) {
+        const currentProduct = await this.findOne({ ID });
+        const currentQuantity = currentProduct.quantity;
+        if (currentQuantity - amount < 0) {
+            return Promise.reject(
+                `${currentProduct.name} is out of stock with this amount, please try again with lower amount`
+            );
+        }
+        const finalQuantity = currentQuantity - amount;
+        return await this.update({ ID }, { quantity: finalQuantity });
+    }
+
+    async addQuantityProduct(ID: string, amount: number) {
+        const currentProduct = await this.findOne({ ID });
+        const currentQuantity = currentProduct.quantity;
+        return await this.update(
+            { ID },
+            { quantity: currentQuantity + amount }
+        );
+    }
 }
