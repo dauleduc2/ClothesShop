@@ -5,7 +5,7 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XIcon } from '@heroicons/react/solid';
 import WarningIcon from '../../assets/icon/WarningIcon';
 import ErrorIcon from '../../assets/icon/ErrorIcon';
-import { notificationStatus } from '../../common/interfaces/UI';
+import { notificationStatus } from '../../common/interfaces/Redux/UI';
 
 // import WarningIcon from '../../assets/icon/WarningIcon';
 interface NotificationProps {

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { UIState } from '../../common/interfaces/UI';
+import { UIState } from '../../common/interfaces/Redux/UI';
 import ConfirmPopup from '../../components/common/ConfirmPopUp';
 import Notification from '../../components/common/Notification';
 import SuccessModel from '../../components/common/SuccessModel';

@@ -1,5 +1,5 @@
-import { color } from './color';
-import { size } from './size';
+import { color } from '../Model/Color';
+import { size } from '../Model/Size';
 
 export interface ProductInCart {
     ID: string;
@@ -9,8 +9,4 @@ export interface ProductInCart {
     productAvatar: string;
     color: color;
     size: size;
-}
-
-export interface CartState {
-    productList: ProductInCart[];
 }

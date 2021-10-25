@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import * as urlLink from '../../consts/url';
 interface NotFoundPageProps {}
 
 const NotFoundPage: React.FunctionComponent<NotFoundPageProps> = () => {
@@ -19,7 +19,7 @@ const NotFoundPage: React.FunctionComponent<NotFoundPageProps> = () => {
                         </div>
                         <div className="flex mt-10 space-x-3 sm:border-l sm:border-transparent sm:pl-6">
                             <Link
-                                to="#"
+                                to={urlLink.HOME}
                                 className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Go back home

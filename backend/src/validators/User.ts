@@ -35,6 +35,7 @@ const updateUserSchema = Joi.object<UpdateUserDTO>({
     fullName: Joi.string().min(3).max(255).messages(stringCustomMessage),
     email: Joi.string().email().max(255).messages(stringCustomEmail),
     address: Joi.string().min(3).max(500).messages(stringCustomMessage),
+    avatar: Joi.string(),
     phoneNumber: Joi.string()
         .min(7)
         .max(15)

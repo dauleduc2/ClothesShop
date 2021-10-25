@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { ProductToShow } from '../../common/interfaces/product';
+import { ProductToShowDTO } from '../../common/interfaces/DTO/productDTO';
 import ProductBox from '../Product/ProductBox';
 
 interface ProductContainerProps {
-    products: ProductToShow[];
+    products: ProductToShowDTO[];
 }
 const ProductContainer: React.FunctionComponent<ProductContainerProps> = ({ products }) => {
     return (

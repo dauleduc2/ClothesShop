@@ -5,17 +5,18 @@ import { RouteComponentProps } from 'react-router';
 import { RootState, store } from '../../redux';
 import { productThunk } from '../../redux/product/productThunk';
 import { useSelector } from 'react-redux';
-import { ProductState } from '../../common/interfaces/product';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { color } from '../../common/interfaces/color';
-import { size } from '../../common/interfaces/size';
-import { ProductInCart } from '../../common/interfaces/cart';
+import { color } from '../../common/interfaces/Model/Color';
+import { size } from '../../common/interfaces/Model/Size';
+import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
 import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
-import { UserState } from '../../common/interfaces/user';
 import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
 import MinusIcon from '../../components/common/icon/Minus';
 import AddIcon from '../../components/common/icon/Add';
+import { ProductState } from '../../common/interfaces/Redux/product';
+import { UserState } from '../../common/interfaces/Redux/user';
+import * as urlLink from '../../consts/url';
 interface RouteParams {
     productName: string;
 }
@@ -96,14 +97,14 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
 
                                 <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
                                     <img
-                                        src={`${process.env.REACT_APP_SERVER_URL}/${productState.currentProduct.productAvatar}`}
+                                        src={`${urlLink.ENV_SERVER}/${productState.currentProduct.productAvatar}`}
                                         alt="productAvatar"
                                         className="w-full rounded-lg lg:col-span-2 lg:row-span-2 intro-y"
                                     />
                                     {productState.currentProduct.images.map((image, index) => (
                                         <img
                                             key={image.ID}
-                                            src={`${process.env.REACT_APP_SERVER_URL}/${image.imageLink}`}
+                                            src={`${urlLink.ENV_SERVER}/${image.imageLink}`}
                                             alt={image.ID}
                                             className="hidden rounded-lg shadow-xl lg:block intro-y"
                                         />
@@ -127,8 +128,8 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                         value={color}
                                                         className={({ active, checked }) =>
                                                             classNames(
-                                                                active && checked ? 'ring ring-offset-1' : '',
-                                                                !active && checked ? 'ring-2' : '',
+                                                                active && checked && 'ring ring-offset-1',
+                                                                !active && checked && 'ring-2',
                                                                 '-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none'
                                                             )
                                                         }
@@ -170,7 +171,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                                 true
                                                                     ? 'cursor-pointer focus:outline-none'
                                                                     : 'opacity-25 cursor-not-allowed',
-                                                                active ? 'ring-2 ring-offset-2 ring-indigo-500' : '',
+                                                                active && 'ring-2 ring-offset-2 ring-indigo-500',
                                                                 checked
                                                                     ? 'bg-indigo-600 border-transparent text-white hover:bg-indigo-700'
                                                                     : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50',

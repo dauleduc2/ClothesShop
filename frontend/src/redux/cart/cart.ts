@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CartState, ProductInCart } from '../../common/interfaces/cart';
-import { ReduxAction } from '../../common/interfaces/redux';
+import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { ReduxAction } from '../../common/interfaces/Common/redux';
+import { CartState } from '../../common/interfaces/Redux/cart';
 
 const dataFromLocalStorage = localStorage.getItem('cartList');
 

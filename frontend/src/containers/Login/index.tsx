@@ -6,10 +6,12 @@ import { RootState, store } from '../../redux';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
 import { formThunk } from '../../redux/form/formThunk';
-import { FormState, LoginUserDTO } from '../../common/interfaces/form';
 import { useSelector } from 'react-redux';
-import { UserState } from '../../common/interfaces/user';
 import { formAction } from '../../redux/form/form';
+import { UserState } from '../../common/interfaces/Redux/user';
+import { LoginUserDTO } from '../../common/interfaces/DTO/userDTO';
+import { FormState } from '../../common/interfaces/Redux/form';
+import * as urlLink from '../../consts/url';
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
@@ -65,7 +67,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                             register={register}
                         />
 
-                        <div className="flex items-center justify-between">
+                        {/* <div className="flex items-center justify-between">
                             <div className="flex items-center">
                                 <input
                                     id="remember-me"
@@ -79,12 +81,15 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                             </div>
 
                             <div className="text-sm">
-                                <a href="#forgotpassword" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                <Link
+                                    to="#forgotpassword"
+                                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                                >
                                     Forgot your password?
-                                </a>
+                                </Link>
                             </div>
-                        </div>
-                        <div>
+                        </div> */}
+                        <div className="mt-2">
                             <button
                                 type="submit"
                                 className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -96,7 +101,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
                             <div className="self-end mt-4 text-sm">
                                 Don't have account yet?{' '}
                                 <Link
-                                    to="/user/register"
+                                    to={urlLink.REGISTER}
                                     className="font-semibold text-indigo-600 underline hover:text-indigo-500"
                                 >
                                     Register

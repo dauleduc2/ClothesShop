@@ -10,9 +10,10 @@ import CurrentOrder from '../containers/CurrentOrder';
 import NotFoundPage from '../components/NotFoundPage';
 import { ArchiveIcon, PencilAltIcon } from '@heroicons/react/outline';
 import UserGroup from '../components/common/icon/UserGroup';
-import OrderManagerPage from '../containers/OrderManager';
-import UserManagerPage from '../containers/UserManager';
-import ProductManagerPage from '../containers/ProductManager';
+import OrderManagerPage from '../containers/Admin/OrderManager';
+import UserManagerPage from '../containers/Admin/UserManager';
+import ProductManagerPage from '../containers/Admin/ProductManager';
+import * as urlLink from './url';
 interface Route {
     to: string;
     exact: boolean;
@@ -26,12 +27,12 @@ type routeList = Route[];
 
 export const navigationLink: routeList = [
     {
-        to: '/',
+        to: urlLink.HOME,
         exact: true,
         buttonName: 'Home',
     },
     {
-        to: '/category',
+        to: urlLink.CATEGORY,
         exact: true,
         buttonName: 'Category',
     },
@@ -39,17 +40,17 @@ export const navigationLink: routeList = [
 
 export const userLink: routeList = [
     {
-        to: '/user/me',
+        to: urlLink.ME,
         exact: true,
         buttonName: 'Your Profile',
     },
     {
-        to: '/user/order',
+        to: urlLink.ORDER,
         exact: true,
         buttonName: 'My order',
     },
     {
-        to: '/user/logout',
+        to: urlLink.LOGOUT,
         exact: true,
         buttonName: 'Sign out',
     },
@@ -57,7 +58,7 @@ export const userLink: routeList = [
 
 export const adminUserLink: routeList = [
     {
-        to: '/admin/order?limit=10&page=1',
+        to: `${urlLink.ADMIN_ORDER}?limit=10&page=1`,
         exact: true,
         buttonName: 'Manager ',
     },
@@ -65,22 +66,22 @@ export const adminUserLink: routeList = [
 
 export const userMobileLink: routeList = [
     {
-        to: '/user/me',
+        to: urlLink.ME,
         exact: true,
         buttonName: 'Your Profile',
     },
     {
-        to: '/user/cart',
+        to: urlLink.CART,
         exact: true,
         buttonName: 'Your Cart',
     },
     {
-        to: '/user/order',
+        to: urlLink.ORDER,
         exact: true,
         buttonName: 'My order',
     },
     {
-        to: '/user/logout',
+        to: urlLink.LOGOUT,
         exact: true,
         buttonName: 'Sign out',
     },
@@ -88,69 +89,69 @@ export const userMobileLink: routeList = [
 
 export const routes: routeList = [
     {
-        to: '/user/register',
+        to: urlLink.REGISTER,
         exact: true,
         component: Register,
     },
     {
-        to: '/product/:productName',
+        to: `${urlLink.PRODUCT}/:productName`,
         exact: true,
         component: ProductPage,
     },
     {
-        to: '/',
+        to: urlLink.HOME,
         exact: true,
         component: HomePage,
     },
     {
-        to: '/category',
+        to: urlLink.CATEGORY,
         exact: true,
         component: CategoryPage,
     },
     {
-        to: '/user/me',
+        to: urlLink.ME,
         exact: true,
         component: MePage,
         isLoginRequire: true,
     },
     {
-        to: '/user/login',
+        to: urlLink.LOGIN,
         exact: true,
         component: LoginPage,
     },
     {
-        to: '/user/cart',
+        to: urlLink.CART,
         exact: true,
         component: Cart,
     },
     {
-        to: '/user/order',
+        to: urlLink.ORDER,
         exact: true,
         component: OrderPage,
         isLoginRequire: true,
     },
     {
-        to: '/user/order/:orderID',
+        to: `${urlLink.ORDER}/:orderID`,
         exact: true,
         component: CurrentOrder,
         isLoginRequire: true,
     },
     {
-        to: '/admin/order',
+        to: urlLink.ADMIN_ORDER,
         exact: true,
         component: OrderManagerPage,
         isLoginRequire: true,
         isAdminRequire: true,
     },
     {
-        to: '/admin/user',
+        to: urlLink.ADMIN_USER,
         exact: true,
         component: UserManagerPage,
         isLoginRequire: true,
         isAdminRequire: true,
     },
     {
-        to: '/admin/product',
+        to: urlLink.ADMIN_PRODUCT,
         exact: true,
         component: ProductManagerPage,
         isLoginRequire: true,
@@ -165,17 +166,17 @@ export const routes: routeList = [
 
 export const adminRoute: routeList = [
     {
-        to: '/admin/order?limit=10&page=1',
+        to: `${urlLink.ADMIN_ORDER}?limit=10&page=1`,
         exact: true,
         icon: ArchiveIcon,
     },
     {
-        to: '/admin/user?limit=10&page=1',
+        to: `${urlLink.ADMIN_USER}?limit=10&page=1`,
         exact: true,
         icon: UserGroup,
     },
     {
-        to: '/admin/product?limit=7&page=1',
+        to: `${urlLink.ADMIN_PRODUCT}?limit=7&page=1`,
         exact: true,
         icon: PencilAltIcon,
     },

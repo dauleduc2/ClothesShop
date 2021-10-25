@@ -1,10 +1,16 @@
-import { ProductInCart } from '../../common/interfaces/cart';
-import { ResponseWithCount } from '../../common/interfaces/Common/response';
-import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/form';
-import { OrderList, OrderListWithUserDetailDTO } from '../../common/interfaces/orderList';
-import { Product } from '../../common/interfaces/product';
-import { notificationStatus } from '../../common/interfaces/UI';
-import { User, UserRole } from '../../common/interfaces/user';
+import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { Product } from '../../common/interfaces/Model/Product';
+import { OrderListWithUserDetailDTO } from '../../common/interfaces/DTO/orderListDTO';
+
+import { notificationStatus } from '../../common/interfaces/Redux/UI';
+import { OrderList } from '../../common/interfaces/Model/OrderList';
+import { User, UserRole } from '../../common/interfaces/Model/User';
+import {
+    LoginFormErrorMessage,
+    RegisterFormErrorMessage,
+    UpdateFormErrorMessage,
+} from '../../common/interfaces/DTO/userDTO';
+import { ResponseWithCount } from '../../common/interfaces/Common/api';
 
 export const defaultProductInCart: ProductInCart = {
     ID: '',
@@ -80,13 +86,13 @@ export const defaultColor = {
 export const defaultSize = { ID: -1, name: '' };
 
 //form
-export const defautLoginUser: LoginUserDTO = {
+export const defautLoginUser: LoginFormErrorMessage = {
     username: '',
     password: '',
     general: '',
 };
 
-export const defaultRegisterUser: RegisterUserDTO = {
+export const defaultRegisterUser: RegisterFormErrorMessage = {
     email: '',
     fullName: '',
     username: '',
@@ -95,7 +101,7 @@ export const defaultRegisterUser: RegisterUserDTO = {
     general: '',
 };
 
-export const defaultUpdateUser: UpdateUserDTO = {
+export const defaultUpdateUser: UpdateFormErrorMessage = {
     fullName: '',
     avatar: '',
     email: '',

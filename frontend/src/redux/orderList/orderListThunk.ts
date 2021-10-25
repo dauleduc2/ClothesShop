@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { orderListApi } from '../../api/orderListApi';
-import { ServerResponse } from '../../common/interfaces/api';
-import { OrderListToSend, UpdateStatusResponseDTO } from '../../common/interfaces/orderList';
+import { ServerResponse } from '../../common/interfaces/Common/api';
+import { OrderListToSendDTO, UpdateStatusResponseDTO } from '../../common/interfaces/DTO/orderListDTO';
 export const orderListThunk = {
-    addOrderList: createAsyncThunk('orderList/addOrderList', async (orderList: OrderListToSend) => {
+    addOrderList: createAsyncThunk('orderList/addOrderList', async (orderList: OrderListToSendDTO) => {
         const res = await orderListApi.addNewOrderList(orderList);
         return res.data.data;
     }),
@@ -26,14 +26,14 @@ export const orderListThunk = {
         UpdateStatusResponseDTO,
         UpdateStatusResponseDTO,
         {
-            rejectValue: ServerResponse<any>;
+            rejectValue: ServerResponse<any, any>;
         }
     >('orderList/adminUpdateStatusOfOrderList', async ({ ID, status }, { rejectWithValue }) => {
         try {
             await orderListApi.adminUpdateStatusOfOrderList(ID, status);
             return { ID, status };
         } catch (error: any) {
-            const rejectValue = error.response.data as ServerResponse<any>;
+            const rejectValue = error.response.data as ServerResponse<any, any>;
             return rejectWithValue(rejectValue);
         }
     }),

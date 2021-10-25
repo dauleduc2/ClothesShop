@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ProductInCart } from '../../common/interfaces/cart';
-import { ReduxAction } from '../../common/interfaces/redux';
-import { SetConfirmPopupPayload, SetNotificationPayload, SetSuccessModel, UIState } from '../../common/interfaces/UI';
+import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { ReduxAction } from '../../common/interfaces/Common/redux';
+import {
+    SetConfirmPopupPayload,
+    SetNotificationPayload,
+    SetSuccessModel,
+    UIState,
+} from '../../common/interfaces/Redux/UI';
 import { defaultNotification, defaultProductInCart } from '../common/defaultValue';
 
 const initialState: UIState = {

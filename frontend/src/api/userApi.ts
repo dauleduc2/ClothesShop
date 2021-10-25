@@ -1,13 +1,12 @@
 import axiosClient from '../axios/config';
-import { ServerResponse } from '../common/interfaces/api';
-import { ResponseWithCount } from '../common/interfaces/Common/response';
-import { LoginUserDTO, RegisterUserDTO } from '../common/interfaces/form';
-import { User } from '../common/interfaces/user';
+import { ResponseWithCount, ServerResponse } from '../common/interfaces/Common/api';
+import { LoginUserDTO, RegisterUserDTO } from '../common/interfaces/DTO/userDTO';
+import { User } from '../common/interfaces/Model/User';
 
 export const userApi = {
     getCurrentUser: async () => {
         const url = '/api/user/me';
-        return await axiosClient.get<ServerResponse<User>>(url);
+        return await axiosClient.get<ServerResponse<User, null>>(url);
     },
     updateUser: async (data: any) => {
         const url = '/api/user/me/update';
@@ -26,7 +25,7 @@ export const userApi = {
                 }
             }
         }
-        return await axiosClient.post<ServerResponse<User>>(url, form, {
+        return await axiosClient.post<ServerResponse<User, null>>(url, form, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -39,14 +38,14 @@ export const userApi = {
     },
     loginUser: async (input: LoginUserDTO) => {
         const url = '/api/user/login';
-        return await axiosClient.post<ServerResponse<any>>(url, input);
+        return await axiosClient.post<ServerResponse<any, null>>(url, input);
     },
     registerUser: async (input: RegisterUserDTO) => {
         const url = '/api/user/register';
-        return await axiosClient.post<ServerResponse<any>>(url, input);
+        return await axiosClient.post<ServerResponse<any, null>>(url, input);
     },
     getAllUser: async (limit: number, page: number) => {
         const url = `/api/admin/user?limit=${limit}&page=${page}`;
-        return await axiosClient.get<ServerResponse<ResponseWithCount<User[]>>>(url);
+        return await axiosClient.get<ServerResponse<ResponseWithCount<User[]>, null>>(url);
     },
 };

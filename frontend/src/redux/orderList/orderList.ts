@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { OrderListState } from '../../common/interfaces/orderList';
+import { OrderListState } from '../../common/interfaces/Redux/orderList';
 import { defaultOrderList } from '../common/defaultValue';
 import { orderListThunk } from './orderListThunk';
 

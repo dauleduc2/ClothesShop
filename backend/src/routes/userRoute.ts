@@ -65,16 +65,18 @@ router.post(
     [authenMiddleware, multerErrorMiddleware(upload.single("avatar"))],
     async (req: RequestWithUser<UpdateUserDTO>, res: Response) => {
         const { ID } = req.user;
+        //type handle
         if (req.file) {
             req.body.avatar = req.file.filename;
         }
+
         if (typeof req.body.avatar === "object") {
             const { avatar, ...orther } = req.body;
             req.body = orther;
         }
+        console.log(req.body);
         //validate
         const { error } = validateUpdateUser(req.body);
-
         if (error) {
             let errorToSend = {};
             error.details.forEach((detailError) => {
