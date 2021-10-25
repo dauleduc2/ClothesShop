@@ -31,11 +31,10 @@ export const orderListThunk = {
     >('orderList/adminUpdateStatusOfOrderList', async ({ ID, status }, { rejectWithValue }) => {
         try {
             await orderListApi.adminUpdateStatusOfOrderList(ID, status);
+            return { ID, status };
         } catch (error: any) {
             const rejectValue = error.response.data as ServerResponse<any>;
             return rejectWithValue(rejectValue);
         }
-
-        return { ID, status };
     }),
 };
