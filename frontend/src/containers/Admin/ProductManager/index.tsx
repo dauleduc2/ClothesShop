@@ -31,9 +31,9 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
     return (
         <>
             <div className="flex w-full">
-                <div className="flex flex-col">
-                    <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div className="flex flex-col flex-1 min-w-max">
+                    <div className="-my-2 sm:-mx-6 lg:-mx-8">
+                        <div className="min-w-full py-2 align-middle sm:px-6 lg:px-8">
                             <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
@@ -74,8 +74,15 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {productListState.admin.productList.map((product) => (
-                                            <tr key={product.ID}>
+                                        {productListState.admin.productList.map((product, index) => (
+                                            <tr
+                                                key={product.ID}
+                                                className={
+                                                    (index + productListState.admin.productList.length) % 2 === 0
+                                                        ? 'bg-white w-full'
+                                                        : 'bg-gray-100 w-full'
+                                                }
+                                            >
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center">
                                                         <div className="flex-shrink-0 w-10 h-10">
@@ -111,12 +118,48 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                                     {new Date(product.createDate).toDateString()}
                                                 </td>
                                                 <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                                    <button className="text-indigo-600 hover:text-indigo-900">
-                                                        Edit
-                                                    </button>
+                                                    <div className="text-indigo-600 hover:text-indigo-900">Edit</div>
                                                 </td>
                                             </tr>
                                         ))}
+                                        {[...Array(limit - productListState.admin.productList.length)].map(
+                                            (value, index) => {
+                                                return (
+                                                    <tr
+                                                        className={
+                                                            (index + 1 + productListState.admin.productList.length) %
+                                                                2 ===
+                                                            0
+                                                                ? 'bg-white w-full'
+                                                                : 'bg-gray-100 w-full'
+                                                        }
+                                                        key={index}
+                                                    >
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex items-center invisible">
+                                                                <div className="flex-shrink-0 w-10 h-10">
+                                                                    <img className="w-10 h-10 rounded-full" alt="" />
+                                                                </div>
+                                                                <div className="ml-4">
+                                                                    <div className="text-sm font-medium text-gray-900">
+                                                                        a
+                                                                    </div>
+                                                                    <div className="text-sm text-gray-500">a</div>
+                                                                    <div className="text-sm text-gray-500">a</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                );
+                                            }
+                                        )}
                                     </tbody>
                                 </table>
                             </div>

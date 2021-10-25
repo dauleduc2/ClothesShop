@@ -62,7 +62,7 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
     return (
         <>
             <div className="flex w-full">
-                <div className="w-7/12 -my-2 overflow-x-auto text-left sm:-mx-6 lg:-mx-8 intro-y">
+                <div className="flex-1 -my-2 overflow-x-auto text-left sm:-mx-6 lg:-mx-8 intro-y">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-200">
@@ -191,175 +191,174 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                     />
                 </div>
                 {/* Order summary */}
-                {JSON.stringify(currentOrderList) !== JSON.stringify(defaultOrderListWithUserDetail) && (
-                    <section
-                        aria-labelledby="summary-heading"
-                        className="flex-grow max-w-xl px-4 py-6 ml-20 bg-gray-100 rounded-lg sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5 intro-y"
-                    >
-                        <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
-                            Order summary
-                        </h2>
+                {/* {JSON.stringify(currentOrderList) !== JSON.stringify(defaultOrderListWithUserDetail) && ( */}
+                <section
+                    aria-labelledby="summary-heading"
+                    className={`flex-grow max-w-xl px-4 py-6 ml-20 bg-gray-100 rounded-lg sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5  ${
+                        JSON.stringify(currentOrderList) !== JSON.stringify(defaultOrderListWithUserDetail)
+                            ? 'visible intro-y'
+                            : 'invisible'
+                    }`}
+                >
+                    <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
+                        Order summary
+                    </h2>
 
-                        <dl className="mt-6 space-y-4">
-                            <div className="flex flex-col items-center justify-between pt-4 border-t border-gray-200">
-                                <table className="w-full text-gray-500 ">
-                                    <thead className="text-sm text-left text-gray-500 ">
-                                        <tr>
-                                            <th scope="col" className="py-3 pr-8 font-normal ">
-                                                Product
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="hidden w-1/5 py-3 pr-8 font-normal sm:table-cell"
-                                            >
-                                                Amount
-                                            </th>
-                                            <th scope="col" className="hidden py-3 pr-8 font-normal sm:table-cell">
-                                                Price
-                                            </th>
-                                            <th scope="col" className="hidden py-3 pr-8 font-normal sm:table-cell">
-                                                Total
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-sm border-b border-gray-200 divide-y divide-gray-200 sm:border-t">
-                                        {currentOrderList.orderItem.map((orderItem) => {
-                                            return (
-                                                <tr key={orderItem.ID}>
-                                                    <td className="py-1 pr-3">
-                                                        <div className="flex items-center">
-                                                            <img
-                                                                src={`${urlLink.ENV_SERVER}/${orderItem.product.productAvatar}`}
-                                                                alt={orderItem.product.name}
-                                                                className="object-cover object-center w-12 h-12 mr-6 rounded"
-                                                            />
-                                                            <div className="text-sm">
-                                                                <div className="font-medium text-gray-900">
-                                                                    {orderItem.product.name}
-                                                                </div>
-                                                                <div className="mt-1 ">
-                                                                    {orderItem.color.name} - {orderItem.size.name}
-                                                                </div>
-                                                                <div className="mt-1 sm:hidden">{orderItem.price}$</div>
+                    <dl className="mt-6 space-y-4">
+                        <div className="flex flex-col items-center justify-between pt-4 border-t border-gray-200">
+                            <table className="w-full text-gray-500 ">
+                                <thead className="text-sm text-left text-gray-500 ">
+                                    <tr>
+                                        <th scope="col" className="py-3 pr-8 font-normal ">
+                                            Product
+                                        </th>
+                                        <th scope="col" className="hidden w-1/5 py-3 pr-8 font-normal sm:table-cell">
+                                            Amount
+                                        </th>
+                                        <th scope="col" className="hidden py-3 pr-8 font-normal sm:table-cell">
+                                            Price
+                                        </th>
+                                        <th scope="col" className="hidden py-3 pr-8 font-normal sm:table-cell">
+                                            Total
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-sm border-b border-gray-200 divide-y divide-gray-200 sm:border-t">
+                                    {currentOrderList.orderItem.map((orderItem) => {
+                                        return (
+                                            <tr key={orderItem.ID}>
+                                                <td className="py-1 pr-3">
+                                                    <div className="flex items-center">
+                                                        <img
+                                                            src={`${urlLink.ENV_SERVER}/${orderItem.product.productAvatar}`}
+                                                            alt={orderItem.product.name}
+                                                            className="object-cover object-center w-12 h-12 mr-6 rounded"
+                                                        />
+                                                        <div className="text-sm">
+                                                            <div className="font-medium text-gray-900">
+                                                                {orderItem.product.name}
                                                             </div>
+                                                            <div className="mt-1 ">
+                                                                {orderItem.color.name} - {orderItem.size.name}
+                                                            </div>
+                                                            <div className="mt-1 sm:hidden">{orderItem.price}$</div>
                                                         </div>
-                                                    </td>
-                                                    <td className="hidden py-6 pr-8 text-sm sm:table-cell">
-                                                        {orderItem.amount}
-                                                    </td>
-                                                    <td className="hidden py-6 pr-8 text-sm sm:table-cell">
-                                                        ${orderItem.price}$
-                                                    </td>
-                                                    <td className="hidden py-6 pr-8 text-sm sm:table-cell">
-                                                        ${orderItem.price * orderItem.amount}
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                        <tr>
-                                            <td className="text-base font-medium text-gray-900">Order total</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td className="py-4 pr-8 text-base font-medium text-gray-900">
-                                                $
-                                                {currentOrderList.orderItem.reduce((prev, current) => {
-                                                    return prev + current.amount * current.price;
-                                                }, 0)}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </dl>
-                        <Listbox value={selected} onChange={setSelected}>
-                            <div className="relative mt-1">
-                                <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <span className="block truncate">
-                                        {capitalizeFirstLetter(selected.toLowerCase())}
-                                    </span>
-                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                        <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                                    </span>
-                                </Listbox.Button>
+                                                    </div>
+                                                </td>
+                                                <td className="hidden py-6 pr-8 text-sm sm:table-cell">
+                                                    {orderItem.amount}
+                                                </td>
+                                                <td className="hidden py-6 pr-8 text-sm sm:table-cell">
+                                                    ${orderItem.price}$
+                                                </td>
+                                                <td className="hidden py-6 pr-8 text-sm sm:table-cell">
+                                                    ${orderItem.price * orderItem.amount}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                    <tr>
+                                        <td className="text-base font-medium text-gray-900">Order total</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td className="py-4 pr-8 text-base font-medium text-gray-900">
+                                            $
+                                            {currentOrderList.orderItem.reduce((prev, current) => {
+                                                return prev + current.amount * current.price;
+                                            }, 0)}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </dl>
+                    <Listbox value={selected} onChange={setSelected}>
+                        <div className="relative mt-1">
+                            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <span className="block truncate">{capitalizeFirstLetter(selected.toLowerCase())}</span>
+                                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                    <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                                </span>
+                            </Listbox.Button>
 
-                                <Transition
-                                    as={Fragment}
-                                    leave="transition ease-in duration-100"
-                                    leaveFrom="opacity-100"
-                                    leaveTo="opacity-0"
-                                >
-                                    <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                        {status.map((status) => (
-                                            <Listbox.Option
-                                                key={status}
-                                                className={({ active }) =>
-                                                    classNames(
-                                                        active ? 'text-white bg-indigo-600' : 'text-gray-900',
-                                                        'cursor-default select-none relative py-2 pl-8 pr-4'
-                                                    )
-                                                }
-                                                value={status}
-                                            >
-                                                {({ selected, active }) => (
-                                                    <>
+                            <Transition
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                    {status.map((status) => (
+                                        <Listbox.Option
+                                            key={status}
+                                            className={({ active }) =>
+                                                classNames(
+                                                    active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                                    'cursor-default select-none relative py-2 pl-8 pr-4'
+                                                )
+                                            }
+                                            value={status}
+                                        >
+                                            {({ selected, active }) => (
+                                                <>
+                                                    <span
+                                                        className={classNames(
+                                                            selected ? 'font-semibold' : 'font-normal',
+                                                            'block truncate'
+                                                        )}
+                                                    >
+                                                        {capitalizeFirstLetter(status.toLowerCase())}
+                                                    </span>
+
+                                                    {selected ? (
                                                         <span
                                                             className={classNames(
-                                                                selected ? 'font-semibold' : 'font-normal',
-                                                                'block truncate'
+                                                                active ? 'text-white' : 'text-indigo-600',
+                                                                'absolute inset-y-0 left-0 flex items-center pl-1.5'
                                                             )}
                                                         >
-                                                            {capitalizeFirstLetter(status.toLowerCase())}
+                                                            <CheckIcon className="w-5 h-5" aria-hidden="true" />
                                                         </span>
+                                                    ) : null}
+                                                </>
+                                            )}
+                                        </Listbox.Option>
+                                    ))}
+                                </Listbox.Options>
+                            </Transition>
+                        </div>
+                    </Listbox>
 
-                                                        {selected ? (
-                                                            <span
-                                                                className={classNames(
-                                                                    active ? 'text-white' : 'text-indigo-600',
-                                                                    'absolute inset-y-0 left-0 flex items-center pl-1.5'
-                                                                )}
-                                                            >
-                                                                <CheckIcon className="w-5 h-5" aria-hidden="true" />
-                                                            </span>
-                                                        ) : null}
-                                                    </>
-                                                )}
-                                            </Listbox.Option>
-                                        ))}
-                                    </Listbox.Options>
-                                </Transition>
+                    <div className="border-t border-gray-200 sm:p-0">
+                        <dl className="flex flex-col sm:divide-y sm:divide-gray-200">
+                            <div className="py-4 sm:py-5 sm:flex sm:gap-4 sm:px-0">
+                                <dt className="text-sm font-medium text-gray-900">Address : </dt>
+                                <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-2 sm:mt-0 sm:col-span-2">
+                                    {currentOrderList.address}
+                                </dd>
                             </div>
-                        </Listbox>
+                        </dl>
+                        <dl className="flex flex-col sm:divide-y sm:divide-gray-200">
+                            <div className=" sm:flex sm:gap-4 sm:px-0">
+                                <dt className="text-sm font-medium text-gray-900">Phone number : </dt>
+                                <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-2 sm:mt-0 sm:col-span-2">
+                                    {currentOrderList.phoneNumber}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
 
-                        <div className="border-t border-gray-200 sm:p-0">
-                            <dl className="flex flex-col sm:divide-y sm:divide-gray-200">
-                                <div className="py-4 sm:py-5 sm:flex sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium text-gray-900">Address : </dt>
-                                    <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-2 sm:mt-0 sm:col-span-2">
-                                        {currentOrderList.address}
-                                    </dd>
-                                </div>
-                            </dl>
-                            <dl className="flex flex-col sm:divide-y sm:divide-gray-200">
-                                <div className=" sm:flex sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium text-gray-900">Phone number : </dt>
-                                    <dd className="mt-1 ml-0 text-sm text-gray-900 lg:ml-2 sm:mt-0 sm:col-span-2">
-                                        {currentOrderList.phoneNumber}
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-
-                        <div className="mt-6">
-                            <button
-                                type="button"
-                                className="w-full px-4 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-                                onClick={() => onHandleSubmit()}
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </section>
-                )}
+                    <div className="mt-6">
+                        <button
+                            type="button"
+                            className="w-full px-4 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                            onClick={() => onHandleSubmit()}
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </section>
+                {/* )} */}
             </div>
         </>
     );

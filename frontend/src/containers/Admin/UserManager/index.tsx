@@ -4,8 +4,6 @@ import { RootState, store } from '../../../redux';
 import { useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import queryString from 'query-string';
-import { Link } from 'react-router-dom';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { userThunk } from '../../../redux/user/userThunk';
 import { UserState } from '../../../common/interfaces/Redux/user';
 import * as urlLink from '../../../consts/url';
@@ -32,8 +30,8 @@ const UserManagerPage: React.FunctionComponent<UserManagerProps> = ({ location }
     return (
         <>
             <div className="flex w-full">
-                <div className="w-full -my-2 overflow-x-auto text-left sm:-mx-6 lg:-mx-8 intro-y">
-                    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div className="flex flex-col flex-1 w-full -my-2 overflow-x-auto text-left sm:-mx-6 lg:-mx-8 intro-y">
+                    <div className="min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
@@ -114,11 +112,11 @@ const UserManagerPage: React.FunctionComponent<UserManagerProps> = ({ location }
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                                 {user.role === 1 ? (
-                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-gray-800">
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-red-100 text-gray-800">
                                                         Admin
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-gray-800">
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-green-100 text-gray-800">
                                                         User
                                                     </span>
                                                 )}
