@@ -9,13 +9,12 @@ import { OrderListWithUserDetailDTO } from '../../../common/interfaces/DTO/order
 import { capitalizeFirstLetter } from '../../../utils/textHelper';
 import { RouteComponentProps } from 'react-router';
 import queryString from 'query-string';
-import { Link } from 'react-router-dom';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { defaultOrderListWithUserDetail } from '../../../redux/common/defaultValue';
 import * as notificationHelper from '../../../utils/notificationHelper';
 import { OrderStatusString } from '../../../common/interfaces/Model/OrderList';
 import { OrderListState } from '../../../common/interfaces/Redux/orderList';
 import * as urlLink from '../../../consts/url';
+import PaginationBar from '../../../components/common/PaginationBar';
 interface OrderManagerProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -38,13 +37,6 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
     const [limit, setLimit] = useState<number>(Number(params.limit));
     const [page, setPage] = useState<number>(Number(params.page));
 
-    //variable for pagination
-    let isTruncate = false; //this variable for checking is render truncated box or not
-    const numLinksTwoSide = 1;
-    const totalPage = Math.ceil(orderListState.admin.count / limit);
-    const minRange = numLinksTwoSide + 4;
-    const numberOfTruncLeft = page - numLinksTwoSide;
-    const numberOfTruncRight = page + numLinksTwoSide;
     //on submit form
     const onHandleSubmit = async () => {
         const res = await store.dispatch(
@@ -191,113 +183,12 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                         </div>
                     </div>
                     {/* pagination bar */}
-                    <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
-                        <div className="flex justify-between flex-1 sm:hidden">
-                            <Link
-                                to={`${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page - 1}`}
-                                className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                            >
-                                Previous
-                            </Link>
-                            <Link
-                                to={`${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page + 1}`}
-                                className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                            >
-                                Next
-                            </Link>
-                        </div>
-                        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                                <p className="text-sm text-gray-700">
-                                    Showing <span className="font-medium">{limit * (page - 1) + 1}</span> to{' '}
-                                    <span className="font-medium">{limit * page}</span> of{' '}
-                                    <span className="font-medium">{orderListState.admin.count}</span> orders
-                                </p>
-                            </div>
-                            <div>
-                                <nav
-                                    className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm"
-                                    aria-label="Pagination"
-                                >
-                                    <Link
-                                        to={
-                                            page - 1 === 0
-                                                ? `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${1}`
-                                                : `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page - 1}`
-                                        }
-                                        className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50"
-                                    >
-                                        <span className="sr-only">Previous</span>
-                                        <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
-                                    </Link>
-                                    {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-                                    {[...Array(totalPage)].map((value, index) => {
-                                        const pos = index + 1;
-                                        //truncate left
-                                        if (pos < totalPage - minRange + 1) {
-                                            if (numberOfTruncLeft > 3 && pos !== 1 && pos <= numberOfTruncLeft - 1) {
-                                                if (!isTruncate) {
-                                                    isTruncate = true;
-                                                    return (
-                                                        <span className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300">
-                                                            ...
-                                                        </span>
-                                                    );
-                                                }
-                                                return <></>;
-                                            }
-                                        }
-
-                                        //truncate right
-                                        if (
-                                            numberOfTruncRight < totalPage - 3 + 1 &&
-                                            pos !== totalPage &&
-                                            pos > numberOfTruncRight
-                                        ) {
-                                            if (pos > minRange) {
-                                                if (!isTruncate) {
-                                                    isTruncate = true;
-                                                    return (
-                                                        <span className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300">
-                                                            ...
-                                                        </span>
-                                                    );
-                                                }
-
-                                                return <></>;
-                                            }
-                                        }
-                                        //reset truncated when a box is rendered
-                                        isTruncate = false;
-                                        return (
-                                            <Link
-                                                to={`${urlLink.ADMIN_ORDER}?limit=${limit}&page=${index + 1}`}
-                                                className={
-                                                    index + 1 === page
-                                                        ? 'relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-500 bg-indigo-50'
-                                                        : 'relative items-center hidden px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 md:inline-flex'
-                                                }
-                                            >
-                                                {index + 1}
-                                            </Link>
-                                        );
-                                    })}
-
-                                    <Link
-                                        to={
-                                            page === totalPage
-                                                ? `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${totalPage}`
-                                                : `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page + 1}`
-                                        }
-                                        className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50"
-                                    >
-                                        <span className="sr-only">Next</span>
-                                        <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
-                                    </Link>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
+                    <PaginationBar
+                        page={page}
+                        limit={limit}
+                        numberOfItem={orderListState.admin.count}
+                        routeUrl={urlLink.ADMIN_ORDER}
+                    />
                 </div>
                 {/* Order summary */}
                 {JSON.stringify(currentOrderList) !== JSON.stringify(defaultOrderListWithUserDetail) && (

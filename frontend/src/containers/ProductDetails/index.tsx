@@ -2,21 +2,21 @@ import * as React from 'react';
 
 import { RadioGroup } from '@headlessui/react';
 import { RouteComponentProps } from 'react-router';
-import { RootState, store } from '../../../redux';
-import { productThunk } from '../../../redux/product/productThunk';
+import { RootState, store } from '../../redux';
+import { productThunk } from '../../redux/product/productThunk';
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { color } from '../../../common/interfaces/Model/Color';
-import { size } from '../../../common/interfaces/Model/Size';
-import { ProductInCart } from '../../../common/interfaces/DTO/cartDTO';
-import { cartListAction } from '../../../redux/cart/cart';
-import * as NotificationHelper from '../../../utils/notificationHelper';
-import { defaultColor, defaultSize } from '../../../redux/common/defaultValue';
-import MinusIcon from '../../../components/common/icon/Minus';
-import AddIcon from '../../../components/common/icon/Add';
-import { ProductState } from '../../../common/interfaces/Redux/product';
-import { UserState } from '../../../common/interfaces/Redux/user';
-import * as urlLink from '../../../consts/url';
+import { color } from '../../common/interfaces/Model/Color';
+import { size } from '../../common/interfaces/Model/Size';
+import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { cartListAction } from '../../redux/cart/cart';
+import * as NotificationHelper from '../../utils/notificationHelper';
+import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
+import MinusIcon from '../../components/common/icon/Minus';
+import AddIcon from '../../components/common/icon/Add';
+import { ProductState } from '../../common/interfaces/Redux/product';
+import { UserState } from '../../common/interfaces/Redux/user';
+import * as urlLink from '../../consts/url';
 interface RouteParams {
     productName: string;
 }
