@@ -15,6 +15,7 @@ import { defaultOrderListWithUserDetail } from '../../../redux/common/defaultVal
 import * as notificationHelper from '../../../utils/notificationHelper';
 import { OrderStatusString } from '../../../common/interfaces/Model/OrderList';
 import { OrderListState } from '../../../common/interfaces/Redux/orderList';
+import * as urlLink from '../../../consts/url';
 interface OrderManagerProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -193,13 +194,13 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
                         <div className="flex justify-between flex-1 sm:hidden">
                             <Link
-                                to={`/admin/order?limit=${limit}&page=${page - 1}`}
+                                to={`${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page - 1}`}
                                 className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                             >
                                 Previous
                             </Link>
                             <Link
-                                to={`/admin/order?limit=${limit}&page=${page + 1}`}
+                                to={`${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page + 1}`}
                                 className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                             >
                                 Next
@@ -221,8 +222,8 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                     <Link
                                         to={
                                             page - 1 === 0
-                                                ? `/admin/order?limit=${limit}&page=${1}`
-                                                : `/admin/order?limit=${limit}&page=${page - 1}`
+                                                ? `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${1}`
+                                                : `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page - 1}`
                                         }
                                         className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50"
                                     >
@@ -270,7 +271,7 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                         isTruncate = false;
                                         return (
                                             <Link
-                                                to={`/admin/order?limit=${limit}&page=${index + 1}`}
+                                                to={`${urlLink.ADMIN_ORDER}?limit=${limit}&page=${index + 1}`}
                                                 className={
                                                     index + 1 === page
                                                         ? 'relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-500 bg-indigo-50'
@@ -285,8 +286,8 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                     <Link
                                         to={
                                             page === totalPage
-                                                ? `/admin/order?limit=${limit}&page=${totalPage}`
-                                                : `/admin/order?limit=${limit}&page=${page + 1}`
+                                                ? `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${totalPage}`
+                                                : `${urlLink.ADMIN_ORDER}?limit=${limit}&page=${page + 1}`
                                         }
                                         className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50"
                                     >
@@ -337,7 +338,7 @@ const OrderManagerPage: React.FunctionComponent<OrderManagerProps> = ({ location
                                                     <td className="py-1 pr-3">
                                                         <div className="flex items-center">
                                                             <img
-                                                                src={`${process.env.REACT_APP_SERVER_URL}/${orderItem.product.productAvatar}`}
+                                                                src={`${urlLink.ENV_SERVER}/${orderItem.product.productAvatar}`}
                                                                 alt={orderItem.product.name}
                                                                 className="object-cover object-center w-12 h-12 mr-6 rounded"
                                                             />

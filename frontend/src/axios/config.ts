@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
-
+import * as urlLink from '../consts/url';
 const axiosClient: AxiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_SERVER_URL,
+    baseURL: urlLink.ENV_SERVER,
     withCredentials: true,
 });
 

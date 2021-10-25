@@ -11,7 +11,7 @@ import { formAction } from '../../redux/form/form';
 import { UserState } from '../../common/interfaces/Redux/user';
 import { RegisterUserDTO } from '../../common/interfaces/DTO/userDTO';
 import { FormState } from '../../common/interfaces/Redux/form';
-
+import * as urlLink from '../../consts/url';
 interface RegisterProps {}
 
 const Register: React.FunctionComponent<RegisterProps> = () => {
@@ -97,7 +97,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
                             <div className="self-end text-sm">
                                 Already have an account?{' '}
                                 <Link
-                                    to="/user/login"
+                                    to={urlLink.LOGIN}
                                     className="font-semibold text-indigo-600 underline hover:text-indigo-500"
                                 >
                                     Login

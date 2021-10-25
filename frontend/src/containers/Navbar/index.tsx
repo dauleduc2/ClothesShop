@@ -13,6 +13,7 @@ import * as notificationHelper from '../../utils/notificationHelper';
 import { SearchIcon } from '@heroicons/react/solid';
 import { UserState } from '../../common/interfaces/Redux/user';
 import { CartState } from '../../common/interfaces/Redux/cart';
+import * as urlLink from '../../consts/url';
 interface NavbarProps {}
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
@@ -88,7 +89,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                         {/* Cart */}
                                         <Popover className="flow-root text-sm lg:relative lg:ml-8">
                                             <Popover.Button className="flex items-center p-2 -m-2 ">
-                                                <Link to="/user/cart" className="relative w-6 h-6 ">
+                                                <Link to={urlLink.CART} className="relative w-6 h-6 ">
                                                     <ShoppingBagIcon
                                                         className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-gray-500 "
                                                         aria-hidden="true"
@@ -114,7 +115,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                         className="w-8 h-8 rounded-full"
                                                         src={
                                                             userState.user.avatar
-                                                                ? `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
+                                                                ? `${urlLink.ENV_SERVER}/${userState.user.avatar}`
                                                                 : '../images/avatar.png'
                                                         }
                                                         alt=""
@@ -204,7 +205,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                 </div>
                             ) : (
                                 <NavLink
-                                    to="/user/login"
+                                    to={urlLink.LOGIN}
                                     exact={true}
                                     className="hidden px-3 py-2 text-base font-medium text-gray-300 rounded-md lg:block hover:bg-gray-700 hover:text-white"
                                     activeClassName="block px-3 py-2 text-base font-medium text-white bg-gray-900 rounded-md"
@@ -240,7 +241,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                             className="w-10 h-10 rounded-full"
                                             src={
                                                 userState.user.avatar
-                                                    ? `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
+                                                    ? `${urlLink.ENV_SERVER}/${userState.user.avatar}`
                                                     : '../images/avatar.png'
                                             }
                                             alt=""
@@ -287,7 +288,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                             <div className="pt-2 pb-2 border-t border-gray-700">
                                 <div className="px-2 space-y-1">
                                     <NavLink
-                                        to="/user/login"
+                                        to={urlLink.LOGIN}
                                         exact={true}
                                         className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                                         activeClassName="block px-3 py-2 text-base font-medium text-white bg-gray-900 rounded-md"

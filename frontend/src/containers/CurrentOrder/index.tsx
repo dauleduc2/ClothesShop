@@ -5,6 +5,7 @@ import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { Link } from 'react-router-dom';
 import { OrderListState } from '../../common/interfaces/Redux/orderList';
+import * as urlLink from '../../consts/url';
 interface RouteParams {
     orderID: string;
 }
@@ -121,7 +122,7 @@ const CurrentOrder: React.FunctionComponent<CurrentOrderProps> = ({ match }) => 
                                         <td className="py-6 pr-8">
                                             <div className="flex items-center">
                                                 <img
-                                                    src={`${process.env.REACT_APP_SERVER_URL}/${orderItem.product.productAvatar}`}
+                                                    src={`${urlLink.ENV_SERVER}/${orderItem.product.productAvatar}`}
                                                     alt={orderItem.product.name}
                                                     className="object-cover object-center w-16 h-16 mr-6 rounded"
                                                 />
@@ -139,7 +140,10 @@ const CurrentOrder: React.FunctionComponent<CurrentOrderProps> = ({ match }) => 
                                         <td className="hidden py-6 pr-8 sm:table-cell">{orderItem.price}$</td>
                                         <td className="hidden py-6 pr-8 sm:table-cell">{orderItem.amount}</td>
                                         <td className="py-6 font-medium text-right whitespace-nowrap">
-                                            <Link to={`/product/${orderItem.product.name}`} className="text-indigo-600">
+                                            <Link
+                                                to={`${urlLink.PRODUCT}/${orderItem.product.name}`}
+                                                className="text-indigo-600"
+                                            >
                                                 View Product
                                             </Link>
                                         </td>

@@ -9,6 +9,7 @@ import DoneIcon from '../../components/common/icon/Done';
 import CancelIcon from '../../components/common/icon/Error';
 import DetailIcon from '../../components/common/icon/Detail';
 import { OrderListState } from '../../common/interfaces/Redux/orderList';
+import * as urlLink from '../../consts/url';
 interface OrderPageProps {}
 
 const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
@@ -89,7 +90,7 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                                     <div className="flex -mt-px divide-x divide-gray-200">
                                         <div className="flex flex-1 w-0">
                                             <Link
-                                                to={`/user/order/${order.orderID}`}
+                                                to={`${urlLink.ORDER}/${order.orderID}`}
                                                 className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px text-sm font-medium text-gray-700 border border-transparent rounded-bl-lg hover:text-gray-500"
                                             >
                                                 <div className="">
@@ -114,7 +115,7 @@ const OrderPage: React.FunctionComponent<OrderPageProps> = () => {
                         </p>
                         <Link
                             className="inline-flex items-center px-4 py-2 m-auto mt-6 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm w-max hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            to="/"
+                            to={urlLink.HOME}
                         >
                             Shopping now!
                         </Link>

@@ -16,6 +16,7 @@ import MinusIcon from '../../../components/common/icon/Minus';
 import AddIcon from '../../../components/common/icon/Add';
 import { ProductState } from '../../../common/interfaces/Redux/product';
 import { UserState } from '../../../common/interfaces/Redux/user';
+import * as urlLink from '../../../consts/url';
 interface RouteParams {
     productName: string;
 }
@@ -96,14 +97,14 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
 
                                 <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
                                     <img
-                                        src={`${process.env.REACT_APP_SERVER_URL}/${productState.currentProduct.productAvatar}`}
+                                        src={`${urlLink.ENV_SERVER}/${productState.currentProduct.productAvatar}`}
                                         alt="productAvatar"
                                         className="w-full rounded-lg lg:col-span-2 lg:row-span-2 intro-y"
                                     />
                                     {productState.currentProduct.images.map((image, index) => (
                                         <img
                                             key={image.ID}
-                                            src={`${process.env.REACT_APP_SERVER_URL}/${image.imageLink}`}
+                                            src={`${urlLink.ENV_SERVER}/${image.imageLink}`}
                                             alt={image.ID}
                                             className="hidden rounded-lg shadow-xl lg:block intro-y"
                                         />

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { productThunk } from '../../../redux/product/productThunk';
 import { ProductState } from '../../../common/interfaces/Redux/product';
+import * as urlLink from '../../../consts/url';
 interface ProductManagerPageProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -90,7 +91,7 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                                         <div className="flex-shrink-0 w-10 h-10">
                                                             <img
                                                                 className="w-10 h-10 rounded-full"
-                                                                src={`${process.env.REACT_APP_SERVER_URL}/${product.productAvatar}`}
+                                                                src={`${urlLink.ENV_SERVER}/${product.productAvatar}`}
                                                                 alt=""
                                                             />
                                                         </div>
@@ -135,13 +136,13 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
                         <div className="flex justify-between flex-1 sm:hidden">
                             <Link
-                                to={`/admin/product?limit=${limit}&page=${page - 1}`}
+                                to={`${urlLink.ADMIN_PRODUCT}?limit=${limit}&page=${page - 1}`}
                                 className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                             >
                                 Previous
                             </Link>
                             <Link
-                                to={`/admin/product?limit=${limit}&page=${page + 1}`}
+                                to={`${urlLink.ADMIN_PRODUCT}?limit=${limit}&page=${page + 1}`}
                                 className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                             >
                                 Next
@@ -163,8 +164,8 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                     <Link
                                         to={
                                             page - 1 === 0
-                                                ? `/admin/product?limit=${limit}&page=${1}`
-                                                : `/admin/product?limit=${limit}&page=${page - 1}`
+                                                ? `${urlLink.ADMIN_PRODUCT}?limit=${limit}&page=${1}`
+                                                : `${urlLink.ADMIN_PRODUCT}?limit=${limit}&page=${page - 1}`
                                         }
                                         className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50"
                                     >
@@ -212,7 +213,7 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                         isTruncate = false;
                                         return (
                                             <Link
-                                                to={`/admin/product?limit=${limit}&page=${index + 1}`}
+                                                to={`${urlLink.ADMIN_PRODUCT}?limit=${limit}&page=${index + 1}`}
                                                 className={
                                                     index + 1 === page
                                                         ? 'relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-500 bg-indigo-50'
@@ -227,8 +228,8 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                     <Link
                                         to={
                                             page === totalPage
-                                                ? `/admin/product?limit=${limit}&page=${totalPage}`
-                                                : `/admin/product?limit=${limit}&page=${page + 1}`
+                                                ? `${urlLink.ADMIN_PRODUCT}?limit=${limit}&page=${totalPage}`
+                                                : `${urlLink.ADMIN_PRODUCT}?limit=${limit}&page=${page + 1}`
                                         }
                                         className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50"
                                     >

@@ -13,7 +13,7 @@ import { formAction } from '../../redux/form/form';
 import { UserState } from '../../common/interfaces/Redux/user';
 import { FormState } from '../../common/interfaces/Redux/form';
 import { UpdateUserFieldDTO } from '../../common/interfaces/DTO/userDTO';
-
+import * as urlLink from '../../consts/url';
 interface MeProps {}
 
 const defaultValues: UpdateUserFieldDTO = { email: '', fullName: '', avatar: null, address: '', phoneNumber: '' };
@@ -100,7 +100,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                                 buttonName="Change avatar"
                                 avatarUrl={
                                     Boolean(userState.user.avatar)
-                                        ? `${process.env.REACT_APP_SERVER_URL}/${userState.user.avatar}`
+                                        ? `${urlLink.ENV_SERVER}/${userState.user.avatar}`
                                         : '/images/avatar.png'
                                 }
                                 setFile={setFile}

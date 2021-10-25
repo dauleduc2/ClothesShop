@@ -16,7 +16,7 @@ import { OrderItemToSend } from '../../common/interfaces/DTO/orderItemDTO';
 import { CartState } from '../../common/interfaces/Redux/cart';
 import { ShipmentDetailDTO } from '../../common/interfaces/DTO/userDTO';
 import { OrderListToSendDTO } from '../../common/interfaces/DTO/orderListDTO';
-
+import * as urlLink from '../../consts/url';
 interface CartProps {}
 
 const Cart: React.FunctionComponent<CartProps> = () => {
@@ -87,7 +87,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                     <p className="m-auto text-base">Go shopping now to see product in your cart</p>
                     <Link
                         className="inline-flex items-center px-4 py-2 m-auto mt-6 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm w-max hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        to="/"
+                        to={urlLink.HOME}
                     >
                         Shopping now!
                     </Link>
@@ -112,7 +112,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                         <li key={productIdx} className="flex py-6 sm:py-10 intro-x">
                                             <div className="flex-shrink-0">
                                                 <img
-                                                    src={`${process.env.REACT_APP_SERVER_URL}/${product.productAvatar}`}
+                                                    src={`${urlLink.ENV_SERVER}/${product.productAvatar}`}
                                                     alt={product.name}
                                                     className="object-cover object-center w-24 h-24 rounded-md sm:w-48 sm:h-48"
                                                 />
@@ -123,12 +123,12 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                                                     <div>
                                                         <div className="flex justify-between">
                                                             <h3 className="text-sm">
-                                                                <a
-                                                                    href={`/product/${product.name}`}
+                                                                <Link
+                                                                    to={`${urlLink.PRODUCT}/${product.name}`}
                                                                     className="font-medium text-gray-700 capitalize hover:text-gray-800"
                                                                 >
                                                                     {product.name}
-                                                                </a>
+                                                                </Link>
                                                             </h3>
                                                         </div>
                                                         <div className="flex mt-1 text-sm">
