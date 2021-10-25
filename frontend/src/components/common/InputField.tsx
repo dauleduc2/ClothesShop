@@ -9,6 +9,7 @@ interface InputFieldProps {
     type?: string;
     defaultValue?: string;
     placeholder?: string;
+    required?: boolean;
 }
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({
@@ -19,6 +20,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
     register = () => {},
     defaultValue,
     placeholder,
+    required = false,
 }) => {
     return (
         <div>
@@ -27,6 +29,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
             </label>
             <div className="relative mt-1 rounded-md shadow-sm">
                 <input
+                    required={required}
                     type={type}
                     name={field}
                     id={field}

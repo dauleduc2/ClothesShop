@@ -2,20 +2,20 @@ import * as React from 'react';
 
 import { RadioGroup } from '@headlessui/react';
 import { RouteComponentProps } from 'react-router';
-import { RootState, store } from '../../redux';
-import { productThunk } from '../../redux/product/productThunk';
+import { RootState, store } from '../../../redux';
+import { productThunk } from '../../../redux/product/productThunk';
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { color } from '../../common/interfaces/Model/Color';
-import { size } from '../../common/interfaces/Model/Size';
-import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
-import { cartListAction } from '../../redux/cart/cart';
-import * as NotificationHelper from '../../utils/notificationHelper';
-import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
-import MinusIcon from '../../components/common/icon/Minus';
-import AddIcon from '../../components/common/icon/Add';
-import { ProductState } from '../../common/interfaces/Redux/product';
-import { UserState } from '../../common/interfaces/Redux/user';
+import { color } from '../../../common/interfaces/Model/Color';
+import { size } from '../../../common/interfaces/Model/Size';
+import { ProductInCart } from '../../../common/interfaces/DTO/cartDTO';
+import { cartListAction } from '../../../redux/cart/cart';
+import * as NotificationHelper from '../../../utils/notificationHelper';
+import { defaultColor, defaultSize } from '../../../redux/common/defaultValue';
+import MinusIcon from '../../../components/common/icon/Minus';
+import AddIcon from '../../../components/common/icon/Add';
+import { ProductState } from '../../../common/interfaces/Redux/product';
+import { UserState } from '../../../common/interfaces/Redux/user';
 interface RouteParams {
     productName: string;
 }
@@ -127,8 +127,8 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                         value={color}
                                                         className={({ active, checked }) =>
                                                             classNames(
-                                                                active && checked ? 'ring ring-offset-1' : '',
-                                                                !active && checked ? 'ring-2' : '',
+                                                                active && checked && 'ring ring-offset-1',
+                                                                !active && checked && 'ring-2',
                                                                 '-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none'
                                                             )
                                                         }
@@ -170,7 +170,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
                                                                 true
                                                                     ? 'cursor-pointer focus:outline-none'
                                                                     : 'opacity-25 cursor-not-allowed',
-                                                                active ? 'ring-2 ring-offset-2 ring-indigo-500' : '',
+                                                                active && 'ring-2 ring-offset-2 ring-indigo-500',
                                                                 checked
                                                                     ? 'bg-indigo-600 border-transparent text-white hover:bg-indigo-700'
                                                                     : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50',

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import { UpdateUserField } from '../../common/interfaces/DTO/userDTO';
 import { userThunk } from '../../redux/user/userThunk';
 import { store } from '../../redux';
 import * as notificationHelper from '../../utils/notificationHelper';
@@ -13,16 +12,17 @@ import { cleanObject } from '../../utils/dataHelper';
 import { formAction } from '../../redux/form/form';
 import { UserState } from '../../common/interfaces/Redux/user';
 import { FormState } from '../../common/interfaces/Redux/form';
+import { UpdateUserFieldDTO } from '../../common/interfaces/DTO/userDTO';
 
 interface MeProps {}
 
-const defaultValues: UpdateUserField = { email: '', fullName: '', avatar: null, address: '', phoneNumber: '' };
+const defaultValues: UpdateUserFieldDTO = { email: '', fullName: '', avatar: null, address: '', phoneNumber: '' };
 
 const Me: React.FunctionComponent<MeProps> = () => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
     const formState = useSelector<RootState, FormState>((state) => state.form);
-    const [file, setFile] = React.useState<File | null>();
-    const { handleSubmit, register, setValue } = useForm<UpdateUserField>({ defaultValues: defaultValues });
+    const [file, setFile] = React.useState<File>();
+    const { handleSubmit, register, setValue } = useForm<UpdateUserFieldDTO>({ defaultValues: defaultValues });
     //set default value on first render
     React.useEffect(() => {
         setValue('email', userState.user.email);
@@ -30,12 +30,12 @@ const Me: React.FunctionComponent<MeProps> = () => {
         setValue('address', userState.user.address);
         setValue('phoneNumber', userState.user.phoneNumber);
     }, [userState.user.email, userState.user.fullName, setValue, userState.user.address, userState.user.phoneNumber]);
-
+    //reset update form on first render
     React.useEffect(() => {
         store.dispatch(formAction.resetUpdateUserForm());
     }, []);
 
-    const onSubmit = async (data: UpdateUserField) => {
+    const onSubmit = async (data: UpdateUserFieldDTO) => {
         if (file) {
             data.avatar = file;
         }
@@ -63,6 +63,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                         <InformationField label="Full name">
                             <InputField
                                 field="fullName"
+                                required={true}
                                 message={formState.updateUser.fullName}
                                 defaultValue={userState.user.fullName}
                                 register={register}
@@ -71,6 +72,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
                         <InformationField label="Email">
                             <InputField
                                 field="email"
+                                required={true}
                                 message={formState.updateUser.email}
                                 defaultValue={userState.user.email}
                                 register={register}

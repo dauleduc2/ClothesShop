@@ -1,7 +1,7 @@
-import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../DTO/userDTO';
+import { LoginFormErrorMessage, RegisterFormErrorMessage, UpdateFormErrorMessage } from '../DTO/userDTO';
 
 export interface FormState {
-    login: LoginUserDTO;
-    register: RegisterUserDTO;
-    updateUser: UpdateUserDTO;
+    login: LoginFormErrorMessage;
+    register: RegisterFormErrorMessage;
+    updateUser: UpdateFormErrorMessage;
 }

@@ -141,7 +141,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                             key={route.to}
                                                                             exact={route.exact}
                                                                             className={classNames(
-                                                                                active ? 'bg-gray-100' : '',
+                                                                                active && 'bg-gray-100',
                                                                                 'block px-4 py-2 text-sm text-gray-700'
                                                                             )}
                                                                         >
@@ -159,7 +159,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                         <div
                                                                             key={route.to}
                                                                             className={classNames(
-                                                                                active ? 'bg-gray-100' : '',
+                                                                                active && 'bg-gray-100',
                                                                                 'block px-4 py-2 text-sm text-gray-700'
                                                                             )}
                                                                             onClick={() => {
@@ -187,7 +187,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                         key={route.to}
                                                                         exact={route.exact}
                                                                         className={classNames(
-                                                                            active ? 'bg-gray-100' : '',
+                                                                            active && 'bg-gray-100',
                                                                             'block px-4 py-2 text-sm text-gray-700'
                                                                         )}
                                                                     >

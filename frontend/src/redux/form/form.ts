@@ -39,7 +39,7 @@ export const form = createSlice({
     },
     extraReducers: (builder) => {
         //login
-        builder.addCase(formThunk.login.fulfilled, (state, { payload }: any) => {
+        builder.addCase(formThunk.login.fulfilled, (state) => {
             return {
                 ...state,
                 login: {
@@ -47,13 +47,15 @@ export const form = createSlice({
                 },
             };
         });
-        builder.addCase(formThunk.login.rejected, (state, { payload }: any) => {
-            return {
-                ...state,
-                login: {
-                    ...payload?.detail.error,
-                },
-            };
+        builder.addCase(formThunk.login.rejected, (state, { payload }) => {
+            if (payload) {
+                return {
+                    ...state,
+                    login: {
+                        ...payload,
+                    },
+                };
+            }
         });
         //register
         builder.addCase(formThunk.register.fulfilled, (state) => {
@@ -64,22 +66,26 @@ export const form = createSlice({
                 },
             };
         });
-        builder.addCase(formThunk.register.rejected, (state, { payload }: any) => {
-            return {
-                ...state,
-                register: {
-                    ...payload?.detail.error,
-                },
-            };
+        builder.addCase(formThunk.register.rejected, (state, { payload }) => {
+            if (payload) {
+                return {
+                    ...state,
+                    register: {
+                        ...payload,
+                    },
+                };
+            }
         });
         //update
-        builder.addCase(userThunk.updateUser.rejected, (state, { payload }: any) => {
-            return {
-                ...state,
-                updateUser: {
-                    ...payload?.detail.error,
-                },
-            };
+        builder.addCase(userThunk.updateUser.rejected, (state, { payload }) => {
+            if (payload) {
+                return {
+                    ...state,
+                    updateUser: {
+                        ...payload,
+                    },
+                };
+            }
         });
     },
 });

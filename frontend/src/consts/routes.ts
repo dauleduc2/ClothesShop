@@ -1,7 +1,7 @@
 import CategoryPage from '../components/Category';
 import HomePage from '../components/HomePage';
 import MePage from '../containers/Me';
-import ProductPage from '../containers/ProductDetails';
+import ProductPage from '../containers/Admin/ProductDetails';
 import LoginPage from '../containers/Login';
 import Register from '../containers/Register';
 import Cart from '../containers/Cart';
@@ -10,9 +10,9 @@ import CurrentOrder from '../containers/CurrentOrder';
 import NotFoundPage from '../components/NotFoundPage';
 import { ArchiveIcon, PencilAltIcon } from '@heroicons/react/outline';
 import UserGroup from '../components/common/icon/UserGroup';
-import OrderManagerPage from '../containers/OrderManager';
-import UserManagerPage from '../containers/UserManager';
-import ProductManagerPage from '../containers/ProductManager';
+import OrderManagerPage from '../containers/Admin/OrderManager';
+import UserManagerPage from '../containers/Admin/UserManager';
+import ProductManagerPage from '../containers/Admin/ProductManager';
 interface Route {
     to: string;
     exact: boolean;

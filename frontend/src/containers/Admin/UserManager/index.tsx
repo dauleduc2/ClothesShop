@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import React from 'react';
-import { RootState, store } from '../../redux';
+import { RootState, store } from '../../../redux';
 import { useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
-import { userThunk } from '../../redux/user/userThunk';
-import { UserState } from '../../common/interfaces/Redux/user';
+import { userThunk } from '../../../redux/user/userThunk';
+import { UserState } from '../../../common/interfaces/Redux/user';
 interface UserManagerProps extends RouteComponentProps {}
 
 interface QueryProps {

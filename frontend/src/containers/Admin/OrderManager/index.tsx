@@ -2,19 +2,19 @@ import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import React from 'react';
-import { RootState, store } from '../../redux';
-import { orderListThunk } from '../../redux/orderList/orderListThunk';
+import { RootState, store } from '../../../redux';
+import { orderListThunk } from '../../../redux/orderList/orderListThunk';
 import { useSelector } from 'react-redux';
-import { OrderListWithUserDetailDTO } from '../../common/interfaces/DTO/orderListDTO';
-import { capitalizeFirstLetter } from '../../utils/textHelper';
+import { OrderListWithUserDetailDTO } from '../../../common/interfaces/DTO/orderListDTO';
+import { capitalizeFirstLetter } from '../../../utils/textHelper';
 import { RouteComponentProps } from 'react-router';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
-import { defaultOrderListWithUserDetail } from '../../redux/common/defaultValue';
-import * as notificationHelper from '../../utils/notificationHelper';
-import { OrderStatusString } from '../../common/interfaces/Model/OrderList';
-import { OrderListState } from '../../common/interfaces/Redux/orderList';
+import { defaultOrderListWithUserDetail } from '../../../redux/common/defaultValue';
+import * as notificationHelper from '../../../utils/notificationHelper';
+import { OrderStatusString } from '../../../common/interfaces/Model/OrderList';
+import { OrderListState } from '../../../common/interfaces/Redux/orderList';
 interface OrderManagerProps extends RouteComponentProps {}
 
 interface QueryProps {
