@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import * as express from "express";
 import { getCustomRepository } from "typeorm";
 import * as dataHelper from "../utils/dataHelper";
-import { OrderListRepository } from "../Repository/OrderListRepository";
 import { adminQueryPage } from "../interfaces/common/Query";
+import { ProductRepository } from "../Repository/ProductRepository";
 const router = express.Router();
 
 //GET - get all order
@@ -11,14 +11,14 @@ router.get(
     "/",
     async (req: Request<null, null, null, adminQueryPage>, res: Response) => {
         //get connection
-        const orderRepo = await getCustomRepository(OrderListRepository);
-        const orderListWithCount = await orderRepo.getAllOrderList({
+        const productRepo = await getCustomRepository(ProductRepository);
+        const productWithCount = await productRepo.adminGetAllProduct({
             limit: req.query.limit,
             page: req.query.page,
         });
         return res.send(
             dataHelper.getResponseForm(
-                orderListWithCount,
+                productWithCount,
                 null,
                 "get all order list success!"
             )

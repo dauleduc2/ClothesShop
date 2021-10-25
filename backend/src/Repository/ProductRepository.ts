@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Product } from "../entity/Product";
 import { adminQueryPage } from "../interfaces/common/Query";
+import { ResponseDataWithCount } from "../interfaces/common/Request";
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
     async addNewProduct(product: Product) {
@@ -25,9 +26,19 @@ export class ProductRepository extends Repository<Product> {
         return result;
     }
 
-    async adminGetAllProduct({ limit, page }: adminQueryPage) {
-        let result = await this.find({});
-        return result;
+    async adminGetAllProduct({
+        limit,
+        page,
+    }: adminQueryPage): Promise<ResponseDataWithCount<Product[]>> {
+        let result = await this.findAndCount({
+            relations: ["images", "sizes", "types", "colors"],
+            take: limit,
+            skip: (page - 1) * limit,
+        });
+        return {
+            data: result[0],
+            count: result[1],
+        };
     }
 
     async findByName(name: string) {
