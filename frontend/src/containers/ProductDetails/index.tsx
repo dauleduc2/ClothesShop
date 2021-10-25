@@ -5,17 +5,17 @@ import { RouteComponentProps } from 'react-router';
 import { RootState, store } from '../../redux';
 import { productThunk } from '../../redux/product/productThunk';
 import { useSelector } from 'react-redux';
-import { ProductState } from '../../common/interfaces/product';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { color } from '../../common/interfaces/color';
-import { size } from '../../common/interfaces/size';
-import { ProductInCart } from '../../common/interfaces/cart';
+import { color } from '../../common/interfaces/Model/Color';
+import { size } from '../../common/interfaces/Model/Size';
+import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
 import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
-import { UserState } from '../../common/interfaces/user';
 import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
 import MinusIcon from '../../components/common/icon/Minus';
 import AddIcon from '../../components/common/icon/Add';
+import { ProductState } from '../../common/interfaces/Redux/product';
+import { UserState } from '../../common/interfaces/Redux/user';
 interface RouteParams {
     productName: string;
 }

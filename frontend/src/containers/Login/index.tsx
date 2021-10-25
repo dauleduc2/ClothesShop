@@ -6,10 +6,11 @@ import { RootState, store } from '../../redux';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
 import { formThunk } from '../../redux/form/formThunk';
-import { FormState, LoginUserDTO } from '../../common/interfaces/form';
 import { useSelector } from 'react-redux';
-import { UserState } from '../../common/interfaces/user';
 import { formAction } from '../../redux/form/form';
+import { UserState } from '../../common/interfaces/Redux/user';
+import { LoginUserDTO } from '../../common/interfaces/DTO/userDTO';
+import { FormState } from '../../common/interfaces/Redux/form';
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {

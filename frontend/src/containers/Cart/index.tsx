@@ -1,19 +1,21 @@
 import React from 'react';
 import { XIcon } from '@heroicons/react/solid';
 import { useSelector } from 'react-redux';
-import { CartState } from '../../common/interfaces/cart';
 import { RootState, store } from '../../redux';
 import { cartListAction } from '../../redux/cart/cart';
 import { Link } from 'react-router-dom';
-import { UIState } from '../../common/interfaces/UI';
+import { UIState } from '../../common/interfaces/Redux/UI';
 import { UIListAction } from '../../redux/UI/UI';
-import { OrderItemToSend, OrderListToSend, ShipmentDetailDTO } from '../../common/interfaces/orderList';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import MinusIcon from '../../components/common/icon/Minus';
 import AddIcon from '../../components/common/icon/Add';
 import InputField from '../../components/common/InputField';
 import { useForm } from 'react-hook-form';
-import { UserState } from '../../common/interfaces/user';
+import { UserState } from '../../common/interfaces/Redux/user';
+import { OrderItemToSend } from '../../common/interfaces/DTO/orderItemDTO';
+import { CartState } from '../../common/interfaces/Redux/cart';
+import { ShipmentDetailDTO } from '../../common/interfaces/DTO/userDTO';
+import { OrderListToSendDTO } from '../../common/interfaces/DTO/orderListDTO';
 
 interface CartProps {}
 
@@ -58,7 +60,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
                 productID: item.ID,
             };
         });
-        const orderListToSend: OrderListToSend = {
+        const orderListToSend: OrderListToSendDTO = {
             status: 'WAITING',
             orderItem: orderItemList,
             address: data.address,

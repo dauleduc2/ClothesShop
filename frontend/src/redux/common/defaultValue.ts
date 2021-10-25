@@ -1,10 +1,12 @@
-import { ProductInCart } from '../../common/interfaces/cart';
+import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
 import { ResponseWithCount } from '../../common/interfaces/Common/response';
-import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/form';
-import { OrderList, OrderListWithUserDetailDTO } from '../../common/interfaces/orderList';
-import { Product } from '../../common/interfaces/product';
-import { notificationStatus } from '../../common/interfaces/UI';
-import { User, UserRole } from '../../common/interfaces/user';
+import { Product } from '../../common/interfaces/Model/Product';
+import { OrderListWithUserDetailDTO } from '../../common/interfaces/DTO/orderListDTO';
+
+import { notificationStatus } from '../../common/interfaces/Redux/UI';
+import { OrderList } from '../../common/interfaces/Model/OrderList';
+import { User, UserRole } from '../../common/interfaces/Model/User';
+import { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from '../../common/interfaces/DTO/userDTO';
 
 export const defaultProductInCart: ProductInCart = {
     ID: '',

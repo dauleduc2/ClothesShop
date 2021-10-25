@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import NotFoundPage from '../../components/NotFoundPage';
 import { RootState } from '../../redux';
-import { UserState } from '../interfaces/user';
 import * as notificationHelper from '../../utils/notificationHelper';
 import AdminPage from '../../containers/Admin';
+import { UserState } from '../interfaces/Redux/user';
 interface ProtectRouteWrapperProps {
     isLoginRequire?: boolean;
     isAdminRequire?: boolean;

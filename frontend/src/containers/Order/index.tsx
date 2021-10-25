@@ -3,12 +3,12 @@ import React from 'react';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { useSelector } from 'react-redux';
-import { OrderListState } from '../../common/interfaces/orderList';
 import WaitingIcon from '../../components/common/icon/Waiting';
 import ShippingIcon from '../../components/common/icon/Shipping';
 import DoneIcon from '../../components/common/icon/Done';
 import CancelIcon from '../../components/common/icon/Error';
 import DetailIcon from '../../components/common/icon/Detail';
+import { OrderListState } from '../../common/interfaces/Redux/orderList';
 interface OrderPageProps {}
 
 const OrderPage: React.FunctionComponent<OrderPageProps> = () => {

@@ -2,16 +2,17 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import { UpdateUserField, UserState } from '../../common/interfaces/user';
+import { UpdateUserField } from '../../common/interfaces/DTO/userDTO';
 import { userThunk } from '../../redux/user/userThunk';
 import { store } from '../../redux';
 import * as notificationHelper from '../../utils/notificationHelper';
 import InputField from '../../components/common/InputField';
 import InputAvatar from '../../components/common/InputAvatar';
 import InformationField from '../../components/common/InformationField';
-import { FormState } from '../../common/interfaces/form';
 import { cleanObject } from '../../utils/dataHelper';
 import { formAction } from '../../redux/form/form';
+import { UserState } from '../../common/interfaces/Redux/user';
+import { FormState } from '../../common/interfaces/Redux/form';
 
 interface MeProps {}
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from '../../api/userApi';
-import { UpdateUserField } from '../../common/interfaces/user';
+import { UpdateUserField } from '../../common/interfaces/DTO/userDTO';
 export const userThunk = {
     getCurrentUser: createAsyncThunk('user/getCurrentUser', async () => {
         const res = await userApi.getCurrentUser();

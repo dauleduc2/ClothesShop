@@ -1,16 +1,15 @@
-import { ServerResponse } from './../common/interfaces/api';
+import { ServerResponse } from '../common/interfaces/Common/api';
 import axiosClient from '../axios/config';
 import {
-    OrderList,
-    OrderListToSend,
+    OrderListToSendDTO,
     OrderListWithUserDetailDTO,
-    OrderStatusString,
     ResponseOrderDTO,
-} from '../common/interfaces/orderList';
+} from '../common/interfaces/DTO/orderListDTO';
 import { ResponseWithCount } from '../common/interfaces/Common/response';
+import { OrderList, OrderStatusString } from '../common/interfaces/Model/OrderList';
 
 export const orderListApi = {
-    addNewOrderList: async (orderList: OrderListToSend) => {
+    addNewOrderList: async (orderList: OrderListToSendDTO) => {
         const url = '/api/orderlist';
         return await axiosClient.post<ServerResponse<ResponseOrderDTO>>(url, orderList);
     },

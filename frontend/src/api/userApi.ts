@@ -1,8 +1,8 @@
 import axiosClient from '../axios/config';
-import { ServerResponse } from '../common/interfaces/api';
+import { ServerResponse } from '../common/interfaces/Common/api';
 import { ResponseWithCount } from '../common/interfaces/Common/response';
-import { LoginUserDTO, RegisterUserDTO } from '../common/interfaces/form';
-import { User } from '../common/interfaces/user';
+import { LoginUserDTO, RegisterUserDTO } from '../common/interfaces/DTO/userDTO';
+import { User } from '../common/interfaces/Model/User';
 
 export const userApi = {
     getCurrentUser: async () => {

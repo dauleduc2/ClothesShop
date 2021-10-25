@@ -1,8 +1,22 @@
-export interface FormState {
-    login: LoginUserDTO;
-    register: RegisterUserDTO;
-    updateUser: UpdateUserDTO;
+import { User } from '../Model/User';
+
+export interface PossibleUpdateUserField {
+    fullName: string;
+    avatar: string;
+    email: string;
+    userStatus: number;
+    createDate: string;
 }
+
+export interface UpdateUserField {
+    fullName: string;
+    email: string;
+    avatar: File | string | null;
+    address: string;
+    phoneNumber: string;
+}
+export interface ShipmentDetailDTO extends Pick<User, 'address' | 'phoneNumber'> {}
+
 export interface LoginUserDTO {
     username: string;
     password: string;

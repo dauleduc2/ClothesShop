@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { store } from '..';
 import { userApi } from '../../api/userApi';
-import { LoginUserDTO, RegisterUserDTO } from '../../common/interfaces/form';
-import { UpdateUserField } from '../../common/interfaces/user';
+import { LoginUserDTO, RegisterUserDTO, UpdateUserField } from '../../common/interfaces/DTO/userDTO';
 import { userListAction } from '../user/user';
 import * as notificationHelper from '../../utils/notificationHelper';
 export const formThunk = {

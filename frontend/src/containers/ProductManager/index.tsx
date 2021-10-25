@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { productThunk } from '../../redux/product/productThunk';
-import { ProductState } from '../../common/interfaces/product';
+import { ProductState } from '../../common/interfaces/Redux/product';
 interface ProductManagerPageProps extends RouteComponentProps {}
 
 interface QueryProps {

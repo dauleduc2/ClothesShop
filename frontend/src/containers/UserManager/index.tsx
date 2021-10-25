@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { userThunk } from '../../redux/user/userThunk';
-import { UserState } from '../../common/interfaces/user';
+import { UserState } from '../../common/interfaces/Redux/user';
 interface UserManagerProps extends RouteComponentProps {}
 
 interface QueryProps {

@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import InputField from '../../components/common/InputField';
 import * as notificationHelper from '../../utils/notificationHelper';
-import { FormState, RegisterUserDTO } from '../../common/interfaces/form';
 import { RootState, store } from '../../redux';
 import { formThunk } from '../../redux/form/formThunk';
 import { useSelector } from 'react-redux';
-import { UserState } from '../../common/interfaces/user';
 import * as React from 'react';
 import { formAction } from '../../redux/form/form';
+import { UserState } from '../../common/interfaces/Redux/user';
+import { RegisterUserDTO } from '../../common/interfaces/DTO/userDTO';
+import { FormState } from '../../common/interfaces/Redux/form';
 
 interface RegisterProps {}
 

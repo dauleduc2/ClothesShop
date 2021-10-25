@@ -3,7 +3,7 @@ import React from 'react';
 import { RootState, store } from '../../redux';
 import { productThunk } from '../../redux/product/productThunk';
 import { useSelector } from 'react-redux';
-import { ProductState } from '../../common/interfaces/product';
+import { ProductState } from '../../common/interfaces/Redux/product';
 interface HomePageProps {}
 
 const HomePage: React.FunctionComponent<HomePageProps> = () => {

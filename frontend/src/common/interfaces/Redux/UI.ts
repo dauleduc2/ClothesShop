@@ -1,4 +1,4 @@
-import { ProductInCart } from './cart';
+import { ProductInCart } from '../DTO/cartDTO';
 
 export enum notificationStatus {
     SUCCESS = 'success',

@@ -1,8 +1,9 @@
 import { productThunk } from './productThunk';
 import { createSlice } from '@reduxjs/toolkit';
-import { Product, ProductState } from '../../common/interfaces/product';
-import { ReduxAction } from '../../common/interfaces/redux';
+import { ReduxAction } from '../../common/interfaces/Common/redux';
 import { defaultProduct } from '../common/defaultValue';
+import { ProductState } from '../../common/interfaces/Redux/product';
+import { Product } from '../../common/interfaces/Model/Product';
 
 const initialState: ProductState = {
     productToShowList: [],

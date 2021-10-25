@@ -1,6 +1,6 @@
 import { UIListAction } from './../redux/UI/UI';
 import { store } from '../redux';
-import { notificationStatus } from '../common/interfaces/UI';
+import { notificationStatus } from '../common/interfaces/Redux/UI';
 
 export const success = (title: string, message: string = '') => {
     store.dispatch(UIListAction.setNotification({ status: notificationStatus.SUCCESS, title, message }));

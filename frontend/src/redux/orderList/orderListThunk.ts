@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { orderListApi } from '../../api/orderListApi';
-import { ServerResponse } from '../../common/interfaces/api';
-import { OrderListToSend, UpdateStatusResponseDTO } from '../../common/interfaces/orderList';
+import { ServerResponse } from '../../common/interfaces/Common/api';
+import { OrderListToSendDTO, UpdateStatusResponseDTO } from '../../common/interfaces/DTO/orderListDTO';
 export const orderListThunk = {
-    addOrderList: createAsyncThunk('orderList/addOrderList', async (orderList: OrderListToSend) => {
+    addOrderList: createAsyncThunk('orderList/addOrderList', async (orderList: OrderListToSendDTO) => {
         const res = await orderListApi.addNewOrderList(orderList);
         return res.data.data;
     }),

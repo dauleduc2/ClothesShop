@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReduxAction } from '../../common/interfaces/redux';
-import { UserState, PossibleUpdateUserField } from '../../common/interfaces/user';
+import { ReduxAction } from '../../common/interfaces/Common/redux';
+import { PossibleUpdateUserField } from '../../common/interfaces/DTO/userDTO';
 import { defaultUser } from '../common/defaultValue';
 import { userThunk } from './userThunk';
+import { UserState } from '../../common/interfaces/Redux/user';
 
 const initialState: UserState = {
     isLogin: false,

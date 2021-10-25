@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { OrderListState } from '../../common/interfaces/orderList';
 import { RootState, store } from '../../redux';
 import { orderListThunk } from '../../redux/orderList/orderListThunk';
 import { Link } from 'react-router-dom';
+import { OrderListState } from '../../common/interfaces/Redux/orderList';
 interface RouteParams {
     orderID: string;
 }
