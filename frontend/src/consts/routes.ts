@@ -175,7 +175,7 @@ export const adminRoute: routeList = [
         icon: UserGroup,
     },
     {
-        to: '/admin/product?limit=10&page=1',
+        to: '/admin/product?limit=7&page=1',
         exact: true,
         icon: PencilAltIcon,
     },

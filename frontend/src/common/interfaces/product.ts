@@ -34,4 +34,8 @@ export interface ProductToShow {
 export interface ProductState {
     productToShowList: ProductToShow[];
     currentProduct: Product;
+    admin: {
+        productList: Product[];
+        count: number;
+    };
 }

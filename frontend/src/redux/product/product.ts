@@ -7,6 +7,10 @@ import { defaultProduct } from '../common/defaultValue';
 const initialState: ProductState = {
     productToShowList: [],
     currentProduct: defaultProduct,
+    admin: {
+        productList: [],
+        count: -1,
+    },
 };
 export const product = createSlice({
     name: 'product',
@@ -26,6 +30,15 @@ export const product = createSlice({
             return {
                 ...state,
                 currentProduct: payload,
+            };
+        });
+        builder.addCase(productThunk.adminGetAllProduct.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                admin: {
+                    count: payload.count,
+                    productList: payload.data,
+                },
             };
         });
     },
