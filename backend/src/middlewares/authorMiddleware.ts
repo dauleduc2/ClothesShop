@@ -8,7 +8,7 @@ export function authorMiddleware(
     next: NextFunction
 ) {
     const { role } = req.user;
-    if (role === 1) {
+    if (role === "ADMIN") {
         next();
     } else {
         res.status(status.FORBIDDEN).send(
