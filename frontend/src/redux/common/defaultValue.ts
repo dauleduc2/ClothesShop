@@ -1,4 +1,4 @@
-import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { ProductInCartDTO } from '../../common/interfaces/DTO/cartDTO';
 import { Product } from '../../common/interfaces/Model/Product';
 import { OrderListWithUserDetailDTO } from '../../common/interfaces/DTO/orderListDTO';
 
@@ -6,13 +6,13 @@ import { notificationStatus } from '../../common/interfaces/Redux/UI';
 import { OrderList } from '../../common/interfaces/Model/OrderList';
 import { User, UserRole } from '../../common/interfaces/Model/User';
 import {
-    LoginFormErrorMessage,
-    RegisterFormErrorMessage,
-    UpdateFormErrorMessage,
+    LoginFormErrorMessageDTO,
+    RegisterFormErrorMessageDTO,
+    UpdateFormErrorMessageDTO,
 } from '../../common/interfaces/DTO/userDTO';
 import { ResponseWithCount } from '../../common/interfaces/Common/api';
 
-export const defaultProductInCart: ProductInCart = {
+export const defaultProductInCart: ProductInCartDTO = {
     ID: '',
     color: {
         ID: -1,
@@ -86,13 +86,13 @@ export const defaultColor = {
 export const defaultSize = { ID: -1, name: '' };
 
 //form
-export const defautLoginUser: LoginFormErrorMessage = {
+export const defautLoginUser: LoginFormErrorMessageDTO = {
     username: '',
     password: '',
     general: '',
 };
 
-export const defaultRegisterUser: RegisterFormErrorMessage = {
+export const defaultRegisterUser: RegisterFormErrorMessageDTO = {
     email: '',
     fullName: '',
     username: '',
@@ -101,7 +101,7 @@ export const defaultRegisterUser: RegisterFormErrorMessage = {
     general: '',
 };
 
-export const defaultUpdateUser: UpdateFormErrorMessage = {
+export const defaultUpdateUser: UpdateFormErrorMessageDTO = {
     fullName: '',
     avatar: '',
     email: '',

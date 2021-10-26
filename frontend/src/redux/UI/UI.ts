@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { ProductInCartDTO } from '../../common/interfaces/DTO/cartDTO';
 import { ReduxAction } from '../../common/interfaces/Common/redux';
 import {
     SetConfirmPopupPayload,
@@ -75,7 +75,7 @@ export const UI = createSlice({
                 },
             };
         },
-        setProductToDelete: (state: UIState, { payload }: ReduxAction<ProductInCart>) => {
+        setProductToDelete: (state: UIState, { payload }: ReduxAction<ProductInCartDTO>) => {
             return {
                 ...state,
                 confirmPopUp: {

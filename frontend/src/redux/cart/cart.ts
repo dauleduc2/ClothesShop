@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { ProductInCartDTO } from '../../common/interfaces/DTO/cartDTO';
 import { ReduxAction } from '../../common/interfaces/Common/redux';
 import { CartState } from '../../common/interfaces/Redux/cart';
 
@@ -19,7 +19,7 @@ export const cart = createSlice({
                 productList: [],
             };
         },
-        addProduct: (state: CartState, { payload }: ReduxAction<ProductInCart>) => {
+        addProduct: (state: CartState, { payload }: ReduxAction<ProductInCartDTO>) => {
             const newState = { ...state };
             let decoyArray = [...state.productList];
             //data to compare
@@ -47,7 +47,7 @@ export const cart = createSlice({
             localStorage.setItem('cartList', JSON.stringify(newState.productList));
             return newState;
         },
-        updateProduct: (state: CartState, { payload }: ReduxAction<ProductInCart>) => {
+        updateProduct: (state: CartState, { payload }: ReduxAction<ProductInCartDTO>) => {
             const newState = { ...state };
             let decoyArray = [...state.productList];
             //data to compare
@@ -75,7 +75,7 @@ export const cart = createSlice({
             localStorage.setItem('cartList', JSON.stringify(newState.productList));
             return newState;
         },
-        deleteProduct: (state: CartState, { payload }: ReduxAction<ProductInCart>) => {
+        deleteProduct: (state: CartState, { payload }: ReduxAction<ProductInCartDTO>) => {
             const newState = { ...state };
             let decoyArray = [...state.productList];
 

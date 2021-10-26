@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ReduxAction } from '../../common/interfaces/Common/redux';
-import { PossibleUpdateUserField } from '../../common/interfaces/DTO/userDTO';
+// import { PossibleUpdateUserFieldDTO } from '../../common/interfaces/DTO/userDTO';
 import { defaultUser } from '../common/defaultValue';
 import { userThunk } from './userThunk';
 import { UserState } from '../../common/interfaces/Redux/user';
@@ -23,12 +23,7 @@ export const user = createSlice({
                 ...initialState,
             };
         },
-        updateUser: (state: UserState, { payload }: ReduxAction<PossibleUpdateUserField>) => {
-            return {
-                ...state,
-                ...payload,
-            };
-        },
+
         setLogin: (state: UserState, { payload }: ReduxAction<boolean>) => {
             //return initial state when isLogin set to false
             if (!payload) {

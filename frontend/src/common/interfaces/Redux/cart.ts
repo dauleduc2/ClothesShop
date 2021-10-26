@@ -1,5 +1,5 @@
-import { ProductInCart } from '../DTO/cartDTO';
+import { ProductInCartDTO } from '../DTO/cartDTO';
 
 export interface CartState {
-    productList: ProductInCart[];
+    productList: ProductInCartDTO[];
 }

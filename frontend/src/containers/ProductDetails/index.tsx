@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { color } from '../../common/interfaces/Model/Color';
 import { size } from '../../common/interfaces/Model/Size';
-import { ProductInCart } from '../../common/interfaces/DTO/cartDTO';
+import { ProductInCartDTO } from '../../common/interfaces/DTO/cartDTO';
 import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
 import { defaultColor, defaultSize } from '../../redux/common/defaultValue';
@@ -53,7 +53,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
             return;
         }
 
-        const product: ProductInCart = {
+        const product: ProductInCartDTO = {
             ID: productState.currentProduct.ID,
             name: productState.currentProduct.name,
             size: selectedSize,

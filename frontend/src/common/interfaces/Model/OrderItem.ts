@@ -4,7 +4,7 @@ import { size } from './Size';
 
 export interface OrderItem {
     amount: number;
-    price: 10;
+    price: number;
     size: size;
     color: color;
     ID: string;

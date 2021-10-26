@@ -16,7 +16,7 @@ import { UpdateUserFieldDTO } from '../../common/interfaces/DTO/userDTO';
 import * as urlLink from '../../consts/url';
 interface MeProps {}
 
-const defaultValues: UpdateUserFieldDTO = { email: '', fullName: '', avatar: null, address: '', phoneNumber: '' };
+const defaultValues: UpdateUserFieldDTO = { email: '', fullName: '', avatar: '', address: '', phoneNumber: '' };
 
 const Me: React.FunctionComponent<MeProps> = () => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
@@ -34,7 +34,7 @@ const Me: React.FunctionComponent<MeProps> = () => {
     React.useEffect(() => {
         store.dispatch(formAction.resetUpdateUserForm());
     }, []);
-
+    // on submit form
     const onSubmit = async (data: UpdateUserFieldDTO) => {
         if (file) {
             data.avatar = file;
