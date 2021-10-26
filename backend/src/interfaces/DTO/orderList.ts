@@ -1,27 +1,22 @@
-import { OrderList, OrderListStatus } from "../../entity/OrderList";
+import { OrderItem } from "./../../entity/OrderItem";
+import { OrderList } from "../../entity/OrderList";
 import { User } from "../../entity/User";
 
-export interface OrderItemRequestDTO {
-    amount: number;
-    price: number;
-    createDate: Date;
+export interface OrderItemRequestDTO
+    extends Pick<OrderItem, "amount" | "price" | "createDate"> {
     productID: string;
-    sizeID: string;
-    colorID: string;
+    sizeID: number;
+    colorID: number;
 }
 
-export interface RequestWithOrderListDTO {
+export interface RequestWithOrderListDTO
+    extends Pick<OrderList, "status" | "address" | "phoneNumber"> {
     orderItem: OrderItemRequestDTO[];
-    status: OrderListStatus;
-    address: string;
-    phoneNumber: string;
 }
 
 export interface OrderListWithDetailUserDTO extends Omit<OrderList, "user"> {
     user: Partial<User>;
 }
 
-export interface UpdateOrderListStatusDTO {
-    status: OrderListStatus;
-    ID: string;
-}
+export interface UpdateOrderListStatusDTO
+    extends Pick<OrderList, "status" | "ID"> {}

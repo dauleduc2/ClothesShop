@@ -27,6 +27,7 @@ router.post(
     [authenMiddleware, authorMiddleware],
     async (req: ServerRequest<AddColorInfoDTO>, res: Response) => {
         const { name, hexCode } = req.body;
+
         let newColor = new Color();
         newColor.name = name;
         newColor.hexCode = hexCode;

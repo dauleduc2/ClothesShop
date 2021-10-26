@@ -74,7 +74,6 @@ router.post(
             const { avatar, ...orther } = req.body;
             req.body = orther;
         }
-        console.log(req.body);
         //validate
         const { error } = validateUpdateUser(req.body);
         if (error) {
