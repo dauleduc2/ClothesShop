@@ -41,7 +41,7 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> = (
             notificationHelper.warning('Access denied', 'You need to login to see this page');
             return;
         }
-        if (isAdminRequire && userState.user.role === 0) {
+        if (isAdminRequire && userState.user.role === 'CUSTOMER') {
             setIsAccess(false);
             // history.push('/');
             // notificationHelper.warning('Access denied', 'You need permission to see this page');

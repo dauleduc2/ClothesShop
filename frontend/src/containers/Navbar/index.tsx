@@ -132,7 +132,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
                                                 <Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                    {userState.user.role === 1 &&
+                                                    {userState.user.role === 'ADMIN' &&
                                                         adminUserLink.map((route) => {
                                                             return (
                                                                 <Menu.Item>
@@ -177,7 +177,10 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                                 </Menu.Item>
                                                             );
                                                         }
-                                                        if (userState.user.role === 0 && route.to === '/admin') {
+                                                        if (
+                                                            userState.user.role === 'CUSTOMER' &&
+                                                            route.to === '/admin'
+                                                        ) {
                                                             return <></>;
                                                         }
                                                         return (

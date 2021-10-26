@@ -1,7 +1,8 @@
 export enum UserRole {
-    CUSTOMER,
-    ADMIN,
+    CUSTOMER = 'CUSTOMER',
+    ADMIN = 'ADMIN',
 }
+export type UserRoleString = keyof typeof UserRole;
 export interface User {
     ID: string;
     username: string;
@@ -10,7 +11,7 @@ export interface User {
     email: string;
     userStatus: number;
     address: string;
-    role: UserRole;
+    role: UserRoleString;
     createDate: string;
     phoneNumber: string;
 }

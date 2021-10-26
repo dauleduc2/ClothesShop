@@ -42,7 +42,7 @@ export const defaultProduct: Product = {
     quantity: -1,
     price: -1,
     description: '',
-    status: -1,
+    status: 'AVAILABLE',
     images: [],
     types: [],
     colors: [],

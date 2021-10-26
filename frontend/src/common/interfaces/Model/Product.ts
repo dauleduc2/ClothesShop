@@ -4,17 +4,17 @@ import { size } from './Size';
 import { type } from './Type';
 
 export enum ProductStatus {
-    OUT_OF_STOCK,
-    IN_STOCK,
+    UNAVAILABLE = 'UNAVAILABLE',
+    AVAILABLE = 'AVAILABLE',
 }
-
+export type ProductStatusString = keyof typeof ProductStatus;
 export interface Product {
     ID: string;
     name: string;
     quantity: number;
     price: number;
     description: string;
-    status: ProductStatus;
+    status: ProductStatusString;
     images: image[];
     types: type[];
     colors: color[];

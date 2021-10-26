@@ -8,6 +8,7 @@ import { productThunk } from '../../../redux/product/productThunk';
 import { ProductState } from '../../../common/interfaces/Redux/product';
 import * as urlLink from '../../../consts/url';
 import PaginationBar from '../../../components/common/PaginationBar';
+import { capitalizeFirstLetter } from '../../../utils/textHelper';
 interface ProductManagerPageProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -112,7 +113,16 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                                     ${product.price}
                                                 </td>
                                                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                    {product.status}
+                                                    {product.status === 'AVAILABLE' && (
+                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-gray-800">
+                                                            {capitalizeFirstLetter(product.status.toLowerCase())}
+                                                        </span>
+                                                    )}
+                                                    {product.status === 'UNAVAILABLE' && (
+                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-gray-800">
+                                                            {capitalizeFirstLetter(product.status.toLowerCase())}
+                                                        </span>
+                                                    )}
                                                 </td>
                                                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                                     {new Date(product.createDate).toDateString()}
