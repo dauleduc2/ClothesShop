@@ -1,7 +1,7 @@
-import { color } from './Color';
-import { image } from './Image';
-import { size } from './Size';
-import { type } from './Type';
+import { Color } from './Color';
+import { Image } from './Image';
+import { Size } from './Size';
+import { Type } from './Type';
 
 export enum ProductStatus {
     UNAVAILABLE = 'UNAVAILABLE',
@@ -15,10 +15,10 @@ export interface Product {
     price: number;
     description: string;
     status: ProductStatusString;
-    images: image[];
-    types: type[];
-    colors: color[];
-    sizes: size[];
+    images: Image[];
+    types: Type[];
+    colors: Color[];
+    sizes: Size[];
     createDate: string;
     productAvatar: string;
 }

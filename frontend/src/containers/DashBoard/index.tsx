@@ -16,7 +16,11 @@ export const DashBoard = (props: DashBoardProps) => {
                     exact={route.exact}
                     render={(routeProps) => {
                         return (
-                            <ProtectRouteWrapper isAdminRequire={isAdminRequire} isLoginRequire={isLoginRequire}>
+                            <ProtectRouteWrapper
+                                to={route.to}
+                                isAdminRequire={isAdminRequire}
+                                isLoginRequire={isLoginRequire}
+                            >
                                 <MyComponent {...routeProps} />
                             </ProtectRouteWrapper>
                         );

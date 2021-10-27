@@ -6,8 +6,8 @@ import { RootState, store } from '../../redux';
 import { productThunk } from '../../redux/product/productThunk';
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { color } from '../../common/interfaces/Model/Color';
-import { size } from '../../common/interfaces/Model/Size';
+import { Color } from '../../common/interfaces/Model/Color';
+import { Size } from '../../common/interfaces/Model/Size';
 import { ProductInCartDTO } from '../../common/interfaces/DTO/cartDTO';
 import { cartListAction } from '../../redux/cart/cart';
 import * as NotificationHelper from '../../utils/notificationHelper';
@@ -32,8 +32,8 @@ function classNames(...classes: any) {
 }
 
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match }) => {
-    const [selectedColor, setSelectedColor] = React.useState<color>(defaultColor);
-    const [selectedSize, setSelectedSize] = React.useState<size>(defaultSize);
+    const [selectedColor, setSelectedColor] = React.useState<Color>(defaultColor);
+    const [selectedSize, setSelectedSize] = React.useState<Size>(defaultSize);
     const [amount, setAmount] = React.useState<number>(1);
     const productState = useSelector<RootState, ProductState>((state) => state.product);
     const userState = useSelector<RootState, UserState>((state) => state.user);

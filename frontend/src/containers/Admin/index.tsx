@@ -21,7 +21,7 @@ const AdminPage: React.FunctionComponent<AdminPageProps> = ({ children }) => {
                                     className="inline-flex items-center justify-center flex-shrink-0 text-gray-400 rounded-lg h-14 w-14 hover:bg-gray-700"
                                     activeClassName="flex-shrink-0 inline-flex items-center justify-center h-14 w-14 rounded-lg bg-gray-900 text-white"
                                 >
-                                    <item.icon className="w-6 h-6" aria-hidden="true" />
+                                    <item.icon className="w-6 h-6 " aria-hidden="true" />
                                 </NavLink>
                             ))}
                         </div>
