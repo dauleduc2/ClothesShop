@@ -18,7 +18,7 @@ const AddColorForm: React.FunctionComponent<AddColorFormProps> = () => {
                         <p>Full fill the form to add new color to your store,</p>
                         <p>then you can use this color at all product you want.</p>
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="mt-5 w-max sm:flex sm:flex-col sm:items-start">
+                    <form onSubmit={handleSubmit(onSubmit)} className="w-full mt-5 sm:flex sm:flex-col sm:items-start">
                         <div className="w-full sm:max-w-xs">
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                 Name
