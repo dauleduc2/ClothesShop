@@ -8,12 +8,23 @@ import Cart from '../containers/Cart';
 import OrderPage from '../containers/Order';
 import CurrentOrder from '../containers/CurrentOrder';
 import NotFoundPage from '../components/NotFoundPage';
-import { ArchiveIcon, PencilAltIcon } from '@heroicons/react/outline';
 import UserGroup from '../components/common/icon/UserGroup';
 import OrderManagerPage from '../containers/Admin/OrderManager';
 import UserManagerPage from '../containers/Admin/UserManager';
 import ProductManagerPage from '../containers/Admin/ProductManager';
 import * as urlLink from './url';
+import OrderManager from '../components/common/icon/OrderManager';
+import ProductIcon from '../components/common/icon/Product';
+import EditIcon from '../components/common/icon/Edit';
+import FormManager from '../containers/Admin/FormManager';
+import ColorIcon from '../components/common/icon/Color';
+import CategoryIcon from '../components/common/icon/Category';
+import SizeIcon from '../components/common/icon/Size';
+import AddProductForm from '../containers/Admin/FormManager/AddProductForm';
+import AddSizeForm from '../containers/Admin/FormManager/AddSizeForm';
+import AddTypeForm from '../containers/Admin/FormManager/AddTypeForm';
+import AddColorForm from '../containers/Admin/FormManager/AddColorForm';
+
 interface Route {
     to: string;
     exact: boolean;
@@ -158,9 +169,47 @@ export const routes: routeList = [
         isAdminRequire: true,
     },
     {
+        to: urlLink.ADMIN_FORM,
+        exact: false,
+        component: FormManager,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
         to: '*',
         exact: true,
         component: NotFoundPage,
+    },
+];
+
+export const AdminFormRoute: routeList = [
+    {
+        to: urlLink.ADMIN_ADD_PRODUCT_FORM,
+        exact: true,
+        component: AddProductForm,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
+        to: urlLink.ADMIN_ADD_SIZE_FORM,
+        exact: true,
+        component: AddSizeForm,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
+        to: urlLink.ADMIN_ADD_TYPE_FORM,
+        exact: true,
+        component: AddTypeForm,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
+        to: urlLink.ADMIN_ADD_COLOR_FORM,
+        exact: true,
+        component: AddColorForm,
+        isLoginRequire: true,
+        isAdminRequire: true,
     },
 ];
 
@@ -168,7 +217,7 @@ export const adminRoute: routeList = [
     {
         to: `${urlLink.ADMIN_ORDER}?limit=10&page=1`,
         exact: true,
-        icon: ArchiveIcon,
+        icon: OrderManager,
     },
     {
         to: `${urlLink.ADMIN_USER}?limit=10&page=1`,
@@ -178,6 +227,45 @@ export const adminRoute: routeList = [
     {
         to: `${urlLink.ADMIN_PRODUCT}?limit=7&page=1`,
         exact: true,
-        icon: PencilAltIcon,
+        icon: ProductIcon,
+    },
+    {
+        to: `${urlLink.ADMIN_FORM}`,
+        exact: true,
+        icon: EditIcon,
+    },
+];
+
+interface feature {
+    to: string;
+    title: string;
+    description: string;
+    icon: any;
+}
+
+export const featureList: feature[] = [
+    {
+        to: urlLink.ADMIN_ADD_PRODUCT_FORM,
+        title: 'Add new product',
+        description: 'Full fill the form to add new product into your store',
+        icon: ProductIcon,
+    },
+    {
+        to: urlLink.ADMIN_ADD_SIZE_FORM,
+        title: 'Add new Size',
+        description: 'Full fill the form to add new Size into your store',
+        icon: SizeIcon,
+    },
+    {
+        to: urlLink.ADMIN_ADD_COLOR_FORM,
+        title: 'Add new Color',
+        description: 'Full fill the form to add new Color into your store',
+        icon: ColorIcon,
+    },
+    {
+        to: urlLink.ADMIN_ADD_TYPE_FORM,
+        title: 'Add new Type',
+        description: 'Full fill the form to add new Type into your store',
+        icon: CategoryIcon,
     },
 ];

@@ -10,6 +10,7 @@ interface InputFieldProps {
     defaultValue?: string;
     placeholder?: string;
     required?: boolean;
+    autoComplete?: boolean;
 }
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({
@@ -21,6 +22,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
     defaultValue,
     placeholder,
     required = false,
+    autoComplete = true,
 }) => {
     return (
         <div>
@@ -29,14 +31,15 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
             </label>
             <div className="relative mt-1 rounded-md shadow-sm">
                 <input
+                    autoComplete={autoComplete}
                     required={required}
                     type={type}
                     name={field}
                     id={field}
                     className={
                         message
-                            ? 'block w-full pr-10 text-red-900 placeholder-red-300 border-red-300 rounded-md focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm'
-                            : 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                            ? `block w-full pr-10 text-red-900 placeholder-red-300 border-red-300 rounded-md focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm `
+                            : `shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md `
                     }
                     placeholder={placeholder}
                     defaultValue={defaultValue}

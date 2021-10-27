@@ -12,7 +12,7 @@ import AddIcon from '../../components/common/icon/Add';
 import InputField from '../../components/common/InputField';
 import { useForm } from 'react-hook-form';
 import { UserState } from '../../common/interfaces/Redux/user';
-import { OrderItemToSend } from '../../common/interfaces/DTO/orderItemDTO';
+import { OrderItemToSendDTO } from '../../common/interfaces/DTO/orderItemDTO';
 import { CartState } from '../../common/interfaces/Redux/cart';
 import { ShipmentDetailDTO } from '../../common/interfaces/DTO/userDTO';
 import { OrderListToSendDTO } from '../../common/interfaces/DTO/orderListDTO';
@@ -52,7 +52,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
 
     //on submit form
     const onSubmit = async (data: ShipmentDetailDTO) => {
-        const orderItemList = cartState.productList.map<OrderItemToSend>((item) => {
+        const orderItemList = cartState.productList.map<OrderItemToSendDTO>((item) => {
             return {
                 amount: item.quantity,
                 colorID: item.color.ID,

@@ -1,4 +1,4 @@
-export interface size {
+export interface Size {
     ID: number;
     name: string;
 }

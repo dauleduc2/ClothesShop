@@ -1,20 +1,16 @@
-export interface UpdateUserDTO {
-    fullName?: string;
-    avatar?: string;
-    email?: string;
-    address?: string;
-    phoneNumber?: string;
-}
+import { User } from "../../entity/User";
 
-export interface LoginUserDTO {
-    username: string;
+export interface UpdateUserDTO
+    extends Partial<
+        Pick<User, "fullName" | "avatar" | "email" | "address" | "phoneNumber">
+    > {}
+
+export interface LoginUserDTO extends Pick<User, "username"> {
     password: string;
 }
 
-export interface RegisterUserDTO {
-    email: string;
-    fullName: string;
-    username: string;
+export interface RegisterUserDTO
+    extends Pick<User, "email" | "fullName" | "username"> {
     password: string;
     confirmPassword: string;
 }

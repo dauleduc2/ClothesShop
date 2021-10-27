@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { IsDate, IsEmail } from "class-validator";
 
 //User model
-export type userRole = 0 | 1;
+export type userRole = "CUSTOMER" | "ADMIN";
 export type userStatus = 0 | 1;
 @Entity()
 export class User {
@@ -46,8 +46,8 @@ export class User {
 
     @Column({
         type: "enum",
-        enum: [0, 1],
-        default: 0,
+        enum: ["CUSTOMER", "ADMIN"],
+        default: "CUSTOMER",
     })
     role: userRole;
 

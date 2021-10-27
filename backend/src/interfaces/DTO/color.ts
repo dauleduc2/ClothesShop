@@ -1,6 +1,3 @@
-import { Request } from "express";
+import { Color } from "../../entity/Color";
 
-export interface AddColorInfoDTO extends Request {
-    name: string;
-    hexCode: string;
-}
+export interface AddColorInfoDTO extends Pick<Color, "name" | "hexCode"> {}

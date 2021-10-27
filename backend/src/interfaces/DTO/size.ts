@@ -1,3 +1,3 @@
-export interface AddSizeInfoDTO {
-    name: string;
-}
+import { Size } from "../../entity/Size";
+
+export interface AddSizeInfoDTO extends Pick<Size, "name"> {}

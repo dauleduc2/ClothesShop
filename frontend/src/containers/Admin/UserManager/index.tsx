@@ -111,12 +111,12 @@ const UserManagerPage: React.FunctionComponent<UserManagerProps> = ({ location }
                                                 {new Date(user.createDate).toDateString()}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                {user.role === 1 ? (
-                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-red-100 text-gray-800">
+                                                {user.role === 'ADMIN' ? (
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-gray-800">
                                                         Admin
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-green-100 text-gray-800">
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-gray-800">
                                                         User
                                                     </span>
                                                 )}

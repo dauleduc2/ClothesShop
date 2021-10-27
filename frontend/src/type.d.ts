@@ -39,3 +39,11 @@ type AsyncThunkConfig = {
     /** type to be passed into the second argument of `rejectWithValue` to finally be merged into `rejectedAction.meta` */
     rejectedMeta?: unknown;
 };
+
+export class ReactQuill extends React.Component<ReactQuill.ComponentProps> {
+    focus(): void;
+    blur(): void;
+    getEditor(): Quill.Quill;
+}
+export { Quill } from 'quill';
+export = ReactQuill;

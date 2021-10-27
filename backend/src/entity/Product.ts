@@ -12,7 +12,7 @@ import { Color } from "./Color";
 import { Image } from "./Image";
 //product model
 
-export type productStatus = 0 | 1;
+export type productStatus = "UNAVAILABLE" | "AVAILABLE";
 @Entity()
 export class Product {
     @PrimaryGeneratedColumn("uuid")
@@ -35,7 +35,7 @@ export class Product {
 
     @Column({
         type: "enum",
-        enum: [0, 1],
+        enum: ["UNAVAILABLE", "AVAILABLE"],
     })
     status: productStatus;
 

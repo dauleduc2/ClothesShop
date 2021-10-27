@@ -2,11 +2,12 @@ import * as React from 'react';
 
 interface InformationFieldProps {
     label: string;
+    isOnAdminForm?: boolean;
 }
 
-const InformationField: React.FunctionComponent<InformationFieldProps> = ({ label, children }) => {
+const InformationField: React.FunctionComponent<InformationFieldProps> = ({ label, children, isOnAdminForm }) => {
     return (
-        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <div className={`${!isOnAdminForm && 'py-4 sm:py-5 sm:px-6'} sm:grid sm:grid-cols-3 sm:gap-4`}>
             <dt className="flex items-center text-sm font-medium text-gray-500">
                 <p>{label}</p>
             </dt>

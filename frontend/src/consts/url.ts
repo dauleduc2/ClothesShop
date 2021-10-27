@@ -14,6 +14,13 @@ export const ORDER = '/user/order';
 export const ADMIN_ORDER = '/admin/order';
 export const ADMIN_USER = '/admin/user';
 export const ADMIN_PRODUCT = '/admin/product';
+export const ADMIN_FORM = '/admin/form';
+
+export const ADMIN_ADD_PRODUCT_FORM = '/admin/form/product';
+export const ADMIN_ADD_COLOR_FORM = '/admin/form/color';
+export const ADMIN_ADD_SIZE_FORM = '/admin/form/size';
+export const ADMIN_ADD_TYPE_FORM = '/admin/form/type';
+
 //not found
 export const NOT_FOUND = '*';
 

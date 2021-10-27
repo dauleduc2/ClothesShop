@@ -1,12 +1,12 @@
-import { color } from './Color';
+import { Color } from './Color';
 import { Product } from './Product';
-import { size } from './Size';
+import { Size } from './Size';
 
 export interface OrderItem {
     amount: number;
-    price: 10;
-    size: size;
-    color: color;
+    price: number;
+    size: Size;
+    color: Color;
     ID: string;
     createDate: string;
     product: Partial<Product>;

@@ -2,14 +2,12 @@ function MinusIcon() {
     return (
         <svg
             className="w-8 h-8"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
             stroke="currentColor"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
         >
-            <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            <path d="M6 12H18" stroke="#292D32" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     );
 }

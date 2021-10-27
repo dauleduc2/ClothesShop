@@ -1,4 +1,4 @@
-import { ProductInCart } from '../DTO/cartDTO';
+import { ProductInCartDTO } from '../DTO/cartDTO';
 
 export enum notificationStatus {
     SUCCESS = 'success',
@@ -18,7 +18,7 @@ export interface UIState {
         isOpenning: boolean;
         title: string;
         message: string;
-        productToDelete: ProductInCart;
+        productToDelete: ProductInCartDTO;
     };
     successModel: {
         isOpenning: boolean;

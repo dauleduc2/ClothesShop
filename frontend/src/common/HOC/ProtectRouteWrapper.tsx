@@ -9,6 +9,7 @@ import { UserState } from '../interfaces/Redux/user';
 interface ProtectRouteWrapperProps {
     isLoginRequire?: boolean;
     isAdminRequire?: boolean;
+    to?: string;
 }
 function getCookie(cname: string) {
     let name = cname + '=';
@@ -29,10 +30,12 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> = (
     children,
     isLoginRequire = false,
     isAdminRequire = false,
+    to,
 }) => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
     const history = useHistory();
     const [isAccess, setIsAccess] = React.useState(true);
+
     React.useEffect(() => {
         //
         if (isLoginRequire && !getCookie('x-auth-token')) {
@@ -41,7 +44,7 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> = (
             notificationHelper.warning('Access denied', 'You need to login to see this page');
             return;
         }
-        if (isAdminRequire && userState.user.role === 0) {
+        if (isAdminRequire && userState.user.role === 'CUSTOMER') {
             setIsAccess(false);
             // history.push('/');
             // notificationHelper.warning('Access denied', 'You need permission to see this page');
@@ -50,6 +53,9 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> = (
         setIsAccess(true);
     }, [userState.isLogin, userState.user.role, isLoginRequire, isAdminRequire, history]);
     if (isAdminRequire) {
+        if (to?.startsWith('/admin/form')) {
+            return <>{isAccess ? <AdminPage>{children}</AdminPage> : <NotFoundPage />}</>;
+        }
         return <>{isAccess ? <AdminPage>{children}</AdminPage> : <NotFoundPage />}</>;
     }
 

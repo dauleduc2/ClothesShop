@@ -1,4 +1,4 @@
-export interface color {
+export interface Color {
     ID: number;
     name: string;
     hexCode: string;

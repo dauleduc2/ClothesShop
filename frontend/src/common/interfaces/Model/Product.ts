@@ -1,24 +1,24 @@
-import { color } from './Color';
-import { image } from './Image';
-import { size } from './Size';
-import { type } from './Type';
+import { Color } from './Color';
+import { Image } from './Image';
+import { Size } from './Size';
+import { Type } from './Type';
 
 export enum ProductStatus {
-    OUT_OF_STOCK,
-    IN_STOCK,
+    UNAVAILABLE = 'UNAVAILABLE',
+    AVAILABLE = 'AVAILABLE',
 }
-
+export type ProductStatusString = keyof typeof ProductStatus;
 export interface Product {
     ID: string;
     name: string;
     quantity: number;
     price: number;
     description: string;
-    status: ProductStatus;
-    images: image[];
-    types: type[];
-    colors: color[];
-    sizes: size[];
+    status: ProductStatusString;
+    images: Image[];
+    types: Type[];
+    colors: Color[];
+    sizes: Size[];
     createDate: string;
     productAvatar: string;
 }

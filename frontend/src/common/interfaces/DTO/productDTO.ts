@@ -1,10 +1,12 @@
-import { ProductStatus } from '../Model/Product';
+import { Product } from '../Model/Product';
 
-export interface ProductToShowDTO {
-    ID: string;
-    name: string;
-    quantity: number;
-    price: number;
-    status: ProductStatus;
-    productAvatar: string;
+export interface ProductToShowDTO
+    extends Pick<Product, 'ID' | 'name' | 'quantity' | 'price' | 'status' | 'productAvatar'> {}
+
+export interface ProductAddFormDTO
+    extends Pick<Product, 'name' | 'quantity' | 'price' | 'description' | 'productAvatar'> {
+    images: string[];
+    types: number[];
+    sizes: number[];
+    colors: number[];
 }
