@@ -70,5 +70,16 @@ router.post(
             );
     }
 );
-
+// GET - remove a type
+router.get(
+    "/:ID",
+    [authenMiddleware, authorMiddleware],
+    async (req: Request<{ ID: string }>, res: Response) => {
+        const { ID } = req.params;
+        //get connection
+        const typeRepo = await getCustomRepository(TypeRepository);
+        const result = await typeRepo.removeTypeByID(Number(ID));
+        res.send(dataHelper.getResponseForm(result, null, "remove success"));
+    }
+);
 export default router;

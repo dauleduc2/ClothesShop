@@ -32,7 +32,6 @@ export class ColorRepository extends Repository<Color> {
 
     async removeByID(ID: number) {
         const result = await this.delete({ ID });
-        console.log(result);
         return result;
     }
 }
