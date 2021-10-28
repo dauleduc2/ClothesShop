@@ -18,6 +18,7 @@ export const size = createSlice({
         });
         builder.addCase(sizeThunk.adminAddNewSize.fulfilled, (state: SizeState, { payload }) => {
             const newData = [...state.data, payload];
+            console.log(payload);
             return {
                 ...state,
                 data: newData,

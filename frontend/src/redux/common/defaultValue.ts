@@ -11,6 +11,9 @@ import {
     UpdateFormErrorMessageDTO,
 } from '../../common/interfaces/DTO/userDTO';
 import { ResponseWithCount } from '../../common/interfaces/Common/api';
+import { AddColorErrorMessageDTO } from '../../common/interfaces/DTO/colorDTO';
+import { AddSizeErrorMessageDTO } from '../../common/interfaces/Redux/size';
+import { AddTypeErrorMessageDTO } from '../../common/interfaces/Redux/type';
 
 export const defaultProductInCart: ProductInCartDTO = {
     ID: '',
@@ -118,4 +121,18 @@ export const defaultOrderListWithUserDetail: OrderListWithUserDetailDTO = {
     user: defaultUser,
     address: '',
     phoneNumber: '',
+};
+
+export const defaultAddColor: AddColorErrorMessageDTO = {
+    name: '',
+    hexCode: '',
+    general: '',
+};
+export const defaultAddSize: AddSizeErrorMessageDTO = {
+    name: '',
+    general: '',
+};
+export const defaultAddType: AddTypeErrorMessageDTO = {
+    name: '',
+    general: '',
 };
