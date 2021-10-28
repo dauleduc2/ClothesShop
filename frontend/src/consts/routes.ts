@@ -1,5 +1,5 @@
 import CategoryPage from '../components/Category';
-import HomePage from '../components/HomePage';
+import HomePage from '../containers/HomePage';
 import MePage from '../containers/Me';
 import ProductPage from '../containers/ProductDetails';
 import LoginPage from '../containers/Login';
@@ -41,7 +41,7 @@ type routeList = Route[];
 
 export const navigationLink: routeList = [
     {
-        to: urlLink.HOME,
+        to: `${urlLink.HOME}?limit=12&page=1`,
         exact: true,
         buttonName: 'Home',
     },
