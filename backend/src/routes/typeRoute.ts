@@ -48,15 +48,15 @@ router.post(
         //check duplicate
         const isDuplicate = await typeRepo.findByName(newType.name);
         if (isDuplicate)
-            return res
-                .status(statusCode.BAD_REQUEST)
-                .send(
-                    dataHelper.getResponseForm(
-                        null,
-                        null,
-                        "this type already have in store"
-                    )
-                );
+            return res.status(statusCode.BAD_REQUEST).send(
+                dataHelper.getResponseForm(
+                    null,
+                    {
+                        name: "this type already have in store",
+                    },
+                    "this type already have in store"
+                )
+            );
         //add type
         await typeRepo.addNewType(newType);
         return res

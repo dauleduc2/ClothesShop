@@ -49,15 +49,15 @@ router.post(
         //check duplicate
         const isDuplicate = await sizeRepo.findByName(newSize.name);
         if (isDuplicate)
-            return res
-                .status(statusCode.BAD_REQUEST)
-                .send(
-                    dataHelper.getResponseForm(
-                        null,
-                        null,
-                        "this size already have in store"
-                    )
-                );
+            return res.status(statusCode.BAD_REQUEST).send(
+                dataHelper.getResponseForm(
+                    null,
+                    {
+                        name: "this size already have in store",
+                    },
+                    "this size already have in store"
+                )
+            );
         //add size
         await sizeRepo.addNewSize(newSize);
         return res
