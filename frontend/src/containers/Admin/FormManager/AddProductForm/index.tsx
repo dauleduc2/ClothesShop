@@ -9,7 +9,7 @@ import { ColorState } from '../../../../common/interfaces/Redux/color';
 import { SizeState } from '../../../../common/interfaces/Redux/size';
 import { TypeState } from '../../../../common/interfaces/Redux/type';
 import InputField from '../../../../components/common/InputField';
-import { RootState } from '../../../../redux';
+import { RootState, store } from '../../../../redux';
 import AvatarInput from './avatarInput';
 import ColorInput from './colorInput';
 import ImagesInput from './imagesInput';
@@ -17,6 +17,8 @@ import SizeInput from './SizeInput';
 import TypeInput from './TypeInput';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { productThunk } from '../../../../redux/product/productThunk';
+import * as notificationHelper from '../../../../utils/notificationHelper';
 interface AddProductFormProps {}
 
 export interface FilePreview extends File {
@@ -37,9 +39,24 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
     const [selectedSizeList, setSelectedSizeList] = React.useState<Size[]>([]);
     const { handleSubmit, register } = useForm<ProductAddFormDTO>();
 
-    const onSubmit = (data: ProductAddFormDTO) => {
-        console.log(data);
-        console.log(description);
+    const onSubmit = async (data: ProductAddFormDTO) => {
+        console.log('hello');
+        const newProduct: ProductAddFormDTO = {
+            name: data.name,
+            price: data.price,
+            quantity: data.quantity,
+            description: description,
+            images: images as File[],
+            productAvatar: avatar as File,
+            sizes: selectedSizeList.map((size) => size.ID),
+            colors: selectedColorList.map((color) => color.ID),
+            type: selectedType.ID,
+        };
+        console.log(newProduct);
+        const res = await store.dispatch(productThunk.adminAddNewProduct(newProduct));
+        if (res.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success('Add new product success!');
+        }
     };
     const handleAvatarPreview = (e: any) => {
         const file = e.target.files[0];

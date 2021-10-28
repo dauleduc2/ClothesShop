@@ -1,7 +1,7 @@
 import axiosClient from '../axios/config';
 import { ResponseWithCount, ServerResponse } from '../common/interfaces/Common/api';
 import { AdminQuery } from '../common/interfaces/Common/query';
-import { ProductToShowDTO } from '../common/interfaces/DTO/productDTO';
+import { ProductAddFormDTO, ProductToShowDTO } from '../common/interfaces/DTO/productDTO';
 import { Product } from '../common/interfaces/Model/Product';
 export const productApi = {
     getAllProduct: async () => {
@@ -15,5 +15,31 @@ export const productApi = {
     adminGetAllProduct: async ({ limit, page }: AdminQuery) => {
         const url = `/api/admin/product?limit=${limit}&page=${page}`;
         return await axiosClient.get<ServerResponse<ResponseWithCount<Product[]>, null>>(url);
+    },
+    addNewProduct: async (product: ProductAddFormDTO) => {
+        const url = '/api/product';
+        let form = new FormData();
+        form.append('name', product.name);
+        form.append('description', product.description);
+        form.append('price', product.price.toString());
+        form.append('productAvatar', product.productAvatar);
+        form.append('quantity', product.quantity.toString());
+        product.images.forEach((image) => {
+            form.append('images', image);
+        });
+        for (let i = 0; i < product.colors.length; i++) {
+            const color = product.colors[i];
+            form.append(`colors[${i}]`, color.toString());
+        }
+        for (let i = 0; i < product.sizes.length; i++) {
+            const size = product.sizes[i];
+            form.append(`sizes[${i}]`, size.toString());
+        }
+
+        form.append('types[0]', product.type.toString());
+        form.append('status', 'AVAILABLE');
+        return await axiosClient.post<ServerResponse<Product, null>>(url, form, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
     },
 };
