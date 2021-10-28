@@ -16,6 +16,13 @@ export const color = createSlice({
                 data: payload,
             };
         });
+        builder.addCase(colorThunk.adminAddNewColor.fulfilled, (state: ColorState, { payload }) => {
+            const newData = [...state.data, payload];
+            return {
+                ...state,
+                data: newData,
+            };
+        });
     },
 });
 

@@ -1,13 +1,22 @@
 import { useForm } from 'react-hook-form';
 import { AddSizeDTO } from '../../../../common/interfaces/DTO/sizeDTO';
 import InputField from '../../../../components/common/InputField';
-
+import { store } from '../../../../redux';
+import { sizeThunk } from '../../../../redux/size/sizeThunk';
+import * as notificationHelper from '../../../../utils/notificationHelper';
 interface AddSizeFormProps {}
 
 const AddSizeForm: React.FunctionComponent<AddSizeFormProps> = () => {
-    const { handleSubmit, register } = useForm<AddSizeDTO>();
-    const onSubmit = (data: AddSizeDTO) => {
-        console.log(data);
+    const { handleSubmit, register, reset } = useForm<AddSizeDTO>();
+    const onSubmit = async (data: AddSizeDTO) => {
+        const result = await store.dispatch(sizeThunk.adminAddNewSize(data));
+        if (result.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success(
+                'Add new Size success !',
+                'now you can use this Size in any where in your store!'
+            );
+            reset();
+        }
     };
     return (
         <div className="w-full h-full p-5 space-y-8 divide-y divide-gray-200 bg-gray-50 intro-y">

@@ -16,6 +16,13 @@ export const size = createSlice({
                 data: payload,
             };
         });
+        builder.addCase(sizeThunk.adminAddNewSize.fulfilled, (state: SizeState, { payload }) => {
+            const newData = [...state.data, payload];
+            return {
+                ...state,
+                data: newData,
+            };
+        });
     },
 });
 

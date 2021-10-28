@@ -1,13 +1,23 @@
 import { useForm } from 'react-hook-form';
 import { AddTypeDTO } from '../../../../common/interfaces/DTO/typeDTO';
 import InputField from '../../../../components/common/InputField';
+import { store } from '../../../../redux';
+import { typeThunk } from '../../../../redux/type/typeThunk';
+import * as notificationHelper from '../../../../utils/notificationHelper';
 
 interface AddTypeFormProps {}
 
 const AddTypeForm: React.FunctionComponent<AddTypeFormProps> = () => {
-    const { handleSubmit, register } = useForm<AddTypeDTO>();
-    const onSubmit = (data: AddTypeDTO) => {
-        console.log(data);
+    const { handleSubmit, register, reset } = useForm<AddTypeDTO>();
+    const onSubmit = async (data: AddTypeDTO) => {
+        const result = await store.dispatch(typeThunk.adminAddNewType(data));
+        if (result.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success(
+                'Add new Type success !',
+                'now you can use this Type in any where in your store!'
+            );
+            reset();
+        }
     };
     return (
         <div className="w-full h-full p-5 space-y-8 divide-y divide-gray-200 bg-gray-50 intro-y">

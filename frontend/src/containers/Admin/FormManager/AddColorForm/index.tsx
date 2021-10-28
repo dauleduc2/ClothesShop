@@ -1,13 +1,22 @@
 import { useForm } from 'react-hook-form';
 import { AddColorDTO } from '../../../../common/interfaces/DTO/colorDTO';
 import InputField from '../../../../components/common/InputField';
-
+import { store } from '../../../../redux';
+import { colorThunk } from '../../../../redux/color/colorThunk';
+import * as notificationHelper from '../../../../utils/notificationHelper';
 interface AddColorFormProps {}
 
 const AddColorForm: React.FunctionComponent<AddColorFormProps> = () => {
-    const { handleSubmit, register } = useForm<AddColorDTO>();
-    const onSubmit = (data: AddColorDTO) => {
-        console.log(data);
+    const { handleSubmit, register, reset } = useForm<AddColorDTO>();
+    const onSubmit = async (data: AddColorDTO) => {
+        const result = await store.dispatch(colorThunk.adminAddNewColor(data));
+        if (result.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success(
+                'Add new Color success !',
+                'now you can use this color in any where in your store!'
+            );
+            reset();
+        }
     };
     return (
         <div className="w-full h-full p-5 space-y-8 divide-y divide-gray-200 bg-gray-50 intro-y">
