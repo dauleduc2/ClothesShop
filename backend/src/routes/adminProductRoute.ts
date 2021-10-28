@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import * as express from "express";
 import { getCustomRepository } from "typeorm";
 import * as dataHelper from "../utils/dataHelper";
-import { adminQueryPage } from "../interfaces/common/Query";
+import { AdminQueryPage } from "../interfaces/common/Query";
 import { ProductRepository } from "../Repository/ProductRepository";
 const router = express.Router();
 
 //GET - get all order
 router.get(
     "/",
-    async (req: Request<null, null, null, adminQueryPage>, res: Response) => {
+    async (req: Request<null, null, null, AdminQueryPage>, res: Response) => {
         //get connection
         const productRepo = await getCustomRepository(ProductRepository);
         const productWithCount = await productRepo.adminGetAllProduct({

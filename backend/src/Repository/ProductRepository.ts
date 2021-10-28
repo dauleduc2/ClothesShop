@@ -1,7 +1,8 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Product } from "../entity/Product";
-import { adminQueryPage } from "../interfaces/common/Query";
+import { AdminQueryPage } from "../interfaces/common/Query";
 import { ResponseDataWithCount } from "../interfaces/common/Request";
+import { ProductToShowDTO } from "../interfaces/DTO/product";
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
     async addNewProduct(product: Product) {
@@ -12,9 +13,15 @@ export class ProductRepository extends Repository<Product> {
         return result;
     }
 
-    async getAllProductToShow() {
-        let result = await this.find({}).catch((err) => err);
-        result = result.map((product) => {
+    async getAllProductToShow({
+        limit,
+        page,
+    }: AdminQueryPage): Promise<ResponseDataWithCount<ProductToShowDTO[]>> {
+        let result = (await this.findAndCount({
+            take: limit,
+            skip: (page - 1) * limit,
+        }).catch((err) => err)) as [Product[], number];
+        const productList = result[0].map((product) => {
             return {
                 ID: product.ID,
                 name: product.name,
@@ -22,16 +29,22 @@ export class ProductRepository extends Repository<Product> {
                 price: product.price,
                 status: product.status,
             };
-        });
-        return result;
+        }) as ProductToShowDTO[];
+        return {
+            data: productList,
+            count: result[1],
+        };
     }
 
     async adminGetAllProduct({
         limit,
         page,
-    }: adminQueryPage): Promise<ResponseDataWithCount<Product[]>> {
+    }: AdminQueryPage): Promise<ResponseDataWithCount<Product[]>> {
         let result = await this.findAndCount({
             relations: ["images", "sizes", "types", "colors"],
+            order: {
+                createDate: "DESC",
+            },
             take: limit,
             skip: (page - 1) * limit,
         });

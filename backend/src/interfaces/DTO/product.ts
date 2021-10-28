@@ -9,3 +9,9 @@ export interface AddProductInfoDTO
     types: number[];
     colors: number[];
 }
+
+export interface ProductToShowDTO
+    extends Pick<
+        Product,
+        "ID" | "name" | "productAvatar" | "price" | "status"
+    > {}

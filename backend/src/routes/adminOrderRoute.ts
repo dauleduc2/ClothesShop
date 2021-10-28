@@ -8,13 +8,13 @@ import { UpdateOrderListStatusDTO } from "../interfaces/DTO/orderList";
 import { validateUpdateOrderList } from "../validators/OrderList";
 import { ProductRepository } from "../Repository/ProductRepository";
 import * as statusCode from "../constants/statusConstants";
-import { adminQueryPage } from "../interfaces/common/Query";
+import { AdminQueryPage } from "../interfaces/common/Query";
 const router = express.Router();
 
 //GET - get all order
 router.get(
     "/",
-    async (req: Request<null, null, null, adminQueryPage>, res: Response) => {
+    async (req: Request<null, null, null, AdminQueryPage>, res: Response) => {
         //get connection
         const orderRepo = await getCustomRepository(OrderListRepository);
         const orderListWithCount = await orderRepo.getAllOrderList({
