@@ -8,19 +8,40 @@ interface TypeInputProps {
     typeState: TypeState;
     selectedType: Type;
     setSelectedType: React.Dispatch<React.SetStateAction<Type>>;
+    selectedTypeList: Type[];
+    setSelectedTypeList: React.Dispatch<React.SetStateAction<Type[]>>;
 }
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
 }
-const TypeInput: React.FunctionComponent<TypeInputProps> = ({ typeState, selectedType, setSelectedType }) => {
+const TypeInput: React.FunctionComponent<TypeInputProps> = ({
+    typeState,
+    selectedType,
+    setSelectedType,
+    selectedTypeList,
+    setSelectedTypeList,
+}) => {
     return (
         <div className="mt-1 sm:mt-0 sm:col-span-2">
             {typeState.data.length !== 0 && (
-                <Listbox value={selectedType} onChange={setSelectedType}>
+                <Listbox
+                    value={selectedType}
+                    onChange={(selectedType) => {
+                        //merge two array to make sure each size have only one
+                        const newSelectedTypeList = [...selectedTypeList].concat(
+                            [selectedType].filter((dataType) =>
+                                [...selectedTypeList].every((Type) => Type.ID !== dataType.ID)
+                            )
+                        );
+
+                        setSelectedType(selectedType);
+                        setSelectedTypeList(newSelectedTypeList);
+                    }}
+                >
                     <div className="relative mt-1">
                         <Listbox.Button className="relative w-64 py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <span className="block truncate">
-                                {capitalizeFirstLetter(selectedType.name.toLowerCase())}
+                                {capitalizeFirstLetter(selectedType?.name.toLowerCase())}
                             </span>
                             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                 <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
@@ -75,6 +96,32 @@ const TypeInput: React.FunctionComponent<TypeInputProps> = ({ typeState, selecte
                     </div>
                 </Listbox>
             )}
+            <div className="flex mt-5">
+                {selectedTypeList.length !== 0 &&
+                    selectedTypeList.map((type) => (
+                        <span
+                            key={type.ID}
+                            className="inline-flex mr-3 rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700"
+                        >
+                            {capitalizeFirstLetter(type.name.toLowerCase())}
+                            <button
+                                type="button"
+                                className="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white"
+                                onClick={() => {
+                                    const newSelectedTypeList = [...selectedTypeList].filter(
+                                        (filType) => filType.ID !== type.ID
+                                    );
+                                    setSelectedTypeList(newSelectedTypeList);
+                                }}
+                            >
+                                <span className="sr-only">Remove large option</span>
+                                <svg className="w-2 h-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                                    <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
+                                </svg>
+                            </button>
+                        </span>
+                    ))}
+            </div>
         </div>
     );
 };

@@ -19,6 +19,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { productThunk } from '../../../../redux/product/productThunk';
 import * as notificationHelper from '../../../../utils/notificationHelper';
+import { ProductStatus } from '../../../../common/interfaces/Model/Product';
+import StatusInput from './statusInput';
 interface AddProductFormProps {}
 
 export interface FilePreview extends File {
@@ -33,14 +35,15 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
     const [avatar, setAvatar] = React.useState<FilePreview>();
     const [images, setImages] = React.useState<FilePreview[]>();
     const [selectedType, setSelectedType] = React.useState<Type>(typeState.data[0]);
+    const [selectedTypeList, setSelectedTypeList] = React.useState<Type[]>([]);
     const [selectedColor, setSelectedColor] = React.useState<Color>(colorState.data[0]);
     const [selectedColorList, setSelectedColorList] = React.useState<Color[]>([]);
     const [selectedSize, setSelectedSize] = React.useState<Size>(sizeState.data[0]);
     const [selectedSizeList, setSelectedSizeList] = React.useState<Size[]>([]);
+    const [selectedStatus, setSelectedStatus] = React.useState<ProductStatus>(ProductStatus.AVAILABLE);
     const { handleSubmit, register } = useForm<ProductAddFormDTO>();
 
     const onSubmit = async (data: ProductAddFormDTO) => {
-        console.log('hello');
         const newProduct: ProductAddFormDTO = {
             name: data.name,
             price: data.price,
@@ -50,9 +53,9 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
             productAvatar: avatar as File,
             sizes: selectedSizeList.map((size) => size.ID),
             colors: selectedColorList.map((color) => color.ID),
-            type: selectedType.ID,
+            types: selectedTypeList.map((type) => type.ID),
+            status: selectedStatus,
         };
-        console.log(newProduct);
         const res = await store.dispatch(productThunk.adminAddNewProduct(newProduct));
         if (res.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Add new product success!');
@@ -135,6 +138,8 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
                                 selectedType={selectedType}
                                 setSelectedType={setSelectedType}
                                 typeState={typeState}
+                                selectedTypeList={selectedTypeList}
+                                setSelectedTypeList={setSelectedTypeList}
                             />
                         </div>
 
@@ -166,6 +171,16 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
                                 selectedSizeList={selectedSizeList}
                                 setSelectedSizeList={setSelectedSizeList}
                             />
+                        </div>
+                        {/* status */}
+                        <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                            <label
+                                htmlFor="status"
+                                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                            >
+                                Status
+                            </label>
+                            <StatusInput selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
                         </div>
                         {/* description */}
                         <div className="w-full sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">

@@ -2,7 +2,7 @@ import axiosClient from '../axios/config';
 import { ResponseWithCount, ServerResponse } from '../common/interfaces/Common/api';
 import { AdminQuery } from '../common/interfaces/Common/query';
 import { ProductAddFormDTO, ProductToShowDTO } from '../common/interfaces/DTO/productDTO';
-import { Product } from '../common/interfaces/Model/Product';
+import { Product, ProductStatus } from '../common/interfaces/Model/Product';
 export const productApi = {
     getAllProduct: async () => {
         const url = '/api/product';
@@ -35,9 +35,11 @@ export const productApi = {
             const size = product.sizes[i];
             form.append(`sizes[${i}]`, size.toString());
         }
-
-        form.append('types[0]', product.type.toString());
-        form.append('status', 'AVAILABLE');
+        for (let i = 0; i < product.types.length; i++) {
+            const type = product.types[i];
+            form.append(`types[${i}]`, type.toString());
+        }
+        form.append('status', product.status);
         return await axiosClient.post<ServerResponse<Product, null>>(url, form, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
