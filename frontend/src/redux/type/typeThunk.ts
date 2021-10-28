@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { typeApi } from '../../api/typeApi';
-import { AddTypeDTO } from '../../common/interfaces/DTO/typeDTO';
+import { AddTypeDTO, AdminRemoveTypeDTO } from '../../common/interfaces/DTO/typeDTO';
 import { AddTypeErrorMessageDTO } from '../../common/interfaces/Redux/type';
 import * as notificationHelper from '../../utils/notificationHelper';
 
@@ -24,4 +24,8 @@ export const typeThunk = {
             }
         }
     ),
+    adminRemoveType: createAsyncThunk<AdminRemoveTypeDTO, number>('color/adminRemoveType', async (ID) => {
+        await typeApi.adminRemoveType(ID);
+        return { ID };
+    }),
 };

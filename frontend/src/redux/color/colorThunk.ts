@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { colorApi } from '../../api/colorApi';
-import { AddColorDTO, AddColorErrorMessageDTO } from '../../common/interfaces/DTO/colorDTO';
+import { AddColorDTO, AddColorErrorMessageDTO, AdminRemoveColorDTO } from '../../common/interfaces/DTO/colorDTO';
 import * as notificationHelper from '../../utils/notificationHelper';
 
 export const colorThunk = {
@@ -23,4 +23,8 @@ export const colorThunk = {
             }
         }
     ),
+    adminRemoveColor: createAsyncThunk<AdminRemoveColorDTO, number>('color/adminRemoveColor', async (ID) => {
+        await colorApi.adminRemoveColor(ID);
+        return { ID };
+    }),
 };

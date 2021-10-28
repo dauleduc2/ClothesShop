@@ -18,10 +18,17 @@ export const size = createSlice({
         });
         builder.addCase(sizeThunk.adminAddNewSize.fulfilled, (state: SizeState, { payload }) => {
             const newData = [...state.data, payload];
-            console.log(payload);
+
             return {
                 ...state,
                 data: newData,
+            };
+        });
+        builder.addCase(sizeThunk.adminRemoveSize.fulfilled, (state, { payload }) => {
+            const newSizeList = state.data.filter((size) => size.ID !== payload.ID);
+            return {
+                ...state,
+                data: newSizeList,
             };
         });
     },

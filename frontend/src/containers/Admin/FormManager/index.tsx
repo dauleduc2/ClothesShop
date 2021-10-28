@@ -24,7 +24,7 @@ const FormManager: React.FunctionComponent<FormManagerProps> = () => {
             <main className="flex-1 min-w-0 border-t border-gray-200 lg:flex">
                 <section
                     aria-labelledby="primary-heading"
-                    className="flex flex-col flex-1 h-full min-w-0 overflow-y-auto lg:order-last"
+                    className="flex flex-col flex-1 h-full min-w-0 lg:order-last"
                 >
                     <Switch>
                         {AdminFormRoute.map((route) => {
@@ -47,7 +47,7 @@ const FormManager: React.FunctionComponent<FormManagerProps> = () => {
                 <aside className="hidden lg:block lg:flex-shrink-0 lg:order-first">
                     <div className="relative flex flex-col h-full p-4 overflow-y-auto bg-gray-100 border-r border-gray-200 w-96">
                         {/* Your content */}
-                        <ul className="flex flex-col justify-start w-full h-full">
+                        <ul className="flex flex-col justify-start w-full h-full max-h-44">
                             {featureList.map((feature, index) => {
                                 const { icon: IconComponent } = feature;
                                 return (
@@ -65,7 +65,11 @@ const FormManager: React.FunctionComponent<FormManagerProps> = () => {
                                                 <p className="mt-1 text-sm text-gray-500 ">{feature.description}</p>
                                             </div>
 
-                                            <div className="p-1 text-white bg-green-400 rounded-full">
+                                            <div
+                                                className={`p-1 text-white bg-${
+                                                    feature.isDanger ? 'red' : 'green'
+                                                }-400 rounded-full`}
+                                            >
                                                 <IconComponent />
                                             </div>
                                         </div>

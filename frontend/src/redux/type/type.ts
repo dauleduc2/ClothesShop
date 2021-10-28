@@ -23,6 +23,13 @@ export const type = createSlice({
                 data: newData,
             };
         });
+        builder.addCase(typeThunk.adminRemoveType.fulfilled, (state, { payload }) => {
+            const newTypeList = state.data.filter((type) => type.ID !== payload.ID);
+            return {
+                ...state,
+                data: newTypeList,
+            };
+        });
     },
 });
 

@@ -7,7 +7,7 @@ const AdminPage: React.FunctionComponent<AdminPageProps> = ({ children }) => {
         <>
             <div className="flex flex-col flex-1">
                 {/* Bottom section */}
-                <div className="flex flex-1 min-h-0 pt-16 overflow-hidden">
+                <div className="flex flex-1 min-h-0 pt-16 overflow-hidden ">
                     {/* Narrow sidebar*/}
                     <nav
                         aria-label="Sidebar"

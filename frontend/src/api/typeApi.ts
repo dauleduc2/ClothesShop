@@ -12,4 +12,8 @@ export const typeApi = {
         const url = '/api/type';
         return await axiosClient.post<ServerResponse<Type, null>>(url, newType);
     },
+    adminRemoveType: async (ID: number) => {
+        const url = `/api/type/${ID}`;
+        return await axiosClient.get<ServerResponse<null, null>>(url);
+    },
 };

@@ -6,3 +6,9 @@ export interface AddColorErrorMessageDTO {
     hexCode: string;
     general: string;
 }
+
+export interface RemoveColorDTO extends Pick<Color, 'name'> {}
+
+export interface AdminRemoveColorDTO {
+    ID: number;
+}

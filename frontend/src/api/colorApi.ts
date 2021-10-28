@@ -12,4 +12,8 @@ export const colorApi = {
         const url = '/api/color';
         return await axiosClient.post<ServerResponse<Color, null>>(url, newColor);
     },
+    adminRemoveColor: async (ID: number) => {
+        const url = `/api/color/${ID}`;
+        return await axiosClient.get<ServerResponse<null, null>>(url);
+    },
 };

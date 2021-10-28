@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { sizeApi } from '../../api/sizeApi';
-import { AddSizeDTO } from '../../common/interfaces/DTO/sizeDTO';
+import { AddSizeDTO, AdminRemoveSizeDTO } from '../../common/interfaces/DTO/sizeDTO';
 import { AddSizeErrorMessageDTO } from '../../common/interfaces/Redux/size';
 import * as notificationHelper from '../../utils/notificationHelper';
 
@@ -24,4 +24,8 @@ export const sizeThunk = {
             }
         }
     ),
+    adminRemoveSize: createAsyncThunk<AdminRemoveSizeDTO, number>('color/adminRemoveSize', async (ID) => {
+        await sizeApi.adminRemoveSize(ID);
+        return { ID };
+    }),
 };

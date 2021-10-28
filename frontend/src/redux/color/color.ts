@@ -23,6 +23,13 @@ export const color = createSlice({
                 data: newData,
             };
         });
+        builder.addCase(colorThunk.adminRemoveColor.fulfilled, (state, { payload }) => {
+            const newColorList = state.data.filter((color) => color.ID !== payload.ID);
+            return {
+                ...state,
+                data: newColorList,
+            };
+        });
     },
 });
 
