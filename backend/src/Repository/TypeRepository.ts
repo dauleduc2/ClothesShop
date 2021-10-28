@@ -24,4 +24,9 @@ export class TypeRepository extends Repository<Type> {
         const result = await this.find({});
         return result;
     }
+
+    async removeTypeByID(ID: number) {
+        const result = await this.delete({ ID });
+        return result;
+    }
 }

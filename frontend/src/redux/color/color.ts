@@ -16,6 +16,20 @@ export const color = createSlice({
                 data: payload,
             };
         });
+        builder.addCase(colorThunk.adminAddNewColor.fulfilled, (state: ColorState, { payload }) => {
+            const newData = [...state.data, payload];
+            return {
+                ...state,
+                data: newData,
+            };
+        });
+        builder.addCase(colorThunk.adminRemoveColor.fulfilled, (state, { payload }) => {
+            const newColorList = state.data.filter((color) => color.ID !== payload.ID);
+            return {
+                ...state,
+                data: newColorList,
+            };
+        });
     },
 });
 

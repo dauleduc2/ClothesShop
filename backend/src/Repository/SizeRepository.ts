@@ -24,4 +24,9 @@ export class SizeRepository extends Repository<Size> {
         const result = await this.find({});
         return result;
     }
+
+    async removeSizeByID(ID: number) {
+        const result = await this.delete({ ID });
+        return result;
+    }
 }

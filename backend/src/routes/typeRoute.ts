@@ -48,15 +48,15 @@ router.post(
         //check duplicate
         const isDuplicate = await typeRepo.findByName(newType.name);
         if (isDuplicate)
-            return res
-                .status(statusCode.BAD_REQUEST)
-                .send(
-                    dataHelper.getResponseForm(
-                        null,
-                        null,
-                        "this type already have in store"
-                    )
-                );
+            return res.status(statusCode.BAD_REQUEST).send(
+                dataHelper.getResponseForm(
+                    null,
+                    {
+                        name: "this type already have in store",
+                    },
+                    "this type already have in store"
+                )
+            );
         //add type
         await typeRepo.addNewType(newType);
         return res
@@ -70,5 +70,16 @@ router.post(
             );
     }
 );
-
+// GET - remove a type
+router.get(
+    "/:ID",
+    [authenMiddleware, authorMiddleware],
+    async (req: Request<{ ID: string }>, res: Response) => {
+        const { ID } = req.params;
+        //get connection
+        const typeRepo = await getCustomRepository(TypeRepository);
+        const result = await typeRepo.removeTypeByID(Number(ID));
+        res.send(dataHelper.getResponseForm(result, null, "remove success"));
+    }
+);
 export default router;

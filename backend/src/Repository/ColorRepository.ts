@@ -29,4 +29,9 @@ export class ColorRepository extends Repository<Color> {
         const result = await this.find({});
         return result;
     }
+
+    async removeByID(ID: number) {
+        const result = await this.delete({ ID });
+        return result;
+    }
 }

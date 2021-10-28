@@ -1,13 +1,27 @@
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { AddSizeDTO } from '../../../../common/interfaces/DTO/sizeDTO';
+import { FormState } from '../../../../common/interfaces/Redux/form';
 import InputField from '../../../../components/common/InputField';
-
+import { RootState, store } from '../../../../redux';
+import { formAction } from '../../../../redux/form/form';
+import { sizeThunk } from '../../../../redux/size/sizeThunk';
+import * as notificationHelper from '../../../../utils/notificationHelper';
 interface AddSizeFormProps {}
 
 const AddSizeForm: React.FunctionComponent<AddSizeFormProps> = () => {
-    const { handleSubmit, register } = useForm<AddSizeDTO>();
-    const onSubmit = (data: AddSizeDTO) => {
-        console.log(data);
+    const { handleSubmit, register, reset } = useForm<AddSizeDTO>();
+    const formState = useSelector<RootState, FormState>((state) => state.form);
+    const onSubmit = async (data: AddSizeDTO) => {
+        const result = await store.dispatch(sizeThunk.adminAddNewSize(data));
+        if (result.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success(
+                'Add new Size success !',
+                'now you can use this Size in any where in your store!'
+            );
+            reset();
+            store.dispatch(formAction.resetAddSizeForm());
+        }
     };
     return (
         <div className="w-full h-full p-5 space-y-8 divide-y divide-gray-200 bg-gray-50 intro-y">
@@ -27,7 +41,7 @@ const AddSizeForm: React.FunctionComponent<AddSizeFormProps> = () => {
                                 autoComplete={false}
                                 field="name"
                                 required={true}
-                                message={''}
+                                message={formState.addSize.name}
                                 register={register}
                             />
                         </div>

@@ -17,9 +17,12 @@ export const ADMIN_PRODUCT = '/admin/product';
 export const ADMIN_FORM = '/admin/form';
 
 export const ADMIN_ADD_PRODUCT_FORM = '/admin/form/product';
-export const ADMIN_ADD_COLOR_FORM = '/admin/form/color';
-export const ADMIN_ADD_SIZE_FORM = '/admin/form/size';
-export const ADMIN_ADD_TYPE_FORM = '/admin/form/type';
+export const ADMIN_ADD_COLOR_FORM = '/admin/form/color/add';
+export const ADMIN_REMOVE_COLOR_FORM = '/admin/form/color/remove';
+export const ADMIN_ADD_SIZE_FORM = '/admin/form/size/add';
+export const ADMIN_REMOVE_SIZE_FORM = '/admin/form/size/remove';
+export const ADMIN_ADD_TYPE_FORM = '/admin/form/type/add';
+export const ADMIN_REMOVE_TYPE_FORM = '/admin/form/type/remove';
 
 //not found
 export const NOT_FOUND = '*';

@@ -49,15 +49,15 @@ router.post(
         //check duplicate
         const isDuplicate = await sizeRepo.findByName(newSize.name);
         if (isDuplicate)
-            return res
-                .status(statusCode.BAD_REQUEST)
-                .send(
-                    dataHelper.getResponseForm(
-                        null,
-                        null,
-                        "this size already have in store"
-                    )
-                );
+            return res.status(statusCode.BAD_REQUEST).send(
+                dataHelper.getResponseForm(
+                    null,
+                    {
+                        name: "this size already have in store",
+                    },
+                    "this size already have in store"
+                )
+            );
         //add size
         await sizeRepo.addNewSize(newSize);
         return res
@@ -69,6 +69,19 @@ router.post(
                     "add new size success!"
                 )
             );
+    }
+);
+
+// GET - remove a size
+router.get(
+    "/:ID",
+    [authenMiddleware, authorMiddleware],
+    async (req: Request<{ ID: string }>, res: Response) => {
+        const { ID } = req.params;
+        //get connection
+        const sizeRepo = await getCustomRepository(SizeRepository);
+        const result = await sizeRepo.removeSizeByID(Number(ID));
+        res.send(dataHelper.getResponseForm(result, null, "remove success"));
     }
 );
 export default router;

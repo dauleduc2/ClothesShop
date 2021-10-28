@@ -16,6 +16,20 @@ export const type = createSlice({
                 data: payload,
             };
         });
+        builder.addCase(typeThunk.adminAddNewType.fulfilled, (state: TypeState, { payload }) => {
+            const newData = [...state.data, payload];
+            return {
+                ...state,
+                data: newData,
+            };
+        });
+        builder.addCase(typeThunk.adminRemoveType.fulfilled, (state, { payload }) => {
+            const newTypeList = state.data.filter((type) => type.ID !== payload.ID);
+            return {
+                ...state,
+                data: newTypeList,
+            };
+        });
     },
 });
 

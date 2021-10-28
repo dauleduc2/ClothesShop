@@ -1,13 +1,27 @@
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { AddColorDTO } from '../../../../common/interfaces/DTO/colorDTO';
+import { FormState } from '../../../../common/interfaces/Redux/form';
 import InputField from '../../../../components/common/InputField';
-
+import { RootState, store } from '../../../../redux';
+import { colorThunk } from '../../../../redux/color/colorThunk';
+import { formAction } from '../../../../redux/form/form';
+import * as notificationHelper from '../../../../utils/notificationHelper';
 interface AddColorFormProps {}
 
 const AddColorForm: React.FunctionComponent<AddColorFormProps> = () => {
-    const { handleSubmit, register } = useForm<AddColorDTO>();
-    const onSubmit = (data: AddColorDTO) => {
-        console.log(data);
+    const { handleSubmit, register, reset } = useForm<AddColorDTO>();
+    const formState = useSelector<RootState, FormState>((state) => state.form);
+    const onSubmit = async (data: AddColorDTO) => {
+        const result = await store.dispatch(colorThunk.adminAddNewColor(data));
+        if (result.meta.requestStatus === 'fulfilled') {
+            notificationHelper.success(
+                'Add new Color success !',
+                'now you can use this color in any where in your store!'
+            );
+            reset();
+            store.dispatch(formAction.resetAddColorForm());
+        }
     };
     return (
         <div className="w-full h-full p-5 space-y-8 divide-y divide-gray-200 bg-gray-50 intro-y">
@@ -28,7 +42,7 @@ const AddColorForm: React.FunctionComponent<AddColorFormProps> = () => {
                                 autoComplete={false}
                                 field="name"
                                 required={true}
-                                message={''}
+                                message={formState.addColor.name}
                                 register={register}
                             />
                         </div>
@@ -44,7 +58,7 @@ const AddColorForm: React.FunctionComponent<AddColorFormProps> = () => {
                                 autoComplete={false}
                                 field="hexCode"
                                 required={true}
-                                message={''}
+                                message={formState.addColor.hexCode}
                                 register={register}
                             />
                             <div className="max-w-xl mt-2 text-sm text-gray-500">

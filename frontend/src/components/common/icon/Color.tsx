@@ -10,21 +10,21 @@ function ColorIcon() {
             <path
                 d="M9.40994 15.9499L7.01992 13.56C6.21992 12.76 6.21992 11.9599 7.01992 11.1699L11.0099 7.17993L15.3999 11.5699C15.6199 11.7899 15.6199 12.1499 15.3999 12.3699L11.8099 15.9599C11.0099 16.7499 10.2099 16.7499 9.40994 15.9499Z"
                 strokeWidth="1.5"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
                 d="M10.21 6.38L11.01 7.17999"
                 strokeWidth="1.5"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
                 d="M6.45996 12.3299L15.49 11.9399"
                 strokeWidth="1.5"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
