@@ -11,9 +11,8 @@ import { authorMiddleware } from "../middlewares/authorMiddleware";
 import * as dataHelper from "../utils/dataHelper";
 import { AddColorInfoDTO } from "../interfaces/DTO/color";
 import * as statusCode from "../constants/statusConstants";
-import { stat } from "fs";
-import { STATUS_CODES } from "http";
 const router = express.Router();
+//GET get all color
 router.get("/", async (req: Request, res: Response) => {
     //get connection
     const colorRepo = await getCustomRepository(ColorRepository);
@@ -23,7 +22,7 @@ router.get("/", async (req: Request, res: Response) => {
         dataHelper.getResponseForm(colorList, null, "get all color success!")
     );
 });
-
+//POST - add new color
 router.post(
     "/",
     [authenMiddleware, authorMiddleware],
@@ -82,6 +81,18 @@ router.post(
                     "add new color success!"
                 )
             );
+    }
+);
+// GET - remove a color
+router.get(
+    "/:ID",
+    [authenMiddleware, authorMiddleware],
+    async (req: Request<{ ID: string }>, res: Response) => {
+        const { ID } = req.params;
+        //get connection
+        const colorRepo = await getCustomRepository(ColorRepository);
+        const result = await colorRepo.removeByID(Number(ID));
+        res.send(dataHelper.getResponseForm(result, null, "remove success"));
     }
 );
 export default router;

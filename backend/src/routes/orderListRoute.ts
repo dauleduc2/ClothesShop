@@ -119,8 +119,8 @@ router.post(
                 newOrderItem.amount = item.amount;
                 newOrderItem.price = productList[index].price;
                 newOrderItem.product = productList[index];
-                newOrderItem.size = item.sizeID;
-                newOrderItem.color = item.colorID;
+                newOrderItem.size = item.sizeID.toString();
+                newOrderItem.color = item.colorID.toString();
                 return newOrderItem;
             })
         );
