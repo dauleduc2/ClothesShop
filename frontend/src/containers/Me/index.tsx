@@ -24,14 +24,14 @@ const Me: React.FunctionComponent<MeProps> = () => {
     const [file, setFile] = React.useState<File>();
     const { handleSubmit, register, setValue } = useForm<UpdateUserFieldDTO>({ defaultValues: defaultValues });
     //set default value on first render
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         setValue('email', userState.user.email);
         setValue('fullName', userState.user.fullName);
         setValue('address', userState.user.address);
         setValue('phoneNumber', userState.user.phoneNumber);
     }, [userState.user.email, userState.user.fullName, setValue, userState.user.address, userState.user.phoneNumber]);
     //reset update form on first render
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         store.dispatch(formAction.resetUpdateUserForm());
     }, []);
     // on submit form

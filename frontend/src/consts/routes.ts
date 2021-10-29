@@ -41,7 +41,7 @@ type routeList = Route[];
 
 export const navigationLink: routeList = [
     {
-        to: `${urlLink.HOME}?limit=12&page=1`,
+        to: urlLink.HOME,
         exact: true,
         buttonName: 'Home',
     },

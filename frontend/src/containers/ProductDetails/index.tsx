@@ -69,7 +69,15 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({ match })
         NotificationHelper.success('Add product to cart success!');
     };
 
+    //scroll to top on first render
     React.useEffect(() => {
+        window.scrollTo({
+            top: 0,
+        });
+        return () => {};
+    }, []);
+
+    React.useLayoutEffect(() => {
         const { productName } = match.params;
         store.dispatch(productThunk.getSpecificProduct(productName));
     }, [match.params]);
