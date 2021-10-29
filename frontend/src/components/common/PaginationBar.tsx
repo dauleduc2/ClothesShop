@@ -26,7 +26,7 @@ const PaginationBar: React.FunctionComponent<PaginationBarProps> = ({ page, limi
                     Previous
                 </Link>
                 <Link
-                    to={`${routeUrl}?limit=${limit}&page=${page + 1}`}
+                    to={`${routeUrl}?limit=${limit}&page=${Number(page) + 1}`}
                     className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                 >
                     Next
@@ -108,9 +108,9 @@ const PaginationBar: React.FunctionComponent<PaginationBarProps> = ({ page, limi
 
                         <Link
                             to={
-                                page === totalPage
+                                Number(page) === Number(totalPage)
                                     ? `${routeUrl}?limit=${limit}&page=${totalPage}`
-                                    : `${routeUrl}?limit=${limit}&page=${page + 1}`
+                                    : `${routeUrl}?limit=${limit}&page=${Number(page) + 1}`
                             }
                             className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50"
                         >

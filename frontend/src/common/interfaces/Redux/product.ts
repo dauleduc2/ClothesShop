@@ -2,7 +2,10 @@ import { ProductToShowDTO } from '../DTO/productDTO';
 import { Product } from '../Model/Product';
 
 export interface ProductState {
-    productToShowList: ProductToShowDTO[];
+    productToShowList: {
+        data: ProductToShowDTO[];
+        count: number;
+    };
     currentProduct: Product;
     admin: {
         productList: Product[];

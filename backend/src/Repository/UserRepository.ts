@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from "typeorm";
 import { User } from "../entity/User";
 import * as bcrypt from "bcrypt";
 import { UpdateUserDTO } from "../interfaces/DTO/user";
-import { adminQueryPage } from "../interfaces/common/Query";
+import { AdminQueryPage } from "../interfaces/common/Query";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
     async addNewUser(user: User) {
@@ -44,7 +44,7 @@ export class UserRepository extends Repository<User> {
     async getAllUserAndCount({
         limit,
         page,
-    }: adminQueryPage): Promise<ResponseDataWithCount<User[]>> {
+    }: AdminQueryPage): Promise<ResponseDataWithCount<User[]>> {
         const userList = await this.findAndCount({
             take: limit,
             skip: (page - 1) * limit,

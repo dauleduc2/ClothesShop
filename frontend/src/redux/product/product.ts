@@ -6,7 +6,10 @@ import { ProductState } from '../../common/interfaces/Redux/product';
 import { Product } from '../../common/interfaces/Model/Product';
 
 const initialState: ProductState = {
-    productToShowList: [],
+    productToShowList: {
+        data: [],
+        count: 0,
+    },
     currentProduct: defaultProduct,
     admin: {
         productList: [],
@@ -25,7 +28,13 @@ export const product = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(productThunk.getAllProduct.fulfilled, (state, { payload }) => {
-            return { ...state, productToShowList: payload };
+            return {
+                ...state,
+                productToShowList: {
+                    data: payload.data,
+                    count: payload.count,
+                },
+            };
         });
         builder.addCase(productThunk.getSpecificProduct.fulfilled, (state, { payload }) => {
             return {
