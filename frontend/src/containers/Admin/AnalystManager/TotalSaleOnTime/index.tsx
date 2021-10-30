@@ -1,33 +1,27 @@
 import { useForm } from 'react-hook-form';
 import { AnalystDate } from '../../../../common/interfaces/Common/analyst';
-import Chart from 'react-apexcharts';
 import * as React from 'react';
 import { RootState, store } from '../../../../redux';
 import { analystThunk } from '../../../../redux/analyst/analystThunk';
 import { useSelector } from 'react-redux';
 import { AnalystState } from '../../../../common/interfaces/Redux/analyst';
-import { useLayoutEffect } from 'hoist-non-react-statics/node_modules/@types/react';
+import Chart from 'react-apexcharts';
+interface TotalSaleOnTimeProps {}
 
-interface ProductAnalystProps {}
-
-const ProductAnalyst: React.FunctionComponent<ProductAnalystProps> = () => {
-    const { handleSubmit, register } = useForm<AnalystDate>();
+const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
+    const { handleSubmit, register } = useForm<AnalystDate>({
+        defaultValues: {
+            from: `${new Date().getFullYear()}-01-01`,
+            to: `${new Date().getFullYear()}-12-31`,
+        },
+    });
     const onSubmit = (data: AnalystDate) => {
         store.dispatch(analystThunk.getTotalSaleOnTime({ from: data.from, to: data.to }));
     };
     const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
-    const [categories, setCategories] = React.useState<String[]>([
-        '1991',
-        '1992',
-        '1993',
-        '1994',
-        '1995',
-        '1996',
-        '1997',
-        '1998',
-        '1999',
-    ]);
-    const [dataSeries, setDataSeries] = React.useState<Number[]>([30, 40, 45, 50, 49, 60, 70, 91]);
+    const [categories, setCategories] = React.useState<String[]>([]);
+    const [dataSeries, setDataSeries] = React.useState<Number[]>([]);
+    //
     React.useLayoutEffect(() => {
         const categoriesList = analystState.totalSale.map((sale) => {
             return sale.time;
@@ -38,9 +32,23 @@ const ProductAnalyst: React.FunctionComponent<ProductAnalystProps> = () => {
         setCategories(categoriesList);
         setDataSeries(newDataSeries);
     }, [analystState.totalSale]);
+    //
+    // React.useLayoutEffect(() => {
+    //     store.dispatch(
+    //         analystThunk.getTotalSaleOnTime({
+    //             from: `${new Date().getFullYear()}-01-01`,
+    //             to: `${new Date().getFullYear()}-12-31`,
+    //         })
+    //     );
+    //     return () => {};
+    // }, []);
+
     const options = {
         chart: {
             id: 'basic-bar',
+        },
+        Animation: {
+            enabled: true,
         },
         xaxis: {
             categories: categories,
@@ -81,4 +89,4 @@ const ProductAnalyst: React.FunctionComponent<ProductAnalystProps> = () => {
     );
 };
 
-export default ProductAnalyst;
+export default TotalSaleOnTime;

@@ -4,6 +4,7 @@ import { analystThunk } from './analystThunk';
 
 const initialState: AnalystState = {
     totalSale: [],
+    totalPrice: [],
 };
 export const analyst = createSlice({
     name: 'analyst',
@@ -14,6 +15,12 @@ export const analyst = createSlice({
             return {
                 ...state,
                 totalSale: payload,
+            };
+        });
+        builder.addCase(analystThunk.getTotalPriceOnTime.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                totalPrice: payload,
             };
         });
     },

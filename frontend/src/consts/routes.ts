@@ -27,8 +27,7 @@ import AddColorForm from '../containers/Admin/FormManager/AddColorForm';
 import RemoveColorForm from '../containers/Admin/FormManager/RemoveColorForm';
 import RemoveTypeForm from '../containers/Admin/FormManager/RemoveTypeForm';
 import RemoveSizeForm from '../containers/Admin/FormManager/RemoveSizeForm';
-import AnalystManager from '../containers/Admin/AnalystManager/Product';
-import ProductAnalyst from '../containers/Admin/AnalystManager/Product';
+import ProductAnalyst from '../containers/Admin/AnalystManager/productAnalyst';
 import GraphIcon from '../components/common/icon/Graph';
 
 interface Route {

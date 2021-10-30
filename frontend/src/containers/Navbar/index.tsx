@@ -135,7 +135,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                     {userState.user.role === 'ADMIN' &&
                                                         adminUserLink.map((route) => {
                                                             return (
-                                                                <Menu.Item>
+                                                                <Menu.Item key={route.to}>
                                                                     {({ active }) => (
                                                                         <NavLink
                                                                             to={route.to}
@@ -155,10 +155,9 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                                     {userLink.map((route, index) => {
                                                         if (route.to === '/user/logout') {
                                                             return (
-                                                                <Menu.Item>
+                                                                <Menu.Item key={route.to}>
                                                                     {({ active }) => (
                                                                         <div
-                                                                            key={route.to}
                                                                             className={classNames(
                                                                                 active && 'bg-gray-100',
                                                                                 'block px-4 py-2 text-sm text-gray-700'
