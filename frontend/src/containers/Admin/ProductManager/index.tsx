@@ -9,6 +9,8 @@ import { ProductState } from '../../../common/interfaces/Redux/product';
 import * as urlLink from '../../../consts/url';
 import PaginationBar from '../../../components/common/PaginationBar';
 import { capitalizeFirstLetter } from '../../../utils/textHelper';
+import Chart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
 interface ProductManagerPageProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -21,7 +23,12 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
     const productListState = useSelector<RootState, ProductState>((state) => state.product);
     const [limit, setLimit] = useState<number>(Number(params.limit));
     const [page, setPage] = useState<number>(Number(params.page));
-
+    const [series, setSeries] = useState([]);
+    const options: ApexOptions = {
+        xaxis: {
+            categories: [],
+        },
+    };
     //set limit and page and call api to get product list by that
     React.useEffect(() => {
         setLimit(Number(params.limit));
@@ -183,6 +190,7 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                         routeUrl={urlLink.ADMIN_PRODUCT}
                     />
                 </div>
+                <Chart options={options} series={series} type="line" width="500" />
             </div>
         </>
     );

@@ -10,4 +10,12 @@ export const analystThunk = {
         const res = await analystApi.adminGetTotalPriceOnTime(dateRange);
         return res.data.data;
     }),
+    adminGetTotalItemByType: createAsyncThunk('analyst/adminGetTotalItemByType', async (dateRange: AnalystDate) => {
+        const res = await analystApi.adminGetTotalItemByType(dateRange);
+        return res.data.data;
+    }),
+    adminGetTotalPriceByType: createAsyncThunk('analyst/adminGetTotalPriceByType', async (dateRange: AnalystDate) => {
+        const res = await analystApi.adminGetTotalPriceByType(dateRange);
+        return res.data.data;
+    }),
 };

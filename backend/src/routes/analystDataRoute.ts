@@ -4,7 +4,12 @@ import { AdminQueryPage } from "../interfaces/common/Query";
 import { ProductAnalyst } from "../interfaces/DTO/product";
 import * as dataHelper from "../utils/dataHelper";
 import { splitDateIntoEqualIntervals } from "../utils/dateHelper";
-import { getTotalItemOnTime, getTotalPriceOnTime } from "../query/analyst";
+import {
+    getTotalItemByTypeOnTime,
+    getTotalItemOnTime,
+    getTotalPriceByTypeOnTime,
+    getTotalPriceOnTime,
+} from "../query/analyst";
 
 const router = express.Router();
 
@@ -75,6 +80,47 @@ router.post(
 
         return res.send(
             dataHelper.getResponseForm(data, null, "get total price success")
+        );
+    }
+);
+
+//POST - get total item by category on time
+router.post(
+    "/getTotalItemByCategory",
+    async (
+        req: Request<null, null, ProductAnalyst, AdminQueryPage>,
+        res: Response
+    ) => {
+        const { from, to } = req.body;
+
+        const data = await getTotalItemByTypeOnTime({ start: from, end: to });
+
+        return res.send(
+            dataHelper.getResponseForm(
+                data,
+                null,
+                "get total item by category success"
+            )
+        );
+    }
+);
+//POST - get total price by category on time
+router.post(
+    "/getTotalPriceByCategory",
+    async (
+        req: Request<null, null, ProductAnalyst, AdminQueryPage>,
+        res: Response
+    ) => {
+        const { from, to } = req.body;
+
+        const data = await getTotalPriceByTypeOnTime({ start: from, end: to });
+
+        return res.send(
+            dataHelper.getResponseForm(
+                data,
+                null,
+                "get total price by category success"
+            )
         );
     }
 );

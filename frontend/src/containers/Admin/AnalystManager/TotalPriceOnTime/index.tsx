@@ -84,7 +84,7 @@ const TotalPriceOnTime: React.FunctionComponent<TotalPriceOnTimeProps> = () => {
                     </button>
                 </div>
             </form>
-            <Chart options={options} series={series} type="line" width="500" />
+            <Chart options={options} series={series} type="line" width="750" />
         </div>
     );
 };

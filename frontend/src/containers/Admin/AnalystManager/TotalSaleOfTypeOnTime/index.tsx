@@ -1,70 +1,56 @@
+import Chart from 'react-apexcharts';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { AnalystDate } from '../../../../common/interfaces/Common/analyst';
-import * as React from 'react';
+import { ApexOptions } from 'apexcharts';
 import { RootState, store } from '../../../../redux';
 import { analystThunk } from '../../../../redux/analyst/analystThunk';
 import { useSelector } from 'react-redux';
 import { AnalystState } from '../../../../common/interfaces/Redux/analyst';
-import Chart from 'react-apexcharts';
-interface TotalSaleOnTimeProps {}
+import { capitalizeFirstLetter } from '../../../../utils/textHelper';
+interface TotalSaleOfTypeOnTimeProps {}
 
-const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
+const TotalSaleOfTypeOnTime: React.FunctionComponent<TotalSaleOfTypeOnTimeProps> = () => {
+    const [series, setSeries] = React.useState<number[]>([44, 55, 41, 17, 15]);
+    const [label, setLabel] = React.useState(['A', 'B', 'C', 'D', 'E']);
+    const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
     const { handleSubmit, register } = useForm<AnalystDate>({
         defaultValues: {
             from: `${new Date().getFullYear()}-01-01`,
             to: `${new Date().getFullYear()}-12-31`,
         },
     });
-    const onSubmit = (data: AnalystDate) => {
-        store.dispatch(analystThunk.getTotalSaleOnTime({ from: data.from, to: data.to }));
-    };
-    const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
-    const [categories, setCategories] = React.useState<String[]>([]);
-    const [dataSeries, setDataSeries] = React.useState<Number[]>([]);
-    //
-    React.useLayoutEffect(() => {
-        const categoriesList = analystState.totalSale.map((sale) => {
-            return sale.time;
-        });
-        const newDataSeries = analystState.totalSale.map((sale) => {
-            return Number(sale.data);
-        });
-        setCategories(categoriesList);
-        setDataSeries(newDataSeries);
-    }, [analystState.totalSale]);
-    //
-    // React.useLayoutEffect(() => {
-    //     store.dispatch(
-    //         analystThunk.getTotalSaleOnTime({
-    //             from: `${new Date().getFullYear()}-01-01`,
-    //             to: `${new Date().getFullYear()}-12-31`,
-    //         })
-    //     );
-    //     return () => {};
-    // }, []);
-
-    const options = {
+    const options: ApexOptions = {
         chart: {
-            id: 'basic-bar',
+            type: 'donut',
         },
-        Animation: {
-            enabled: true,
-        },
-        xaxis: {
-            categories: categories,
-        },
+        labels: label,
     };
+    React.useEffect(() => {
+        if (analystState.TotalItemByType.length > 0) {
+            setSeries(
+                analystState.TotalItemByType.map((item) => {
+                    return Number(item.totalItem);
+                })
+            );
+        }
+        if (analystState.TotalItemByType.length > 0) {
+            setLabel(
+                analystState.TotalItemByType.map((item) => {
+                    return capitalizeFirstLetter(item.name);
+                })
+            );
+        }
 
-    const series = [
-        {
-            name: 'Total item sale ',
-            data: dataSeries,
-        },
-    ];
+        return () => {};
+    }, [analystState.TotalItemByType]);
+    const onSubmit = (data: AnalystDate) => {
+        store.dispatch(analystThunk.adminGetTotalItemByType({ from: data.from, to: data.to }));
+    };
     return (
         <div className="">
             <h2 id="category-heading" className="text-2xl font-bold tracking-tight text-gray-900">
-                Total sale on time
+                Top 5 category with most item sale
             </h2>
             <form onSubmit={handleSubmit(onSubmit)} className="flex my-3 align-baseline">
                 <div className="flex flex-col">
@@ -84,9 +70,9 @@ const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
                     </button>
                 </div>
             </form>
-            <Chart options={options} series={series} type="line" width="750" />
+            <Chart options={options} series={series} chartOptions={label} type="donut" width="500" />
         </div>
     );
 };
 
-export default TotalSaleOnTime;
+export default TotalSaleOfTypeOnTime;
