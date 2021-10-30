@@ -4,12 +4,14 @@ import {
     Column,
     ManyToMany,
     JoinTable,
+    OneToMany,
 } from "typeorm";
 import { IsDate } from "class-validator";
 import { Size } from "./Size";
 import { Type } from "./Type";
 import { Color } from "./Color";
 import { Image } from "./Image";
+import { OrderItem } from "./OrderItem";
 //product model
 
 export type productStatus = "UNAVAILABLE" | "AVAILABLE";
@@ -61,4 +63,7 @@ export class Product {
     @ManyToMany((type) => Image, { cascade: true })
     @JoinTable()
     images: Image[];
+
+    @OneToMany((type) => OrderItem, (orderItem) => orderItem.product)
+    orderItem: OrderItem[];
 }

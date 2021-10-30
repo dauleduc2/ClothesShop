@@ -1,4 +1,5 @@
 import { Product } from "../../entity/Product";
+import { DateProps } from "../common/dateTime";
 
 export interface AddProductInfoDTO
     extends Pick<
@@ -15,3 +16,5 @@ export interface ProductToShowDTO
         Product,
         "ID" | "name" | "productAvatar" | "price" | "status"
     > {}
+
+export interface ProductAnalyst extends DateProps {}
