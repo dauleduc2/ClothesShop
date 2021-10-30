@@ -15,6 +15,8 @@ export const ADMIN_ORDER = '/admin/order';
 export const ADMIN_USER = '/admin/user';
 export const ADMIN_PRODUCT = '/admin/product';
 export const ADMIN_FORM = '/admin/form';
+//analyst
+export const ADMIN_PRODUCT_ANALYST = '/admin/analyst/product';
 
 export const ADMIN_ADD_PRODUCT_FORM = '/admin/form/product';
 export const ADMIN_ADD_COLOR_FORM = '/admin/form/color/add';
