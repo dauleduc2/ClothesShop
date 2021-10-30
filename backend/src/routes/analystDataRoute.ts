@@ -1,16 +1,11 @@
 import { Request, Response } from "express";
 import * as express from "express";
-import { getConnection, getManager } from "typeorm";
+import { getManager } from "typeorm";
 import { AdminQueryPage } from "../interfaces/common/Query";
-import { Product } from "../entity/Product";
-import { generateRanges } from "../utils/dateHelper";
-import { DateProps, DateTime } from "../interfaces/common/dateTime";
 import { ProductAnalyst } from "../interfaces/DTO/product";
 import * as dataHelper from "../utils/dataHelper";
-import { extendMoment } from "moment-range";
-import moment = require("moment");
+import { splitDateIntoEqualIntervals } from "../utils/dateHelper";
 
-const momentExtends = extendMoment(moment);
 const router = express.Router();
 
 //POST - get top 5 product hot sale between a time
@@ -23,31 +18,8 @@ router.post(
         const { from, to } = req.body;
         const fromDate = new Date(from);
         const toDate = new Date(to);
-        const splitDateIntoEqualIntervals = (
-            startDate: Date,
-            endDate: Date,
-            numberOfIntervals: number
-        ): { start: string; end: string }[] => {
-            const intervalLength =
-                (endDate.getTime() - startDate.getTime()) / numberOfIntervals;
-            return [...new Array(numberOfIntervals)].map((e, i) => {
-                return {
-                    start: new Date(
-                        startDate.getTime() + i * intervalLength
-                    ).toLocaleDateString(),
-                    end: new Date(
-                        startDate.getTime() + (i + 1) * intervalLength
-                    ).toLocaleDateString(),
-                };
-            });
-        };
-        const getTimeRange = splitDateIntoEqualIntervals(fromDate, toDate, 12);
 
-        // console.log(from, to);
-        // const getTimeRange = generateRanges(
-        //     from.split("-").reverse().join("/"),
-        //     to.split("-").reverse().join("/")
-        // ) as DateTime[];
+        const getTimeRange = splitDateIntoEqualIntervals(fromDate, toDate, 12);
 
         const data = await Promise.all(
             getTimeRange.map(async (time, index) => {
