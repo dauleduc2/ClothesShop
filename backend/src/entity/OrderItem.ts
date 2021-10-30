@@ -1,4 +1,10 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Entity,
+    Column,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    OneToMany,
+} from "typeorm";
 import { IsDate } from "class-validator";
 import { OrderList } from "./OrderList";
 import { Product } from "./Product";
@@ -15,7 +21,9 @@ export class OrderItem {
     })
     order: OrderList;
 
-    @ManyToOne((type) => Product, (product) => product, { nullable: false })
+    @ManyToOne((type) => Product, (product) => product.orderItem, {
+        nullable: false,
+    })
     product: Product;
 
     @Column()

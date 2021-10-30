@@ -8,6 +8,7 @@ import formReducer from './form/form';
 import sizeReducer from './size/size';
 import colorReducer from './color/color';
 import typeReducer from './type/type';
+import analystReducer from './analyst/analyst';
 export const store = configureStore({
     reducer: {
         product: productReducer,
@@ -19,6 +20,7 @@ export const store = configureStore({
         size: sizeReducer,
         color: colorReducer,
         type: typeReducer,
+        analyst: analystReducer,
     },
 });
 export type RootState = ReturnType<typeof store.getState>;

@@ -62,7 +62,10 @@ const PaginationBar: React.FunctionComponent<PaginationBarProps> = ({ page, limi
                                     if (!isTruncate) {
                                         isTruncate = true;
                                         return (
-                                            <span className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300">
+                                            <span
+                                                key={index}
+                                                className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300"
+                                            >
                                                 ...
                                             </span>
                                         );
@@ -94,6 +97,7 @@ const PaginationBar: React.FunctionComponent<PaginationBarProps> = ({ page, limi
                             isTruncate = false;
                             return (
                                 <Link
+                                    key={index}
                                     to={`${routeUrl}?limit=${limit}&page=${index + 1}`}
                                     className={
                                         index + 1 === page

@@ -12,7 +12,7 @@ import { OrderItem } from "./OrderItem";
 export type OrderListStatus = "WAITING" | "SHIPPING" | "DONE" | "CANCEL";
 @Entity()
 export class OrderList {
-    @ManyToOne((type) => User, (user) => user.ID, { nullable: false })
+    @ManyToOne((type) => User, (user) => user.orderList, { nullable: false })
     user: string;
 
     @PrimaryGeneratedColumn("uuid")

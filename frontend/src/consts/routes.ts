@@ -27,6 +27,8 @@ import AddColorForm from '../containers/Admin/FormManager/AddColorForm';
 import RemoveColorForm from '../containers/Admin/FormManager/RemoveColorForm';
 import RemoveTypeForm from '../containers/Admin/FormManager/RemoveTypeForm';
 import RemoveSizeForm from '../containers/Admin/FormManager/RemoveSizeForm';
+import ProductAnalyst from '../containers/Admin/AnalystManager/productAnalyst';
+import GraphIcon from '../components/common/icon/Graph';
 
 interface Route {
     to: string;
@@ -41,7 +43,7 @@ type routeList = Route[];
 
 export const navigationLink: routeList = [
     {
-        to: `${urlLink.HOME}?limit=12&page=1`,
+        to: urlLink.HOME,
         exact: true,
         buttonName: 'Home',
     },
@@ -179,6 +181,13 @@ export const routes: routeList = [
         isAdminRequire: true,
     },
     {
+        to: urlLink.ADMIN_PRODUCT_ANALYST,
+        exact: true,
+        component: ProductAnalyst,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
         to: '*',
         exact: true,
         component: NotFoundPage,
@@ -257,6 +266,11 @@ export const adminRoute: routeList = [
         to: `${urlLink.ADMIN_FORM}`,
         exact: true,
         icon: EditIcon,
+    },
+    {
+        to: `${urlLink.ADMIN_PRODUCT_ANALYST}`,
+        exact: true,
+        icon: GraphIcon,
     },
 ];
 

@@ -27,7 +27,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
     const [totalPrice, setTotalPrice] = React.useState<number>(0);
     const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
     //set default value on first rendered
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         setValue('address', userState.user.address);
         setValue('phoneNumber', userState.user.phoneNumber);
     }, [userState.user.address, userState.user.phoneNumber, setValue]);
@@ -42,7 +42,7 @@ const Cart: React.FunctionComponent<CartProps> = () => {
         }
     }, [UIState.confirmPopUp.isConfirm, UIState.confirmPopUp.productToDelete]);
     //recalculate the total price when a product in cart was changed
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         setTotalPrice(
             cartState.productList.reduce((total, current) => {
                 return total + current.price * current.quantity;

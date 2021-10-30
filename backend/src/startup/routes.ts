@@ -10,6 +10,7 @@ import orderListRoute from "../routes/orderListRoute";
 import adminOrderRouter from "../routes/adminOrderRoute";
 import adminUserRouter from "../routes/adminUserRoute";
 import adminProductRouter from "../routes/adminProductRoute";
+import analystDataRouter from "../routes/analystDataRoute";
 import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 export default function (app: Application) {
@@ -36,5 +37,10 @@ export default function (app: Application) {
         "/api/admin/product",
         [authenMiddleware, authorMiddleware],
         adminProductRouter
+    );
+    app.use(
+        "/api/admin/analyst",
+        [authenMiddleware, authorMiddleware],
+        analystDataRouter
     );
 }

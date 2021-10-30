@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { IsDate, IsEmail } from "class-validator";
+import { OrderList } from "./OrderList";
 
 //User model
 export type userRole = "CUSTOMER" | "ADMIN";
@@ -57,4 +58,7 @@ export class User {
     })
     @IsDate()
     createDate: Date;
+
+    @OneToMany((type) => OrderList, (orderList) => orderList.user)
+    orderList: OrderList[];
 }

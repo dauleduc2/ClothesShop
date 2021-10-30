@@ -9,7 +9,7 @@ export const productApi = {
         return await axiosClient.get<ServerResponse<ResponseWithCount<ProductToShowDTO[]>, null>>(url);
     },
     getSpecificProduct: async (productName: string) => {
-        const url = `api/product/${productName.split(' ').join('-')}`;
+        const url = `/api/product/${productName.split(' ').join('-')}`;
         return await axiosClient.get<ServerResponse<Product[], null>>(url);
     },
     adminGetAllProduct: async ({ limit, page }: AdminQuery) => {
