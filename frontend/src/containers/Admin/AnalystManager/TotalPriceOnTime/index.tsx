@@ -19,8 +19,8 @@ const TotalPriceOnTime: React.FunctionComponent<TotalPriceOnTimeProps> = () => {
         store.dispatch(analystThunk.getTotalPriceOnTime({ from: data.from, to: data.to }));
     };
     const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
-    const [categories, setCategories] = React.useState<String[]>([]);
-    const [dataSeries, setDataSeries] = React.useState<Number[]>([]);
+    const [categories, setCategories] = React.useState<String[]>();
+    const [dataSeries, setDataSeries] = React.useState<Number[]>();
 
     React.useLayoutEffect(() => {
         const categoriesList = analystState.totalPrice.map((total) => {
@@ -84,7 +84,7 @@ const TotalPriceOnTime: React.FunctionComponent<TotalPriceOnTimeProps> = () => {
                     </button>
                 </div>
             </form>
-            <Chart options={options} series={series} type="line" width="500" />
+            <Chart options={options} series={series} type="line" width="750" />
         </div>
     );
 };

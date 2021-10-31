@@ -14,4 +14,8 @@ export class ImageRepository extends Repository<Image> {
         const image = await this.findOne({ ID });
         return image;
     }
+
+    async findByName(name: string) {
+        return await this.findOne({ imageLink: name });
+    }
 }

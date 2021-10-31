@@ -1,8 +1,8 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { SelectorIcon } from '@heroicons/react/outline';
 import * as React from 'react';
-import { Color } from '../../../../common/interfaces/Model/Color';
-import { ColorState } from '../../../../common/interfaces/Redux/color';
+import { Color } from '../../common/interfaces/Model/Color';
+import { ColorState } from '../../common/interfaces/Redux/color';
 
 interface ColorInputProps {
     colorState: ColorState;

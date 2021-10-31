@@ -5,6 +5,9 @@ import { analystThunk } from './analystThunk';
 const initialState: AnalystState = {
     totalSale: [],
     totalPrice: [],
+    totalItemByType: [],
+    totalPriceByType: [],
+    eachProductAnalyst: [],
 };
 export const analyst = createSlice({
     name: 'analyst',
@@ -21,6 +24,24 @@ export const analyst = createSlice({
             return {
                 ...state,
                 totalPrice: payload,
+            };
+        });
+        builder.addCase(analystThunk.adminGetTotalItemByType.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                totalItemByType: payload,
+            };
+        });
+        builder.addCase(analystThunk.adminGetTotalPriceByType.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                totalPriceByType: payload,
+            };
+        });
+        builder.addCase(analystThunk.adminGetEachProductAnalyst.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                eachProductAnalyst: payload,
             };
         });
     },

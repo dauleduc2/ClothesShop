@@ -29,6 +29,7 @@ import RemoveTypeForm from '../containers/Admin/FormManager/RemoveTypeForm';
 import RemoveSizeForm from '../containers/Admin/FormManager/RemoveSizeForm';
 import ProductAnalyst from '../containers/Admin/AnalystManager/productAnalyst';
 import GraphIcon from '../components/common/icon/Graph';
+import UpdateProductForm from '../containers/Admin/UpdateProduct';
 
 interface Route {
     to: string;
@@ -170,6 +171,13 @@ export const routes: routeList = [
         to: urlLink.ADMIN_PRODUCT,
         exact: true,
         component: ProductManagerPage,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
+        to: urlLink.ADMIN_UPDATE_PRODUCT,
+        exact: true,
+        component: UpdateProductForm,
         isLoginRequire: true,
         isAdminRequire: true,
     },

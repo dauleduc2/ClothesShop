@@ -2,7 +2,7 @@ import { EntityRepository, Repository } from "typeorm";
 import { Product } from "../entity/Product";
 import { AdminQueryPage } from "../interfaces/common/Query";
 import { ResponseDataWithCount } from "../interfaces/common/Request";
-import { ProductToShowDTO } from "../interfaces/DTO/product";
+import { ProductToShowDTO, UpdateProductDTO } from "../interfaces/DTO/product";
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
     async addNewProduct(product: Product) {
@@ -97,5 +97,21 @@ export class ProductRepository extends Repository<Product> {
             { ID },
             { quantity: currentQuantity + amount }
         );
+    }
+
+    async updateProduct(ID: string, updateProduct: UpdateProductDTO) {
+        const product = await this.findByID(ID);
+        product.name = updateProduct.name;
+        product.price = updateProduct.price;
+        product.quantity = updateProduct.quantity;
+        product.description = updateProduct.description;
+        product.status = updateProduct.status;
+        product.sizes = updateProduct.sizes;
+        product.types = updateProduct.types;
+        product.colors = updateProduct.colors;
+        product.images = updateProduct.images;
+        product.productAvatar = updateProduct.productAvatar;
+
+        return await this.save(product);
     }
 }

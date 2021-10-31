@@ -1,3 +1,4 @@
+import { length } from "./../../../frontend/src/utils/validateHelper";
 import { Size } from "./../entity/Size";
 import { Color } from "./../entity/Color";
 import { Type } from "./../entity/Type";
@@ -17,9 +18,10 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
-import { AddProductInfoDTO } from "../interfaces/DTO/product";
+import { AddProductInfoDTO, UpdateProductDTO } from "../interfaces/DTO/product";
 import * as statusCode from "../constants/statusConstants";
 import { AdminQueryPage } from "../interfaces/common/Query";
+import { ImageRepository } from "../Repository/ImageRepository";
 const router = express.Router();
 
 //GET specific product
@@ -170,6 +172,126 @@ router.post(
 
         res.status(statusCode.CREATED).send(
             dataHelper.getResponseForm(result, null, "add new product success!")
+        );
+    }
+);
+
+//POST update product to db
+router.post(
+    "/:ID",
+    [
+        authenMiddleware,
+        authorMiddleware,
+        multerErrorMiddleware(
+            upload.fields([
+                { name: "newImages", maxCount: 6 },
+                { name: "newProductAvatar", maxCount: 1 },
+            ])
+        ),
+    ],
+    async (req: Request<{ ID: string }, null, any, null>, res: Response) => {
+        const { ID } = req.params;
+        let {
+            name,
+            quantity,
+            description,
+            price,
+            status,
+            sizes,
+            types,
+            colors,
+            images,
+            productAvatar,
+        } = req.body;
+        if (!sizes) {
+            sizes = [];
+        }
+        if (!colors) {
+            colors = [];
+        }
+        if (!types) {
+            types = [];
+        }
+        if (!images) {
+            images = [];
+        }
+
+        const updateProduct: UpdateProductDTO = {
+            name,
+            quantity,
+            description,
+            price,
+            status,
+            productAvatar,
+        };
+        const { files } = req;
+        //handle images
+        const newImagesFileList = [];
+        if (files["newImages"] && files["newImages"].length > 0) {
+            for (let i = 0; i < files["newImages"].length; i++) {
+                const element = files["newImages"][i];
+                newImagesFileList.push(element);
+            }
+        }
+        var newImageList: Image[];
+        if (newImagesFileList.length > 0) {
+            newImageList = newImagesFileList.map((item) => {
+                const newImage = new Image();
+                newImage.imageLink = item.filename;
+                return newImage;
+            });
+        }
+        //handle avatar
+        let newProductAvatar;
+        if (files["newProductAvatar"] && files["newProductAvatar"].length > 0) {
+            newProductAvatar = files["newProductAvatar"][0];
+        }
+        if (newProductAvatar) {
+            updateProduct.productAvatar = newProductAvatar.filename;
+        } else {
+            updateProduct.productAvatar = productAvatar;
+        }
+        //get connection
+        const connection = await Promise.all<any>([
+            getCustomRepository(SizeRepository),
+            getCustomRepository(ColorRepository),
+            getCustomRepository(TypeRepository),
+            getCustomRepository(ImageRepository),
+            getCustomRepository(ProductRepository),
+        ]);
+        const sizeRepo: SizeRepository = connection[0];
+        const colorRepo: ColorRepository = connection[1];
+        const typeRepo: TypeRepository = connection[2];
+        const imageRepo: ImageRepository = connection[3];
+        const productRepo: ProductRepository = connection[4];
+        //find id of each size,color,type and add images
+
+        const sizeList = Promise.all<Size>(
+            sizes.map((item) => sizeRepo.findByID(item))
+        );
+
+        const colorList = Promise.all<Color>(
+            colors.map((item) => colorRepo.findByID(item))
+        );
+
+        const typeList = Promise.all<Type>(
+            types.map((item) => typeRepo.findByID(item))
+        );
+
+        const imagelist = Promise.all<Image>(
+            images.map((item) => imageRepo.findByID(item))
+        );
+        updateProduct.colors = await colorList;
+        updateProduct.types = await typeList;
+        updateProduct.sizes = await sizeList;
+        updateProduct.images = await imagelist;
+
+        if (newImageList && newImageList.length > 0) {
+            updateProduct.images = [...updateProduct.images, ...newImageList];
+        }
+        const result = await productRepo.updateProduct(ID, updateProduct);
+        res.send(
+            dataHelper.getResponseForm(result, null, "update product success!")
         );
     }
 );
