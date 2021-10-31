@@ -1,39 +1,53 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { ProductAddFormDTO } from '../../../../common/interfaces/DTO/productDTO';
-import { Color } from '../../../../common/interfaces/Model/Color';
-import { Size } from '../../../../common/interfaces/Model/Size';
-import { Type } from '../../../../common/interfaces/Model/Type';
-import { ColorState } from '../../../../common/interfaces/Redux/color';
-import { SizeState } from '../../../../common/interfaces/Redux/size';
-import { TypeState } from '../../../../common/interfaces/Redux/type';
-import InputField from '../../../../components/common/InputField';
-import { RootState, store } from '../../../../redux';
-import AvatarInput from '../../../../components/common/avatarInput';
-import ColorInput from '../../../../components/common/colorInput';
-import ImagesInput from '../../../../components/common/imagesInput';
-import SizeInput from '../../../../components/common/SizeInput';
-import TypeInput from '../../../../components/common/TypeInput';
 import 'react-quill/dist/quill.snow.css';
-import { productThunk } from '../../../../redux/product/productThunk';
-import * as notificationHelper from '../../../../utils/notificationHelper';
-import { ProductStatusString } from '../../../../common/interfaces/Model/Product';
-import StatusInput from '../../../../components/common/statusInput';
-import ReactQuillInput from '../../../../components/common/quillInput';
-interface AddProductFormProps {}
+import { RootState, store } from '../../../redux';
+import { SizeState } from '../../../common/interfaces/Redux/size';
+import { ColorState } from '../../../common/interfaces/Redux/color';
+import { TypeState } from '../../../common/interfaces/Redux/type';
+import { Type } from '../../../common/interfaces/Model/Type';
+import { Color } from '../../../common/interfaces/Model/Color';
+import { Size } from '../../../common/interfaces/Model/Size';
+import { ProductStatusString } from '../../../common/interfaces/Model/Product';
+import { ProductAddFormDTO, UpdateProductDTO } from '../../../common/interfaces/DTO/productDTO';
+import { productThunk } from '../../../redux/product/productThunk';
+import * as notificationHelper from '../../../utils/notificationHelper';
+import InputField from '../../../components/common/InputField';
+import TypeInput from '../../../components/common/TypeInput';
+import ColorInput from '../../../components/common/colorInput';
+import SizeInput from '../../../components/common/SizeInput';
+import StatusInput from '../../../components/common/statusInput';
+import AvatarInput from '../../../components/common/avatarInput';
+import ImagesInput from '../../../components/common/imagesInput';
+import { sizeThunk } from '../../../redux/size/sizeThunk';
+import { typeThunk } from '../../../redux/type/typeThunk';
+import { colorThunk } from '../../../redux/color/colorThunk';
+import { RouteComponentProps } from 'react-router';
+import { ProductState } from '../../../common/interfaces/Redux/product';
+import ReactQuillInput from '../../../components/common/quillInput';
+import { Image } from '../../../common/interfaces/Model/Image';
+import { productApi } from '../../../api/productApi';
+interface UpdateProductParams {
+    productName: string;
+}
+
+interface UpdateProductFormProps extends RouteComponentProps<UpdateProductParams> {}
 
 export interface FilePreview extends File {
     preview: string;
 }
 
-const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
+const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ match }) => {
     const sizeState = useSelector<RootState, SizeState>((state) => state.size);
     const colorState = useSelector<RootState, ColorState>((state) => state.color);
     const typeState = useSelector<RootState, TypeState>((state) => state.type);
+    const productState = useSelector<RootState, ProductState>((state) => state.product);
     const [description, setDescription] = React.useState('');
     const [avatar, setAvatar] = React.useState<FilePreview>();
+    const [initAvatar, setInitAvatar] = React.useState<string>();
     const [images, setImages] = React.useState<FilePreview[]>();
+    const [initImages, setInitImages] = React.useState<Image[]>();
     const [selectedType, setSelectedType] = React.useState<Type>(typeState.data[0]);
     const [selectedTypeList, setSelectedTypeList] = React.useState<Type[]>([]);
     const [selectedColor, setSelectedColor] = React.useState<Color>(colorState.data[0]);
@@ -41,24 +55,63 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
     const [selectedSize, setSelectedSize] = React.useState<Size>(sizeState.data[0]);
     const [selectedSizeList, setSelectedSizeList] = React.useState<Size[]>([]);
     const [selectedStatus, setSelectedStatus] = React.useState<ProductStatusString>('AVAILABLE');
-    const { handleSubmit, register } = useForm<ProductAddFormDTO>();
+    const { handleSubmit, register, setValue } = useForm<ProductAddFormDTO>();
+    //calling api to get all size, color, type
+    React.useLayoutEffect(() => {
+        store.dispatch(sizeThunk.adminGetAllSize());
+        store.dispatch(typeThunk.adminGetAllType());
+        store.dispatch(colorThunk.adminGetAllColor());
+        return () => {};
+    }, []);
+    //calling api to get current product info
+    React.useLayoutEffect(() => {
+        store.dispatch(productThunk.getSpecificProduct(match.params.productName));
+    }, [match.params.productName]);
+    //set value on first render
+    React.useLayoutEffect(() => {
+        if (productState.currentProduct) {
+            const { name, quantity, price, types, colors, sizes, description, status, productAvatar, images } =
+                productState.currentProduct;
+            setValue('name', name);
+            setValue('quantity', quantity);
+            setValue('price', price);
+            setSelectedTypeList(types);
+            setSelectedColorList(colors);
+            setSelectedSizeList(sizes);
+            setDescription(description);
+            setSelectedStatus(status);
+            setInitAvatar(productAvatar);
+            setInitImages(images);
+        }
+        return () => {};
+    }, [productState.currentProduct, setValue]);
 
-    const onSubmit = async (data: ProductAddFormDTO) => {
-        const newProduct: ProductAddFormDTO = {
+    const onSubmit = async (data: UpdateProductDTO) => {
+        const updateProduct: UpdateProductDTO = {
+            ID: productState.currentProduct.ID,
             name: data.name,
             price: data.price,
             quantity: data.quantity,
             description: description,
-            images: images as File[],
-            productAvatar: avatar as File,
-            sizes: selectedSizeList.map((size) => size.ID),
-            colors: selectedColorList.map((color) => color.ID),
-            types: selectedTypeList.map((type) => type.ID),
+            sizes: selectedSizeList.map((item) => item.ID),
+            types: selectedTypeList.map((item) => item.ID),
+            colors: selectedColorList.map((item) => item.ID),
             status: selectedStatus,
         };
-        const res = await store.dispatch(productThunk.adminAddNewProduct(newProduct));
-        if (res.meta.requestStatus === 'fulfilled') {
-            notificationHelper.success('Add new product success!');
+        if (avatar) {
+            updateProduct.newProductAvatar = avatar;
+        } else if (initAvatar) {
+            updateProduct.productAvatar = initAvatar;
+        }
+        if (images && images?.length > 0) {
+            updateProduct.newImages = images;
+        }
+        if (initImages && initImages.length > 0) {
+            updateProduct.images = initImages.map((item) => item.ID);
+        }
+        const result = await productApi.updateProduct(updateProduct);
+        if (result.status === 200) {
+            notificationHelper.success('Update product success');
         }
     };
     const handleAvatarPreview = (e: any) => {
@@ -92,7 +145,7 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
             <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                 <div>
                     <div>
-                        <h3 className="text-lg font-medium leading-6 text-gray-900">Add new product</h3>
+                        <h3 className="text-lg font-medium leading-6 text-gray-900">Update product</h3>
                         <p className="max-w-2xl mt-1 text-sm text-gray-500">
                             This information will be displayed publicly so be careful what you share.
                         </p>
@@ -134,13 +187,15 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
                             <label htmlFor="types" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                 Type
                             </label>
-                            <TypeInput
-                                selectedType={selectedType}
-                                setSelectedType={setSelectedType}
-                                typeState={typeState}
-                                selectedTypeList={selectedTypeList}
-                                setSelectedTypeList={setSelectedTypeList}
-                            />
+                            {typeState.data.length > 0 && (
+                                <TypeInput
+                                    selectedType={selectedType}
+                                    setSelectedType={setSelectedType}
+                                    typeState={typeState}
+                                    selectedTypeList={selectedTypeList}
+                                    setSelectedTypeList={setSelectedTypeList}
+                                />
+                            )}
                         </div>
 
                         {/* color */}
@@ -151,26 +206,30 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
                             >
                                 Color
                             </label>
-                            <ColorInput
-                                colorState={colorState}
-                                selectedColor={selectedColor}
-                                selectedColorList={selectedColorList}
-                                setSelectedColor={setSelectedColor}
-                                setSelectedColorList={setSelectedColorList}
-                            />
+                            {colorState.data.length > 0 && (
+                                <ColorInput
+                                    colorState={colorState}
+                                    selectedColor={selectedColor}
+                                    selectedColorList={selectedColorList}
+                                    setSelectedColor={setSelectedColor}
+                                    setSelectedColorList={setSelectedColorList}
+                                />
+                            )}
                         </div>
                         {/* size */}
                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                             <label htmlFor="sizes" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                 Size
                             </label>
-                            <SizeInput
-                                sizeState={sizeState}
-                                setSelectedSize={setSelectedSize}
-                                selectedSize={selectedSize}
-                                selectedSizeList={selectedSizeList}
-                                setSelectedSizeList={setSelectedSizeList}
-                            />
+                            {sizeState.data.length > 0 && (
+                                <SizeInput
+                                    sizeState={sizeState}
+                                    setSelectedSize={setSelectedSize}
+                                    selectedSize={selectedSize}
+                                    selectedSizeList={selectedSizeList}
+                                    setSelectedSizeList={setSelectedSizeList}
+                                />
+                            )}
                         </div>
                         {/* status */}
                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
@@ -205,6 +264,8 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
                                 handleAvatarPreview={handleAvatarPreview}
                                 avatar={avatar}
                                 setAvatar={setAvatar}
+                                initAvatar={initAvatar}
+                                setInitAvatar={setInitAvatar}
                             />
                         </div>
                         {/* images */}
@@ -216,6 +277,8 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
                                 Images
                             </label>
                             <ImagesInput
+                                initImages={initImages}
+                                setInitImages={setInitImages}
                                 handleImagePreview={handleImagePreview}
                                 images={images}
                                 setImages={setImages}
@@ -244,4 +307,4 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
     );
 };
 
-export default AddProductForm;
+export default UpdateProductForm;

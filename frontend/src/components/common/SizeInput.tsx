@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { SelectorIcon } from '@heroicons/react/outline';
-import { Size } from '../../../../common/interfaces/Model/Size';
-import { SizeState } from '../../../../common/interfaces/Redux/size';
+import { Size } from '../../common/interfaces/Model/Size';
+import { SizeState } from '../../common/interfaces/Redux/size';
 import React from 'react';
 interface SizeInputProps {
     sizeState: SizeState;

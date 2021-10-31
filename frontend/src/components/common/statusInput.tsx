@@ -1,11 +1,11 @@
 import { Listbox, Transition } from '@headlessui/react';
-import { ProductStatus } from '../../../../common/interfaces/Model/Product';
+import { ProductStatus, ProductStatusString } from '../../common/interfaces/Model/Product';
 import React from 'react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/outline';
-import { capitalizeFirstLetter } from '../../../../utils/textHelper';
+import { capitalizeFirstLetter } from '../../utils/textHelper';
 interface StatusInputProps {
-    selectedStatus: ProductStatus;
-    setSelectedStatus: React.Dispatch<React.SetStateAction<ProductStatus>>;
+    selectedStatus: ProductStatusString;
+    setSelectedStatus: React.Dispatch<React.SetStateAction<ProductStatusString>>;
 }
 const statusList = [ProductStatus.AVAILABLE, ProductStatus.UNAVAILABLE];
 function classNames(...classes: any) {

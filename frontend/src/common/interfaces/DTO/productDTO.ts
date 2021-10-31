@@ -1,3 +1,4 @@
+import { Image } from '../Model/Image';
 import { Product } from '../Model/Product';
 
 export interface ProductToShowDTO
@@ -9,4 +10,15 @@ export interface ProductAddFormDTO extends Pick<Product, 'name' | 'quantity' | '
     sizes: number[];
     colors: number[];
     productAvatar: File;
+}
+
+export interface UpdateProductDTO
+    extends Pick<Product, 'ID' | 'name' | 'quantity' | 'price' | 'description' | 'status'> {
+    types: number[];
+    sizes: number[];
+    colors: number[];
+    productAvatar?: string;
+    images?: string[];
+    newProductAvatar?: File;
+    newImages?: File[];
 }

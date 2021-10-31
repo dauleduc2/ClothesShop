@@ -8,13 +8,16 @@ export const REGISTER = '/user/register';
 export const ME = '/user/me';
 //product
 export const PRODUCT = '/product';
+
 //order
 export const ORDER = '/user/order';
 //admin
 export const ADMIN_ORDER = '/admin/order';
 export const ADMIN_USER = '/admin/user';
 export const ADMIN_PRODUCT = '/admin/product';
+export const ADMIN_UPDATE_PRODUCT = `${ADMIN_PRODUCT}/:productName`;
 export const ADMIN_FORM = '/admin/form';
+
 //analyst
 export const ADMIN_PRODUCT_ANALYST = '/admin/analyst/product';
 

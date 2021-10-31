@@ -1,9 +1,9 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/outline';
-import { TypeState } from '../../../../common/interfaces/Redux/type';
+import { TypeState } from '../../common/interfaces/Redux/type';
 import * as React from 'react';
-import { capitalizeFirstLetter } from '../../../../utils/textHelper';
-import { Type } from '../../../../common/interfaces/Model/Type';
+import { capitalizeFirstLetter } from '../../utils/textHelper';
+import { Type } from '../../common/interfaces/Model/Type';
 interface TypeInputProps {
     typeState: TypeState;
     selectedType: Type;

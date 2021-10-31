@@ -27,23 +27,21 @@ const TotalSaleOfTypeOnTime: React.FunctionComponent<TotalSaleOfTypeOnTimeProps>
         labels: label,
     };
     React.useEffect(() => {
-        if (analystState.TotalItemByType.length > 0) {
+        if (analystState.totalItemByType.length > 0) {
             setSeries(
-                analystState.TotalItemByType.map((item) => {
+                analystState.totalItemByType.map((item) => {
                     return Number(item.totalItem);
                 })
             );
-        }
-        if (analystState.TotalItemByType.length > 0) {
             setLabel(
-                analystState.TotalItemByType.map((item) => {
+                analystState.totalItemByType.map((item) => {
                     return capitalizeFirstLetter(item.name);
                 })
             );
         }
 
         return () => {};
-    }, [analystState.TotalItemByType]);
+    }, [analystState.totalItemByType]);
     const onSubmit = (data: AnalystDate) => {
         store.dispatch(analystThunk.adminGetTotalItemByType({ from: data.from, to: data.to }));
     };

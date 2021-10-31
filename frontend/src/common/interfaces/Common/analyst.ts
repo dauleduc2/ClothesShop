@@ -3,16 +3,12 @@ export interface AnalystDate {
     to: string;
 }
 
-export interface TotalSaleOnTime {
-    data: string;
-    time: string;
-}
-export interface TotalPriceOnTime {
-    data: string;
+export interface AnalystResponse<T> {
+    data: T;
     time: string;
 }
 
-export interface TotalItemByType {
+export interface totalItemByType {
     name: string;
     totalItem: string;
 }
@@ -20,4 +16,8 @@ export interface TotalItemByType {
 export interface totalPriceByType {
     name: string;
     totalPrice: string;
+}
+
+export interface GetEachProductProps extends AnalystDate {
+    ID: string;
 }

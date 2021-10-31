@@ -11,6 +11,9 @@ import PaginationBar from '../../../components/common/PaginationBar';
 import { capitalizeFirstLetter } from '../../../utils/textHelper';
 import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
+import { analystThunk } from '../../../redux/analyst/analystThunk';
+import { AnalystState } from '../../../common/interfaces/Redux/analyst';
+import { Link } from 'react-router-dom';
 interface ProductManagerPageProps extends RouteComponentProps {}
 
 interface QueryProps {
@@ -21,25 +24,55 @@ interface QueryProps {
 const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ location }) => {
     let params: QueryProps = queryString.parse(location.search) as any;
     const productListState = useSelector<RootState, ProductState>((state) => state.product);
+    const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
     const [limit, setLimit] = useState<number>(Number(params.limit));
     const [page, setPage] = useState<number>(Number(params.page));
-    const [series, setSeries] = useState([]);
+    const [dataSeries, setDataSeries] = useState<number[]>([]);
+    const [categories, setCategories] = useState<string[]>([]);
+    const [currentProduct, setCurrentProduct] = useState<string>();
     const options: ApexOptions = {
+        chart: {
+            id: 'basic-bar',
+        },
         xaxis: {
-            categories: [],
+            categories: categories,
         },
     };
+    const series = [
+        {
+            name: currentProduct,
+            data: dataSeries,
+        },
+    ];
     //set limit and page and call api to get product list by that
     React.useEffect(() => {
         setLimit(Number(params.limit));
         setPage(Number(params.page));
         store.dispatch(productThunk.adminGetAllProduct({ limit, page }));
     }, [params.limit, params.page, limit, page]);
+    //set data of graph
+    React.useLayoutEffect(() => {
+        if (analystState.eachProductAnalyst.length > 0) {
+            setCategories(analystState.eachProductAnalyst.map((item) => item.time));
+            setDataSeries(analystState.eachProductAnalyst.map((item) => Number(item.data)));
+        }
+        return () => {};
+    }, [analystState.eachProductAnalyst]);
 
+    const onShowProduct = (ID: string) => {
+        const currentYear = new Date().getFullYear();
+        store.dispatch(
+            analystThunk.adminGetEachProductAnalyst({
+                from: `${currentYear}-01-01`,
+                to: `${currentYear}-12-31`,
+                ID: ID,
+            })
+        );
+    };
     return (
         <>
             <div className="flex w-full">
-                <div className="flex flex-col flex-1 min-w-max">
+                <div className="flex flex-col flex-1 min-w-max intro-y">
                     <div className="-my-2 sm:-mx-6 lg:-mx-8">
                         <div className="min-w-full py-2 align-middle sm:px-6 lg:px-8">
                             <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
@@ -134,8 +167,24 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                                                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                                     {new Date(product.createDate).toDateString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                                    <div className="text-indigo-600 hover:text-indigo-900">Edit</div>
+                                                <td className="flex px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                                                    <div
+                                                        className="text-indigo-600 cursor-pointer hover:text-indigo-900"
+                                                        onClick={() => {
+                                                            onShowProduct(product.ID);
+                                                        }}
+                                                    >
+                                                        Show
+                                                    </div>
+                                                    <Link
+                                                        to={`${urlLink.ADMIN_PRODUCT}/${product.name}`}
+                                                        className="ml-5 text-red-600 cursor-pointer hover:text-red-900"
+                                                        onClick={() => {
+                                                            onShowProduct(product.ID);
+                                                        }}
+                                                    >
+                                                        Edit
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         ))}
@@ -190,7 +239,9 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                         routeUrl={urlLink.ADMIN_PRODUCT}
                     />
                 </div>
-                <Chart options={options} series={series} type="line" width="500" />
+                <div className="intro-y">
+                    <Chart options={options} series={series} type="line" width="500" />
+                </div>
             </div>
         </>
     );

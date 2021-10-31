@@ -1,7 +1,8 @@
-import { TotalItemByType, totalPriceByType, TotalPriceOnTime, TotalSaleOnTime } from './../Common/analyst';
+import { totalItemByType, totalPriceByType, AnalystResponse } from './../Common/analyst';
 export interface AnalystState {
-    totalSale: TotalSaleOnTime[];
-    totalPrice: TotalPriceOnTime[];
-    TotalItemByType: TotalItemByType[];
+    totalSale: AnalystResponse<string>[];
+    totalPrice: AnalystResponse<string>[];
+    totalItemByType: totalItemByType[];
     totalPriceByType: totalPriceByType[];
+    eachProductAnalyst: AnalystResponse<string>[];
 }
