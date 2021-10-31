@@ -11,6 +11,8 @@ export interface AddProductInfoDTO
     colors: number[];
 }
 
+export interface UpdateProductDTO extends Partial<Omit<Product, "ID">> {}
+
 export interface ProductToShowDTO
     extends Pick<
         Product,
@@ -18,3 +20,7 @@ export interface ProductToShowDTO
     > {}
 
 export interface ProductAnalyst extends DateProps {}
+
+export interface GetEachProductAnalyst extends DateProps {
+    ID: string;
+}

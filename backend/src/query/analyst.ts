@@ -1,5 +1,8 @@
 import { getManager } from "typeorm";
-import { StartEndInDay } from "../interfaces/common/dateTime";
+import {
+    GetTotalItemOfProductOnTime,
+    StartEndInDay,
+} from "../interfaces/common/dateTime";
 
 export const getTotalItemOnTime = async (time: StartEndInDay) => {
     return await getManager().query(`SELECT SUM(t.totalSale) as totalSale
@@ -69,5 +72,17 @@ export const getTotalPriceByTypeOnTime = async (time: StartEndInDay) => {
             .join("-")}') AND date('${time.end.split("/").join("-")}') 
         GROUP BY t.ID 
         LIMIT 5;
+    `);
+};
+export const getTotalItemOfProductOnTime = async (
+    time: GetTotalItemOfProductOnTime
+) => {
+    return await getManager().query(`
+        SELECT p.name , SUM(oi.amount) as totalItem
+        FROM order_item oi
+        JOIN product p
+            ON oi.productID = p.ID
+        WHERE date(oi.createDate)  BETWEEN date('${time.start}') AND date('${time.end}') AND p.ID = '${time.ID}'
+        GROUP BY p.ID
     `);
 };
