@@ -22,23 +22,23 @@ export const productApi = {
         let form = new FormData();
         form.append('name', product.name);
         form.append('description', product.description);
-        form.append('price', String(product.price));
+        form.append('price', product.price.toString());
         form.append('productAvatar', product.productAvatar);
-        form.append('quantity', String(product.quantity));
+        form.append('quantity', product.quantity.toString());
         product.images.forEach((image) => {
             form.append('images', image);
         });
         for (let i = 0; i < product.colors.length; i++) {
             const color = product.colors[i];
-            form.append(`colors[${i}]`, String(color));
+            form.append(`colors[${i}]`, color.toString());
         }
         for (let i = 0; i < product.sizes.length; i++) {
             const size = product.sizes[i];
-            form.append(`sizes[${i}]`, String(size));
+            form.append(`sizes[${i}]`, size.toString());
         }
         for (let i = 0; i < product.types.length; i++) {
             const type = product.types[i];
-            form.append(`types[${i}]`, String(type));
+            form.append(`types[${i}]`, type.toString());
         }
         form.append('status', product.status);
         return await axiosClient.post<ServerResponse<Product, null>>(url, form, {
@@ -50,8 +50,8 @@ export const productApi = {
         let form = new FormData();
         form.append('name', updateProduct.name);
         form.append('description', updateProduct.description);
-        form.append('price', String(updateProduct.price));
-        form.append('quantity', String(updateProduct.quantity));
+        form.append('price', updateProduct.price.toString());
+        form.append('quantity', updateProduct.quantity.toString());
         form.append('status', updateProduct.status);
         if (updateProduct.newProductAvatar) {
             form.append('newProductAvatar', updateProduct.newProductAvatar);
