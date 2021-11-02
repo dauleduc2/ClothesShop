@@ -187,7 +187,7 @@ const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ ma
                             <label htmlFor="types" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                 Type
                             </label>
-                            {typeState.data.length > 0 && (
+                            {typeState.data && typeState.data.length > 0 && (
                                 <TypeInput
                                     selectedType={selectedType}
                                     setSelectedType={setSelectedType}
@@ -221,7 +221,7 @@ const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ ma
                             <label htmlFor="sizes" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                 Size
                             </label>
-                            {sizeState.data.length > 0 && (
+                            {sizeState.data && sizeState.data.length > 0 && (
                                 <SizeInput
                                     sizeState={sizeState}
                                     setSelectedSize={setSelectedSize}

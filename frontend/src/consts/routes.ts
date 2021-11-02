@@ -1,37 +1,29 @@
-import CategoryPage from '../components/Category';
-import HomePage from '../containers/HomePage';
-import MePage from '../containers/Me';
-import ProductPage from '../containers/ProductDetails';
-import LoginPage from '../containers/Login';
-import Register from '../containers/Register';
-import Cart from '../containers/Cart';
-import OrderPage from '../containers/Order';
-import CurrentOrder from '../containers/CurrentOrder';
-import NotFoundPage from '../components/NotFoundPage';
-import UserGroup from '../components/common/icon/UserGroup';
-import OrderManagerPage from '../containers/Admin/OrderManager';
-import UserManagerPage from '../containers/Admin/UserManager';
-import ProductManagerPage from '../containers/Admin/ProductManager';
+import React from 'react';
 import * as urlLink from './url';
-import OrderManager from '../components/common/icon/OrderManager';
-import ProductIcon from '../components/common/icon/Product';
-import EditIcon from '../components/common/icon/Edit';
-import FormManager from '../containers/Admin/FormManager';
-import ColorIcon from '../components/common/icon/Color';
-import CategoryIcon from '../components/common/icon/Category';
-import SizeIcon from '../components/common/icon/Size';
-import AddProductForm from '../containers/Admin/FormManager/AddProductForm';
-import AddSizeForm from '../containers/Admin/FormManager/AddSizeForm';
-import AddTypeForm from '../containers/Admin/FormManager/AddTypeForm';
-import AddColorForm from '../containers/Admin/FormManager/AddColorForm';
-import RemoveColorForm from '../containers/Admin/FormManager/RemoveColorForm';
-import RemoveTypeForm from '../containers/Admin/FormManager/RemoveTypeForm';
-import RemoveSizeForm from '../containers/Admin/FormManager/RemoveSizeForm';
-import ProductAnalyst from '../containers/Admin/AnalystManager/productAnalyst';
-import GraphIcon from '../components/common/icon/Graph';
-import UpdateProductForm from '../containers/Admin/UpdateProduct';
-
-interface Route {
+const CategoryPage = React.lazy(() => import('../components/Category'));
+const HomePage = React.lazy(() => import('../containers/HomePage'));
+const MePage = React.lazy(() => import('../containers/Me'));
+const ProductPage = React.lazy(() => import('../containers/ProductDetails'));
+const LoginPage = React.lazy(() => import('../containers/Login'));
+const Register = React.lazy(() => import('../containers/Register'));
+const Cart = React.lazy(() => import('../containers/Cart'));
+const OrderPage = React.lazy(() => import('../containers/Order'));
+const CurrentOrder = React.lazy(() => import('../containers/CurrentOrder'));
+const NotFoundPage = React.lazy(() => import('../components/NotFoundPage'));
+const OrderManagerPage = React.lazy(() => import('../containers/Admin/OrderManager'));
+const UserManagerPage = React.lazy(() => import('../containers/Admin/UserManager'));
+const ProductManagerPage = React.lazy(() => import('../containers/Admin/ProductManager'));
+const FormManager = React.lazy(() => import('../containers/Admin/FormManager'));
+const AddProductForm = React.lazy(() => import('../containers/Admin/FormManager/AddProductForm'));
+const AddSizeForm = React.lazy(() => import('../containers/Admin/FormManager/AddSizeForm'));
+const AddTypeForm = React.lazy(() => import('../containers/Admin/FormManager/AddTypeForm'));
+const AddColorForm = React.lazy(() => import('../containers/Admin/FormManager/AddColorForm'));
+const RemoveColorForm = React.lazy(() => import('../containers/Admin/FormManager/RemoveColorForm'));
+const RemoveTypeForm = React.lazy(() => import('../containers/Admin/FormManager/RemoveTypeForm'));
+const RemoveSizeForm = React.lazy(() => import('../containers/Admin/FormManager/RemoveSizeForm'));
+const ProductAnalyst = React.lazy(() => import('../containers/Admin/AnalystManager/productAnalyst'));
+const UpdateProductForm = React.lazy(() => import('../containers/Admin/UpdateProduct'));
+export interface Route {
     to: string;
     exact: boolean;
     buttonName?: string;
@@ -40,71 +32,8 @@ interface Route {
     isLoginRequire?: boolean;
     isAdminRequire?: boolean;
 }
-type routeList = Route[];
 
-export const navigationLink: routeList = [
-    {
-        to: urlLink.HOME,
-        exact: true,
-        buttonName: 'Home',
-    },
-    {
-        to: urlLink.CATEGORY,
-        exact: true,
-        buttonName: 'Category',
-    },
-];
-
-export const userLink: routeList = [
-    {
-        to: urlLink.ME,
-        exact: true,
-        buttonName: 'Your Profile',
-    },
-    {
-        to: urlLink.ORDER,
-        exact: true,
-        buttonName: 'My order',
-    },
-    {
-        to: urlLink.LOGOUT,
-        exact: true,
-        buttonName: 'Sign out',
-    },
-];
-
-export const adminUserLink: routeList = [
-    {
-        to: `${urlLink.ADMIN_ORDER}?limit=10&page=1`,
-        exact: true,
-        buttonName: 'Manager ',
-    },
-];
-
-export const userMobileLink: routeList = [
-    {
-        to: urlLink.ME,
-        exact: true,
-        buttonName: 'Your Profile',
-    },
-    {
-        to: urlLink.CART,
-        exact: true,
-        buttonName: 'Your Cart',
-    },
-    {
-        to: urlLink.ORDER,
-        exact: true,
-        buttonName: 'My order',
-    },
-    {
-        to: urlLink.LOGOUT,
-        exact: true,
-        buttonName: 'Sign out',
-    },
-];
-
-export const routes: routeList = [
+export const routes: Route[] = [
     {
         to: urlLink.REGISTER,
         exact: true,
@@ -202,7 +131,7 @@ export const routes: routeList = [
     },
 ];
 
-export const AdminFormRoute: routeList = [
+export const AdminFormRoute: Route[] = [
     {
         to: urlLink.ADMIN_ADD_PRODUCT_FORM,
         exact: true,
@@ -251,93 +180,5 @@ export const AdminFormRoute: routeList = [
         component: RemoveSizeForm,
         isLoginRequire: true,
         isAdminRequire: true,
-    },
-];
-
-export const adminRoute: routeList = [
-    {
-        to: `${urlLink.ADMIN_ORDER}?limit=10&page=1`,
-        exact: true,
-        icon: OrderManager,
-    },
-    {
-        to: `${urlLink.ADMIN_USER}?limit=10&page=1`,
-        exact: true,
-        icon: UserGroup,
-    },
-    {
-        to: `${urlLink.ADMIN_PRODUCT}?limit=7&page=1`,
-        exact: true,
-        icon: ProductIcon,
-    },
-    {
-        to: `${urlLink.ADMIN_FORM}`,
-        exact: true,
-        icon: EditIcon,
-    },
-    {
-        to: `${urlLink.ADMIN_PRODUCT_ANALYST}`,
-        exact: true,
-        icon: GraphIcon,
-    },
-];
-
-interface feature {
-    to: string;
-    title: string;
-    description: string;
-    icon: any;
-    isDanger: boolean;
-}
-
-export const featureList: feature[] = [
-    {
-        to: urlLink.ADMIN_ADD_PRODUCT_FORM,
-        title: 'Add new product',
-        description: 'Full fill the form to add new product into your store',
-        icon: ProductIcon,
-        isDanger: false,
-    },
-    {
-        to: urlLink.ADMIN_ADD_SIZE_FORM,
-        title: 'Add new Size',
-        description: 'Full fill the form to add new Size into your store',
-        icon: SizeIcon,
-        isDanger: false,
-    },
-    {
-        to: urlLink.ADMIN_REMOVE_SIZE_FORM,
-        title: 'Remove Size',
-        description: 'Full fill the form to remove a Size from your store',
-        icon: SizeIcon,
-        isDanger: true,
-    },
-    {
-        to: urlLink.ADMIN_ADD_COLOR_FORM,
-        title: 'Add new Color',
-        description: 'Full fill the form to add new Color into your store',
-        icon: ColorIcon,
-        isDanger: false,
-    },
-    {
-        to: urlLink.ADMIN_REMOVE_COLOR_FORM,
-        title: 'Remove Color',
-        description: 'Full fill the form to remove a Color from your store',
-        icon: ColorIcon,
-        isDanger: true,
-    },
-    {
-        to: urlLink.ADMIN_ADD_TYPE_FORM,
-        title: 'Add new Type',
-        description: 'Full fill the form to add new Type into your store',
-        icon: CategoryIcon,
-        isDanger: false,
-    },
-    {
-        to: urlLink.ADMIN_REMOVE_TYPE_FORM,
-        title: 'Remove Type',
-        description: 'Full fill the form to remove a Type from your store',
-        icon: CategoryIcon,
-        isDanger: true,
     },
 ];

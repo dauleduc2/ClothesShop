@@ -3,6 +3,7 @@ import Navbar from '../Navbar';
 import { routes } from '../../consts/routes';
 import { Route, Switch } from 'react-router';
 import ProtectRouteWrapper from '../../common/HOC/ProtectRouteWrapper';
+import { Suspense } from 'react';
 type DashBoardProps = {};
 export const DashBoard = (props: DashBoardProps) => {
     const renderContent = () => {
@@ -35,7 +36,9 @@ export const DashBoard = (props: DashBoardProps) => {
         <div className="flex flex-col flex-1 min-h-screen text-4xl">
             <AutoLoginWrapper>
                 <Navbar />
-                <Switch>{renderContent()}</Switch>
+                <Suspense fallback={() => <div className="min-h-screen bg-red-500 ">Loading ...</div>}>
+                    <Switch>{renderContent()}</Switch>
+                </Suspense>
             </AutoLoginWrapper>
         </div>
     );
