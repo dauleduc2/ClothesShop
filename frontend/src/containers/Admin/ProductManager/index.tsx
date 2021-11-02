@@ -29,7 +29,6 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
     const [page, setPage] = useState<number>(Number(params.page));
     const [dataSeries, setDataSeries] = useState<number[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
-    const [currentProduct, setCurrentProduct] = useState<string>();
     const options: ApexOptions = {
         chart: {
             id: 'basic-bar',
@@ -40,7 +39,7 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
     };
     const series = [
         {
-            name: currentProduct,
+            name: 'total item sale',
             data: dataSeries,
         },
     ];
@@ -54,7 +53,7 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
     React.useLayoutEffect(() => {
         if (analystState.eachProductAnalyst.length > 0) {
             setCategories(analystState.eachProductAnalyst.map((item) => item.time));
-            setDataSeries(analystState.eachProductAnalyst.map((item) => Number(item.data)));
+            setDataSeries(analystState.eachProductAnalyst.map((item) => parseInt(item.data)));
         }
         return () => {};
     }, [analystState.eachProductAnalyst]);
@@ -239,7 +238,11 @@ const ProductManagerPage: React.FunctionComponent<ProductManagerPageProps> = ({ 
                         routeUrl={urlLink.ADMIN_PRODUCT}
                     />
                 </div>
-                <div className="intro-y">
+                <div className="ml-10 intro-y">
+                    <h2 id="category-heading" className="text-2xl font-bold tracking-tight text-gray-900">
+                        Total sale on this year
+                    </h2>
+
                     <Chart options={options} series={series} type="line" width="500" />
                 </div>
             </div>

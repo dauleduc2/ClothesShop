@@ -1,3 +1,5 @@
+import { ApexOptions } from 'apexcharts';
+
 export interface AnalystDate {
     from: string;
     to: string;
@@ -20,4 +22,13 @@ export interface totalPriceByType {
 
 export interface GetEachProductProps extends AnalystDate {
     ID: string;
+}
+
+export interface Series {
+    name: string;
+    data: number[];
+}
+export interface ApexLineConfig {
+    options: ApexOptions;
+    series: Series[];
 }

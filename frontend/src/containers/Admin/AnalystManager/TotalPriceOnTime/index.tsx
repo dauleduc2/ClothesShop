@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { AnalystDate } from '../../../../common/interfaces/Common/analyst';
+import { AnalystDate, ApexLineConfig } from '../../../../common/interfaces/Common/analyst';
 import Chart from 'react-apexcharts';
 import * as React from 'react';
 import { RootState, store } from '../../../../redux';
@@ -9,6 +9,7 @@ import { AnalystState } from '../../../../common/interfaces/Redux/analyst';
 interface TotalPriceOnTimeProps {}
 
 const TotalPriceOnTime: React.FunctionComponent<TotalPriceOnTimeProps> = () => {
+    const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
     const { handleSubmit, register } = useForm<AnalystDate>({
         defaultValues: {
             from: `${new Date().getFullYear()}-01-01`,
@@ -18,49 +19,70 @@ const TotalPriceOnTime: React.FunctionComponent<TotalPriceOnTimeProps> = () => {
     const onSubmit = (data: AnalystDate) => {
         store.dispatch(analystThunk.getTotalPriceOnTime({ from: data.from, to: data.to }));
     };
-    const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
-    const [categories, setCategories] = React.useState<String[]>();
-    const [dataSeries, setDataSeries] = React.useState<Number[]>();
 
-    React.useLayoutEffect(() => {
-        const categoriesList = analystState.totalPrice.map((total) => {
-            return total.time;
-        });
-        const newDataSeries = analystState.totalPrice.map((total) => {
-            return Number(total.data);
-        });
-        setCategories(categoriesList);
-        setDataSeries(newDataSeries);
+    const [chartConfig, setChartConfig] = React.useState<ApexLineConfig>({
+        options: {
+            chart: {
+                id: 'Total price on time',
+            },
+            xaxis: {
+                categories:
+                    analystState.totalPrice.length > 0
+                        ? analystState.totalPrice.map((sale) => {
+                              return sale.time;
+                          })
+                        : [],
+            },
+        },
+        series: [
+            {
+                name: 'Total price',
+                data:
+                    analystState.totalPrice.length > 0
+                        ? analystState.totalPrice.map((sale) => {
+                              return Number(sale.data);
+                          })
+                        : [],
+            },
+        ],
+    });
+    //set value on state update
+    React.useEffect(() => {
+        if (analystState.totalPrice.length > 0) {
+            setChartConfig((prev) => {
+                return {
+                    ...prev,
+                    options: {
+                        ...prev.options,
+                        xaxis: {
+                            categories: analystState.totalPrice.map((item) => {
+                                return item.time;
+                            }),
+                        },
+                    },
+                    series: [
+                        {
+                            name: 'abc',
+                            data: analystState.totalPrice.map((item) => {
+                                return Number(item.data);
+                            }),
+                        },
+                    ],
+                };
+            });
+        }
     }, [analystState.totalPrice]);
+    //call api to get data on first time
+    React.useEffect(() => {
+        store.dispatch(
+            analystThunk.getTotalPriceOnTime({
+                from: `${new Date().getFullYear()}-01-01`,
+                to: `${new Date().getFullYear()}-12-31`,
+            })
+        );
+        return () => {};
+    }, []);
 
-    // React.useLayoutEffect(() => {
-    //     store.dispatch(
-    //         analystThunk.getTotalPriceOnTime({
-    //             from: `${new Date().getFullYear()}-01-01`,
-    //             to: `${new Date().getFullYear()}-12-31`,
-    //         })
-    //     );
-    //     return () => {};
-    // }, []);
-
-    const options = {
-        chart: {
-            id: 'basic-bar',
-        },
-        Animation: {
-            enabled: true,
-        },
-        xaxis: {
-            categories: categories,
-        },
-    };
-
-    const series = [
-        {
-            name: 'Total item Price ',
-            data: dataSeries,
-        },
-    ];
     return (
         <div className="">
             <h2 id="category-heading" className="text-2xl font-bold tracking-tight text-gray-900">
@@ -84,7 +106,9 @@ const TotalPriceOnTime: React.FunctionComponent<TotalPriceOnTimeProps> = () => {
                     </button>
                 </div>
             </form>
-            <Chart options={options} series={series} type="line" width="750" />
+            {chartConfig.options.xaxis?.categories.length > 0 && (
+                <Chart options={chartConfig.options} series={chartConfig.series} width="750" />
+            )}
         </div>
     );
 };

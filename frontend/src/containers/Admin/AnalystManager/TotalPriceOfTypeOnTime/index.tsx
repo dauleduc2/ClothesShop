@@ -11,8 +11,8 @@ import { capitalizeFirstLetter } from '../../../../utils/textHelper';
 interface TotalPriceOfTypeOnTimeProps {}
 
 const TotalPriceOfTypeOnTime: React.FunctionComponent<TotalPriceOfTypeOnTimeProps> = () => {
-    const [series, setSeries] = React.useState<number[]>([44, 55, 41, 17, 15]);
-    const [label, setLabel] = React.useState(['A', 'B', 'C', 'D', 'E']);
+    const [series, setSeries] = React.useState<number[]>();
+    const [label, setLabel] = React.useState<string[]>();
     const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
     const { handleSubmit, register } = useForm<AnalystDate>({
         defaultValues: {
@@ -45,6 +45,17 @@ const TotalPriceOfTypeOnTime: React.FunctionComponent<TotalPriceOfTypeOnTimeProp
 
         return () => {};
     }, [analystState.totalPriceByType]);
+
+    React.useEffect(() => {
+        store.dispatch(
+            analystThunk.adminGetTotalPriceByType({
+                from: `${new Date().getFullYear()}-01-01`,
+                to: `${new Date().getFullYear()}-12-31`,
+            })
+        );
+        return () => {};
+    }, []);
+
     const onSubmit = (data: AnalystDate) => {
         store.dispatch(analystThunk.adminGetTotalPriceByType({ from: data.from, to: data.to }));
     };
@@ -71,7 +82,9 @@ const TotalPriceOfTypeOnTime: React.FunctionComponent<TotalPriceOfTypeOnTimeProp
                     </button>
                 </div>
             </form>
-            <Chart options={options} series={series} chartOptions={label} type="donut" width="500" />
+            {series && series?.length > 0 && (
+                <Chart options={options} series={series} chartOptions={label} type="donut" width="500" />
+            )}
         </div>
     );
 };

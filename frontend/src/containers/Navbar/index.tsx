@@ -2,7 +2,6 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Popover, Transition } from '@headlessui/react';
 import { MenuIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
-import { adminUserLink, navigationLink, userLink, userMobileLink } from '../../consts/routes';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../../redux';
@@ -14,6 +13,7 @@ import { SearchIcon } from '@heroicons/react/solid';
 import { UserState } from '../../common/interfaces/Redux/user';
 import { CartState } from '../../common/interfaces/Redux/cart';
 import * as urlLink from '../../consts/url';
+import { adminUserLink, navigationLink, userLink, userMobileLink } from '../../consts/UI';
 interface NavbarProps {}
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');

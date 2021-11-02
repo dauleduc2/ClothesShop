@@ -1,15 +1,15 @@
 import { useForm } from 'react-hook-form';
-import { AnalystDate } from '../../../../common/interfaces/Common/analyst';
+import { AnalystDate, ApexLineConfig } from '../../../../common/interfaces/Common/analyst';
 import * as React from 'react';
 import { RootState, store } from '../../../../redux';
 import { analystThunk } from '../../../../redux/analyst/analystThunk';
 import { useSelector } from 'react-redux';
 import { AnalystState } from '../../../../common/interfaces/Redux/analyst';
 import Chart from 'react-apexcharts';
-import { ApexOptions } from 'apexcharts';
 interface TotalSaleOnTimeProps {}
 
 const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
+    const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
     const { handleSubmit, register } = useForm<AnalystDate>({
         defaultValues: {
             from: `${new Date().getFullYear()}-01-01`,
@@ -19,22 +19,62 @@ const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
     const onSubmit = (data: AnalystDate) => {
         store.dispatch(analystThunk.getTotalSaleOnTime({ from: data.from, to: data.to }));
     };
-    const analystState = useSelector<RootState, AnalystState>((state) => state.analyst);
-    const [categories, setCategories] = React.useState<string[]>([]);
-    const [dataSeries, setDataSeries] = React.useState<number[]>([]);
-    //
-    React.useLayoutEffect(() => {
-        const categoriesList = analystState.totalSale.map((sale) => {
-            return sale.time;
-        });
-        const newDataSeries = analystState.totalSale.map((sale) => {
-            return Number(sale.data);
-        });
-        setCategories(categoriesList);
-        setDataSeries(newDataSeries);
+
+    const [chartConfig, setChartConfig] = React.useState<ApexLineConfig>({
+        options: {
+            chart: {
+                id: 'Total sale on time',
+            },
+            xaxis: {
+                categories:
+                    analystState.totalSale.length > 0
+                        ? analystState.totalSale.map((sale) => {
+                              return sale.time;
+                          })
+                        : [],
+            },
+        },
+        series: [
+            {
+                name: 'Total item sale ',
+                data:
+                    analystState.totalSale.length > 0
+                        ? analystState.totalSale.map((sale) => {
+                              return Number(sale.data);
+                          })
+                        : [],
+            },
+        ],
+    });
+
+    React.useEffect(() => {
+        if (analystState.totalSale.length > 0) {
+            setChartConfig((prev) => {
+                return {
+                    ...prev,
+                    options: {
+                        ...prev.options,
+                        xaxis: {
+                            categories: analystState.totalSale.map((sale) => {
+                                return sale.time;
+                            }),
+                        },
+                    },
+                    series: [
+                        {
+                            name: 'abc',
+                            data: analystState.totalSale.map((sale) => {
+                                return Number(sale.data);
+                            }),
+                        },
+                    ],
+                };
+            });
+        }
     }, [analystState.totalSale]);
 
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
+        console.log('dispatching...');
         store.dispatch(
             analystThunk.getTotalSaleOnTime({
                 from: `${new Date().getFullYear()}-01-01`,
@@ -44,22 +84,6 @@ const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
         return () => {};
     }, []);
 
-    const options: ApexOptions = {
-        chart: {
-            id: 'basic-line',
-            type: 'line',
-        },
-        xaxis: {
-            categories: categories,
-        },
-    };
-
-    const series: ApexAxisChartSeries = [
-        {
-            name: 'Total item sale',
-            data: dataSeries,
-        },
-    ];
     return (
         <div className="">
             <h2 id="category-heading" className="text-2xl font-bold tracking-tight text-gray-900">
@@ -84,7 +108,9 @@ const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
                 </div>
             </form>
             <div className="fade-in">
-                <Chart options={options} series={series} width="750" />
+                {chartConfig.options.xaxis?.categories.length > 0 && (
+                    <Chart options={chartConfig.options} series={chartConfig.series} width="750" />
+                )}
             </div>
         </div>
     );

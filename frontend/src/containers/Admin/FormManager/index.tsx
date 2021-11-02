@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import DetailIcon from '../../../components/common/icon/Detail';
-import { AdminFormRoute, featureList } from '../../../consts/routes';
+import { AdminFormRoute } from '../../../consts/routes';
 import { Route, Switch } from 'react-router';
 import * as React from 'react';
 import { store } from '../../../redux';
 import { sizeThunk } from '../../../redux/size/sizeThunk';
 import { typeThunk } from '../../../redux/type/typeThunk';
 import { colorThunk } from '../../../redux/color/colorThunk';
+import { featureList } from '../../../consts/UI';
 
 interface FormManagerProps {}
 
