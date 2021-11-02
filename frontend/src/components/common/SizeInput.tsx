@@ -20,6 +20,7 @@ const SizeInput: React.FunctionComponent<SizeInputProps> = ({
     selectedSizeList,
     setSelectedSizeList,
 }) => {
+    console.log(sizeState.data);
     return (
         <div className="mt-1 sm:mt-0 sm:col-span-2">
             {sizeState.data.length !== 0 && (

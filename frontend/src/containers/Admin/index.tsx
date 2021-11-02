@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { adminRoute } from '../../consts/routes';
+import { adminRoute } from '../../consts/UI';
 interface AdminPageProps {}
 
 const AdminPage: React.FunctionComponent<AdminPageProps> = ({ children }) => {

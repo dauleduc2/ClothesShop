@@ -31,13 +31,14 @@
         "react-scripts": "4.0.3",
         "redux": "^4.1.1",
         "redux-thunk": "^2.3.0",
+        "serve": "^12.0.1",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat",
         "typescript": "^4.4.3",
         "web-vitals": "^1.0.1"
     },
     "scripts": {
         "start": "NODE_ENV=development craco start",
-        "build": "craco build",
+        "build": "NODE_ENV=production craco build",
         "test": "craco test",
         "eject": "react-scripts eject"
     },
