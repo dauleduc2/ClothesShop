@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import NotFoundPage from '../../components/NotFoundPage';
 import { RootState } from '../../redux';
-import * as notificationHelper from '../../utils/notificationHelper';
-import AdminPage from '../../containers/Admin';
 import { UserState } from '../interfaces/Redux/user';
 interface ProtectRouteWrapperProps {
     isLoginRequire?: boolean;
@@ -30,7 +28,6 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> = (
     children,
     isLoginRequire = false,
     isAdminRequire = false,
-    to,
 }) => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
     const history = useHistory();
@@ -40,24 +37,14 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> = (
         //
         if (isLoginRequire && !getCookie('x-auth-token')) {
             setIsAccess(false);
-            history.push('/user/login');
-            notificationHelper.warning('Access denied', 'You need to login to see this page');
             return;
         }
         if (isAdminRequire && userState.user.role === 'CUSTOMER') {
             setIsAccess(false);
-            // history.push('/');
-            // notificationHelper.warning('Access denied', 'You need permission to see this page');
             return;
         }
         setIsAccess(true);
     }, [userState.isLogin, userState.user.role, isLoginRequire, isAdminRequire, history]);
-    if (isAdminRequire) {
-        if (to?.startsWith('/admin/form')) {
-            return <>{isAccess ? <AdminPage>{children}</AdminPage> : <NotFoundPage />}</>;
-        }
-        return <>{isAccess ? <AdminPage>{children}</AdminPage> : <NotFoundPage />}</>;
-    }
 
     return <> {isAccess ? children : <NotFoundPage />} </>;
 };

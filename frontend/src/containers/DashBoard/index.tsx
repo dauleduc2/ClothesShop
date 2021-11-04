@@ -4,6 +4,7 @@ import { routes } from '../../consts/routes';
 import { Route, Switch } from 'react-router';
 import ProtectRouteWrapper from '../../common/HOC/ProtectRouteWrapper';
 import { Suspense } from 'react';
+import LoadingAnimation from '../../components/common/Loading';
 type DashBoardProps = {};
 export const DashBoard = (props: DashBoardProps) => {
     const renderContent = () => {
@@ -36,7 +37,7 @@ export const DashBoard = (props: DashBoardProps) => {
         <div className="flex flex-col flex-1 min-h-screen text-4xl">
             <AutoLoginWrapper>
                 <Navbar />
-                <Suspense fallback={() => <div className="min-h-screen bg-red-500 ">Loading ...</div>}>
+                <Suspense fallback={() => <LoadingAnimation />}>
                     <Switch>{renderContent()}</Switch>
                 </Suspense>
             </AutoLoginWrapper>

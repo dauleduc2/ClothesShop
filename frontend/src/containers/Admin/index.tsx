@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
+import { AdminSectionRoute } from '../../consts/routes';
 import { adminRoute } from '../../consts/UI';
 interface AdminPageProps {}
 
@@ -28,7 +29,21 @@ const AdminPage: React.FunctionComponent<AdminPageProps> = ({ children }) => {
                     </nav>
 
                     {/* Main area */}
-                    <main className="flex-1 min-w-0 p-10 border-t border-gray-200 lg:flex">{children}</main>
+                    <main className="flex-1 min-w-0 p-10 border-t border-gray-200 lg:flex">
+                        {AdminSectionRoute.map((route) => {
+                            const { component: MyComponent } = route;
+                            return (
+                                <Route
+                                    key={route.to}
+                                    path={route.to}
+                                    exact={route.exact}
+                                    render={(routeProps) => {
+                                        return <MyComponent {...routeProps} />;
+                                    }}
+                                ></Route>
+                            );
+                        })}
+                    </main>
                 </div>
             </div>
         </>

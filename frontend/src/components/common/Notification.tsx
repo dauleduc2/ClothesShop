@@ -3,8 +3,8 @@ import { Fragment } from 'react';
 import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XIcon } from '@heroicons/react/solid';
-import WarningIcon from '../../assets/icon/WarningIcon';
-import ErrorIcon from '../../assets/icon/ErrorIcon';
+import WarningIcon from './icon/WarningIcon';
+import ErrorIcon from './ErrorIcon';
 import { notificationStatus } from '../../common/interfaces/Redux/UI';
 
 // import WarningIcon from '../../assets/icon/WarningIcon';

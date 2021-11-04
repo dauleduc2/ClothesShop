@@ -1,4 +1,5 @@
 import React from 'react';
+import AdminPage from '../containers/Admin';
 import * as urlLink from './url';
 const CategoryPage = React.lazy(() => import('../components/Category'));
 const HomePage = React.lazy(() => import('../containers/HomePage'));
@@ -83,6 +84,21 @@ export const routes: Route[] = [
         isLoginRequire: true,
     },
     {
+        to: urlLink.ADMIN,
+        exact: false,
+        component: AdminPage,
+        isLoginRequire: true,
+        isAdminRequire: true,
+    },
+    {
+        to: '*',
+        exact: true,
+        component: NotFoundPage,
+    },
+];
+
+export const AdminSectionRoute: Route[] = [
+    {
         to: urlLink.ADMIN_ORDER,
         exact: true,
         component: OrderManagerPage,
@@ -123,11 +139,6 @@ export const routes: Route[] = [
         component: ProductAnalyst,
         isLoginRequire: true,
         isAdminRequire: true,
-    },
-    {
-        to: '*',
-        exact: true,
-        component: NotFoundPage,
     },
 ];
 
