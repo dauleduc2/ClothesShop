@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "skipLibCheck": true,
         "lib": ["es5", "es6", "es2017.object"],
         "target": "es2017",
         "module": "commonjs",
@@ -8,5 +9,6 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true
-    }
+    },
+    "exclude": ["node_modules"]
 }

@@ -1,4 +1,3 @@
-import { length } from "./../../../frontend/src/utils/validateHelper";
 import { Size } from "./../entity/Size";
 import { Color } from "./../entity/Color";
 import { Type } from "./../entity/Type";

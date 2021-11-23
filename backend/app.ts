@@ -10,7 +10,7 @@ dotenv.config({
     path: path.resolve(__dirname, `./src/config/.env.${process.env.NODE_ENV}`),
 });
 //
-console.clear();
+// console.clear();
 //startup
 const app = express();
 middlewareConfig(app);
