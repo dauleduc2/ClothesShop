@@ -7,10 +7,8 @@
     "database": "clothesshop",
     "synchronize": true,
     "logging": false,
-    "dropSchema": true,
-    "synchroize": true,
     "migrationsRun": true,
-    "entities": ["src/entity/**/*.ts"],
+    "entities": ["./src/entity/**/*.ts"],
     "migrations": ["src/migration/**/*.ts"],
     "subscribers": ["src/subscriber/**/*.ts"],
     "cli": {

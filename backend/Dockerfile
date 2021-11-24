@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 
 COPY package.json ./
-RUN yarn global add cross-env
+# RUN yarn global add cross-env
 RUN yarn install
 COPY . .
 

@@ -32,10 +32,14 @@ export class User {
     @IsEmail()
     email: string;
 
-    @Column()
+    @Column({
+        default: null,
+    })
     phoneNumber: string;
 
-    @Column()
+    @Column({
+        default: null,
+    })
     address: string;
 
     @Column({

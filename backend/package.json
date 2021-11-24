@@ -16,7 +16,7 @@
         "joi-password": "^1.6.0",
         "jsonwebtoken": "^8.5.1",
         "multer": "^1.4.3",
-        "mysql": "^2.14.1",
+        "mysql2": "^2.3.3",
         "reflect-metadata": "^0.1.10",
         "typeorm": "0.2.37"
     },

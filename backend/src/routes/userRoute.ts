@@ -23,6 +23,10 @@ import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
 import * as statusCode from "../constants/statusConstants";
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    res.send("hello");
+});
+
 //GET me
 router.get(
     "/me",
@@ -228,6 +232,7 @@ router.post(
                 );
         //add user
         const result: User = await userRepo.addNewUser(user);
+
         //gen token
         const token = userHelper.genToken(result);
         //set token to cookie
