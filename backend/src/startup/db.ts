@@ -10,7 +10,7 @@ export async function dbStartUp() {
             port: (process.env.DB_PORT as unknown as number) || 3306,
             username: process.env.USER,
             password: process.env.ROOT_PASSWORD,
-            database: "clothesshop",
+            database: process.env.DATABASE_NAME,
             synchronize: process.env.NODE_ENV !== "production",
             logging: false,
             migrationsRun: true,
