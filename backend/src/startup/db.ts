@@ -7,7 +7,7 @@ export async function dbStartUp() {
         connection = await createConnection({
             type: "mysql",
             host: process.env.HOST,
-            port: 3306,
+            port: (process.env.DB_PORT as unknown as number) || 3306,
             username: process.env.USER,
             password: process.env.ROOT_PASSWORD,
             database: "clothesshop",
