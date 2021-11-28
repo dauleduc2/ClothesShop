@@ -8,5 +8,4 @@ export default function (app: Application) {
     console.log(process.env.CLIENT_URL);
     app.use(cookieParser());
     app.use(express.static("uploads"));
-    // app.use(express.static("public"));
 }

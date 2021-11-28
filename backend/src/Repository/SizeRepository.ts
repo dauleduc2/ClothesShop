@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, getManager, Repository } from "typeorm";
 import { Size } from "../entity/Size";
 @EntityRepository(Size)
 export class SizeRepository extends Repository<Size> {
@@ -14,7 +14,6 @@ export class SizeRepository extends Repository<Size> {
         const size = await this.findOne({ name });
         return size;
     }
-
     async findByID(ID: number) {
         const size = await this.findOne({ ID });
         return size;

@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Product } from "../entity/Product";
+import { Type } from "../entity/Type";
 import { AdminQueryPage } from "../interfaces/common/Query";
 import { ResponseDataWithCount } from "../interfaces/common/Request";
 import { ProductToShowDTO, UpdateProductDTO } from "../interfaces/DTO/product";
@@ -68,7 +69,15 @@ export class ProductRepository extends Repository<Product> {
         const product: Product = await this.findOne({ ID }).catch((err) => err);
         return product;
     }
-
+    async findByIDWithRelation(ID: string) {
+        const product = await this.findOne({
+            where: {
+                ID,
+            },
+            relations: ["images", "sizes", "types", "colors"],
+        }).catch((err) => err);
+        return product;
+    }
     async checkQuantityOfProduct(ID: string, amount: number) {
         const currentProduct = await this.findOne({ ID });
         const currentQuantity = currentProduct.quantity;

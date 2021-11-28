@@ -112,10 +112,8 @@ router.post(
     async (req: ServerRequest<LoginUserDTO>, res: Response) => {
         const { username, password } = req.body;
         //get connection
-        console.log("starting to login....");
         const userRepo = await getCustomRepository(UserRepository);
         const user: User = await userRepo.findByUsername(username);
-        console.log("got repo....");
         //validate
         const { error } = validateLoginUser(req.body);
         if (error) {
@@ -133,7 +131,6 @@ router.post(
                     )
                 );
         }
-        console.log("checking error....");
         //check valid username
         if (!user)
             return res
@@ -145,7 +142,6 @@ router.post(
                         "username or password is invalid"
                     )
                 );
-        console.log("checking duplicate....");
         //check valid password
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword)
@@ -211,7 +207,7 @@ router.post(
         const userRepo = await getCustomRepository(UserRepository);
         //check is esxisted user
         let isExistedUser = await userRepo.findByEmail(email);
-        console.log("check isExistedUser1" + isExistedUser);
+
         if (isExistedUser)
             duplicateField = {
                 ...duplicateField,
@@ -219,7 +215,7 @@ router.post(
             };
 
         isExistedUser = await userRepo.findByUsername(username);
-        console.log("check isExistedUser2" + isExistedUser);
+
         if (isExistedUser)
             duplicateField = {
                 ...duplicateField,
