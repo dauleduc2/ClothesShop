@@ -1,7 +1,7 @@
 import React from 'react';
 import AdminPage from '../containers/Admin';
 import * as urlLink from './url';
-const CategoryPage = React.lazy(() => import('../components/Category'));
+const CategoryPage = React.lazy(() => import('../containers/CategoryPage'));
 const HomePage = React.lazy(() => import('../containers/HomePage'));
 const MePage = React.lazy(() => import('../containers/Me'));
 const ProductPage = React.lazy(() => import('../containers/ProductDetails'));
@@ -51,11 +51,6 @@ export const routes: Route[] = [
         component: HomePage,
     },
     {
-        to: urlLink.CATEGORY,
-        exact: true,
-        component: CategoryPage,
-    },
-    {
         to: urlLink.ME,
         exact: true,
         component: MePage,
@@ -70,6 +65,11 @@ export const routes: Route[] = [
         to: urlLink.CART,
         exact: true,
         component: Cart,
+    },
+    {
+        to: urlLink.CATEGORY_PAGE,
+        exact: true,
+        component: CategoryPage,
     },
     {
         to: urlLink.ORDER,

@@ -9,29 +9,36 @@ import { Link } from 'react-router-dom';
 interface HomePageProps extends RouteComponentProps {}
 const categories = [
     {
-        name: 'New Arrivals',
-        href: '#',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-01.jpg',
+        name: 'Kids',
+        href: '/categories/kids',
+        imageSrc:
+            'https://img.ltwebstatic.com/images3_pi/2019/11/09/15732767009cd5e4dbfc077e2dfe3f5c354fa3baa4_thumbnail_600x.webp',
     },
     {
-        name: 'Productivity',
-        href: '#',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-02.jpg',
+        name: 'Hoodies',
+        href: '/categories/hoodies',
+        imageSrc:
+            'https://bizweb.dktcdn.net/100/287/440/files/ao-khoac-hoodie-den-nam-nu-local-brand.jpg?v=1609171430739',
     },
     {
-        name: 'Workspace',
-        href: '#',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-04.jpg',
+        name: 'Knitwear',
+        href: '/categories/knitwear',
+        imageSrc:
+            'https://www.kamiceria.com/media/catalog/product/cache/77fa05ee1c24c380906545840523d8cf/f/-/f-telayo1018-6757-503_01.jpg',
     },
     {
-        name: 'Accessories',
-        href: '#',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg',
+        name: 'Pants',
+        href: '/categories/pants',
+        imageSrc:
+            'https://craft-products-production.imgix.net/images/695_a86132f3c9-1908716-999000-1-original.jpg?q=70&fit=clip&w=1255&fm=jpg&auto=format',
     },
-    { name: 'Sale', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
+    {
+        name: 'T-Shirts',
+        href: '/categories/t-shirts',
+        imageSrc: 'https://owen.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/t/s/ts22352_1.jpg',
+    },
 ];
 const HomePage: React.FunctionComponent<HomePageProps> = ({ location }) => {
-    // let params: AdminQuery = queryString.parse(location.search) as any;
     const productState = useSelector<RootState, ProductState>((state) => state.product);
     React.useEffect(() => {
         store.dispatch(productThunk.getAllProduct({ limit: Number(8), page: Number(1) }));

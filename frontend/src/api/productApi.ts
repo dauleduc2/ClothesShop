@@ -9,6 +9,10 @@ export const productApi = {
         const url = `/api/product?limit=${limit}&page=${page}`;
         return await axiosClient.get<ServerResponse<ResponseWithCount<ProductToShowDTO[]>, null>>(url);
     },
+    getAllProductByType: async (typeName: string) => {
+        const url = `/api/product/type/${typeName}`;
+        return await axiosClient.get<ServerResponse<ProductToShowDTO[], null>>(url);
+    },
     getSpecificProduct: async (productName: string) => {
         const url = `/api/product/${productName.split(' ').join('-')}`;
         return await axiosClient.get<ServerResponse<Product[], null>>(url);
