@@ -299,7 +299,7 @@ router.post(
     }
 );
 
-//POST - get all category
+//GET - get all category
 router.get(
     "/type/:name",
     async (req: Request<GetProductByTypeDTO>, res: Response) => {
@@ -327,5 +327,20 @@ router.get(
         );
     }
 );
-
+//GET - get all category
+router.get(
+    "/search/:name",
+    async (req: Request<GetProductByTypeDTO>, res: Response) => {
+        const { name } = req.params;
+        //connection
+        const connection = await Promise.all<any>([
+            getCustomRepository(ProductRepository),
+        ]);
+        const productRepo: ProductRepository = connection[0];
+        const productList = await productRepo.findByNameInclude(name);
+        return res.send(
+            dataHelper.getResponseForm(productList, null, "search product")
+        );
+    }
+);
 export default router;

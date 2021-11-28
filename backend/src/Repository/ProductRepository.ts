@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Like, Repository } from "typeorm";
 import { Product } from "../entity/Product";
 import { Type } from "../entity/Type";
 import { AdminQueryPage } from "../interfaces/common/Query";
@@ -64,7 +64,15 @@ export class ProductRepository extends Repository<Product> {
         }).catch((err) => err);
         return product;
     }
-
+    async findByNameInclude(name: string) {
+        const product = await this.find({
+            where: {
+                name: Like(`%${name}%`),
+            },
+            relations: ["images", "sizes", "types", "colors"],
+        }).catch((err) => err);
+        return product;
+    }
     async findByID(ID: string) {
         const product: Product = await this.findOne({ ID }).catch((err) => err);
         return product;
