@@ -13,6 +13,10 @@ export const productApi = {
         const url = `/api/product/type/${typeName}`;
         return await axiosClient.get<ServerResponse<ProductToShowDTO[], null>>(url);
     },
+    searchProductByName: async (name: string) => {
+        const url = `/api/product/search/${name}`;
+        return await axiosClient.get<ServerResponse<ProductToShowDTO[], null>>(url);
+    },
     getSpecificProduct: async (productName: string) => {
         const url = `/api/product/${productName.split(' ').join('-')}`;
         return await axiosClient.get<ServerResponse<Product[], null>>(url);

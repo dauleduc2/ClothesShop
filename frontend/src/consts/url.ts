@@ -7,8 +7,9 @@ export const REGISTER = '/user/register';
 export const ME = '/user/me';
 //product
 export const PRODUCT = '/product';
-//category
+export const SEARCH_PAGE = '/search/:name';
 export const CATEGORY_PAGE = '/categories/:name';
+
 //order
 export const ORDER = '/user/order';
 //admin

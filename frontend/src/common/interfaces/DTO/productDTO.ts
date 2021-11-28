@@ -22,3 +22,7 @@ export interface UpdateProductDTO
     newProductAvatar?: File;
     newImages?: File[];
 }
+
+export interface SearchProductDTO {
+    name: string;
+}
