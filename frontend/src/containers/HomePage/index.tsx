@@ -41,7 +41,7 @@ const categories = [
 const HomePage: React.FunctionComponent<HomePageProps> = ({ location }) => {
     const productState = useSelector<RootState, ProductState>((state) => state.product);
     React.useEffect(() => {
-        store.dispatch(productThunk.getAllProduct({ limit: Number(8), page: Number(1) }));
+        store.dispatch(productThunk.getAllProduct({ limit: Number(999), page: Number(1) }));
     }, []);
     return (
         <div className="flex-1 mt-5 text-4xl">
