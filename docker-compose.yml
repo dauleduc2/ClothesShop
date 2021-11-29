@@ -7,6 +7,8 @@ services:
       - 3001:3001
     env_file:
       - ./backend/src/config/.env.production
+    volumes:
+      - ./backend/uploads:/app/uploads
   client:
     build: "./frontend"
     image: dauleduc2/clothesshopweb
