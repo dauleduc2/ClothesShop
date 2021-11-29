@@ -14,6 +14,9 @@ import { UserState } from '../../common/interfaces/Redux/user';
 import { CartState } from '../../common/interfaces/Redux/cart';
 import * as urlLink from '../../consts/url';
 import { adminUserLink, navigationLink, userLink, userMobileLink } from '../../consts/UI';
+import { useForm } from 'react-hook-form';
+import { SearchProductDTO } from '../../common/interfaces/DTO/productDTO';
+import React from 'react';
 interface NavbarProps {}
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
@@ -23,6 +26,15 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
     const cartState = useSelector<RootState, CartState>((state) => state.cart);
     const history = useHistory();
+    const { handleSubmit, register } = useForm<SearchProductDTO>();
+    const onSubmit = (data: SearchProductDTO) => {
+        history.push(`/search/${data.name}`);
+    };
+    const handleKeyDown = (event: any) => {
+        if (event.key === 'Enter') {
+            handleSubmit(onSubmit)();
+        }
+    };
     return (
         <Disclosure as="nav" className="fixed top-0 z-30 w-full h-16 bg-gray-800">
             {({ open }) => (
@@ -64,8 +76,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                             <SearchIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
                                         </div>
                                         <input
-                                            id="search"
-                                            name="search"
+                                            {...register('name')}
+                                            onKeyDown={(e) => handleKeyDown(e)}
                                             className="block w-full py-2 pl-10 pr-3 leading-5 text-gray-300 placeholder-gray-400 bg-gray-700 border border-transparent rounded-md focus:outline-none focus:bg-white focus:border-white focus:ring-white focus:text-gray-900 sm:text-sm"
                                             placeholder="Search"
                                             type="search"

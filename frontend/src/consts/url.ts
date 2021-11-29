@@ -1,6 +1,5 @@
 //view
 export const HOME = '/';
-export const CATEGORY = '/category';
 export const CART = '/user/cart';
 //form
 export const LOGIN = '/user/login';
@@ -8,6 +7,8 @@ export const REGISTER = '/user/register';
 export const ME = '/user/me';
 //product
 export const PRODUCT = '/product';
+export const SEARCH_PAGE = '/search/:name';
+export const CATEGORY_PAGE = '/categories/:name';
 
 //order
 export const ORDER = '/user/order';

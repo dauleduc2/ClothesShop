@@ -17,7 +17,11 @@ import { authenMiddleware } from "../middlewares/authenMiddleware";
 import { authorMiddleware } from "../middlewares/authorMiddleware";
 import { multerErrorMiddleware } from "../middlewares/multerErrorMiddleware";
 import { ServerRequest } from "../interfaces/common/Request";
-import { AddProductInfoDTO, UpdateProductDTO } from "../interfaces/DTO/product";
+import {
+    AddProductInfoDTO,
+    GetProductByTypeDTO,
+    UpdateProductDTO,
+} from "../interfaces/DTO/product";
 import * as statusCode from "../constants/statusConstants";
 import { AdminQueryPage } from "../interfaces/common/Query";
 import { ImageRepository } from "../Repository/ImageRepository";
@@ -291,6 +295,51 @@ router.post(
         const result = await productRepo.updateProduct(ID, updateProduct);
         res.send(
             dataHelper.getResponseForm(result, null, "update product success!")
+        );
+    }
+);
+
+//GET - get all category
+router.get(
+    "/type/:name",
+    async (req: Request<GetProductByTypeDTO>, res: Response) => {
+        const { name } = req.params;
+        //connection
+        const connection = await Promise.all<any>([
+            getCustomRepository(TypeRepository),
+            getCustomRepository(ProductRepository),
+        ]);
+        const typeRepo: TypeRepository = connection[0];
+        const productRepo: ProductRepository = connection[1];
+
+        const selectedType = await typeRepo.findProductIdByTypeName(name);
+        const productList = await Promise.all<Product>(
+            selectedType.map((item) =>
+                productRepo.findByIDWithRelation(item.productID)
+            )
+        );
+        return res.send(
+            dataHelper.getResponseForm(
+                productList,
+                null,
+                "get product by category"
+            )
+        );
+    }
+);
+//GET - get all category
+router.get(
+    "/search/:name",
+    async (req: Request<GetProductByTypeDTO>, res: Response) => {
+        const { name } = req.params;
+        //connection
+        const connection = await Promise.all<any>([
+            getCustomRepository(ProductRepository),
+        ]);
+        const productRepo: ProductRepository = connection[0];
+        const productList = await productRepo.findByNameInclude(name);
+        return res.send(
+            dataHelper.getResponseForm(productList, null, "search product")
         );
     }
 );

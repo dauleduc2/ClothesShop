@@ -41,7 +41,7 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
     const [selectedSize, setSelectedSize] = React.useState<Size>(sizeState.data[0]);
     const [selectedSizeList, setSelectedSizeList] = React.useState<Size[]>([]);
     const [selectedStatus, setSelectedStatus] = React.useState<ProductStatusString>('AVAILABLE');
-    const { handleSubmit, register } = useForm<ProductAddFormDTO>();
+    const { handleSubmit, register, reset } = useForm<ProductAddFormDTO>();
 
     const onSubmit = async (data: ProductAddFormDTO) => {
         const newProduct: ProductAddFormDTO = {
@@ -59,6 +59,13 @@ const AddProductForm: React.FunctionComponent<AddProductFormProps> = () => {
         const res = await store.dispatch(productThunk.adminAddNewProduct(newProduct));
         if (res.meta.requestStatus === 'fulfilled') {
             notificationHelper.success('Add new product success!');
+            setSelectedSizeList([]);
+            setSelectedStatus('AVAILABLE');
+            setSelectedColorList([]);
+            setSelectedTypeList([]);
+            setDescription('');
+            setImages([]);
+            reset();
         }
     };
     const handleAvatarPreview = (e: any) => {

@@ -131,7 +131,6 @@ router.post(
                     )
                 );
         }
-
         //check valid username
         if (!user)
             return res
@@ -208,6 +207,7 @@ router.post(
         const userRepo = await getCustomRepository(UserRepository);
         //check is esxisted user
         let isExistedUser = await userRepo.findByEmail(email);
+
         if (isExistedUser)
             duplicateField = {
                 ...duplicateField,
@@ -215,6 +215,7 @@ router.post(
             };
 
         isExistedUser = await userRepo.findByUsername(username);
+
         if (isExistedUser)
             duplicateField = {
                 ...duplicateField,

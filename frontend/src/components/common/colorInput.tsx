@@ -44,10 +44,11 @@ const ColorInput: React.FunctionComponent<ColorInputProps> = ({
                                 <span
                                     className={'flex-shrink-0 inline-block h-2 w-2 rounded-full'}
                                     style={{
-                                        backgroundColor: selectedColor.hexCode,
+                                        backgroundColor: selectedColor ? selectedColor.hexCode : '',
                                     }}
                                 />
-                                <span className="block ml-3 truncate">{selectedColor.name}</span>
+                                {/* {selectedColor.name}  */}
+                                <span className="block ml-3 truncate">{selectedColor ? selectedColor.name : ''}</span>
                             </div>
                             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                 <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />

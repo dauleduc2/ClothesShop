@@ -15,11 +15,6 @@ export const navigationLink: Route[] = [
         exact: true,
         buttonName: 'Home',
     },
-    {
-        to: urlLink.CATEGORY,
-        exact: true,
-        buttonName: 'Category',
-    },
 ];
 //user icon selection desktop
 export const userLink: Route[] = [

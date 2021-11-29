@@ -1,4 +1,5 @@
 import { Product } from "../../entity/Product";
+import { Type } from "../../entity/Type";
 import { DateProps } from "../common/dateTime";
 
 export interface AddProductInfoDTO
@@ -23,4 +24,8 @@ export interface ProductAnalyst extends DateProps {}
 
 export interface GetEachProductAnalyst extends DateProps {
     ID: string;
+}
+
+export interface GetProductByTypeDTO {
+    name: string;
 }

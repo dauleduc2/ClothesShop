@@ -9,7 +9,15 @@ export class TypeRepository extends Repository<Type> {
             .catch((err) => err.sqlMessage);
         return result;
     }
-
+    async findProductIdByTypeName(name: string) {
+        const productList = await this.query(`
+                                    SELECT pt.productID 
+                                    FROM type t
+                                    JOIN product_types_type pt
+                                        ON pt.typeID = t.ID
+                                    WHERE t.name = '${name}'`);
+        return productList;
+    }
     async findByName(name: string) {
         const type = await this.findOne({ name });
         return type;

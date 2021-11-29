@@ -28,6 +28,7 @@ import { ProductState } from '../../../common/interfaces/Redux/product';
 import ReactQuillInput from '../../../components/common/quillInput';
 import { Image } from '../../../common/interfaces/Model/Image';
 import { productApi } from '../../../api/productApi';
+import { color } from '../../../redux/color/color';
 interface UpdateProductParams {
     productName: string;
 }
@@ -37,6 +38,22 @@ interface UpdateProductFormProps extends RouteComponentProps<UpdateProductParams
 export interface FilePreview extends File {
     preview: string;
 }
+
+const defaultColor: Color = {
+    ID: -1,
+    name: 'unset',
+    hexCode: '#FFFFFF',
+};
+
+const defaultSize: Size = {
+    ID: -1,
+    name: 'unset',
+};
+
+const defaultType: Type = {
+    ID: -1,
+    name: 'unset',
+};
 
 const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ match }) => {
     const sizeState = useSelector<RootState, SizeState>((state) => state.size);
@@ -48,19 +65,22 @@ const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ ma
     const [initAvatar, setInitAvatar] = React.useState<string>();
     const [images, setImages] = React.useState<FilePreview[]>();
     const [initImages, setInitImages] = React.useState<Image[]>();
-    const [selectedType, setSelectedType] = React.useState<Type>(typeState.data[0]);
+    const [selectedType, setSelectedType] = React.useState<Type>(defaultType);
     const [selectedTypeList, setSelectedTypeList] = React.useState<Type[]>([]);
-    const [selectedColor, setSelectedColor] = React.useState<Color>(colorState.data[0]);
+    const [selectedColor, setSelectedColor] = React.useState<Color>(defaultColor);
     const [selectedColorList, setSelectedColorList] = React.useState<Color[]>([]);
-    const [selectedSize, setSelectedSize] = React.useState<Size>(sizeState.data[0]);
+    const [selectedSize, setSelectedSize] = React.useState<Size>(defaultSize);
     const [selectedSizeList, setSelectedSizeList] = React.useState<Size[]>([]);
     const [selectedStatus, setSelectedStatus] = React.useState<ProductStatusString>('AVAILABLE');
+    const [isRendered, setIsRendered] = React.useState<Boolean>(false);
     const { handleSubmit, register, setValue } = useForm<ProductAddFormDTO>();
+
     //calling api to get all size, color, type
     React.useLayoutEffect(() => {
         store.dispatch(sizeThunk.adminGetAllSize());
         store.dispatch(typeThunk.adminGetAllType());
         store.dispatch(colorThunk.adminGetAllColor());
+        setIsRendered(true);
         return () => {};
     }, []);
     //calling api to get current product info
@@ -135,7 +155,6 @@ const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ ma
         }
         setImages(fileList);
     };
-
     return (
         <form
             encType="multipart/form-data"
@@ -206,7 +225,7 @@ const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ ma
                             >
                                 Color
                             </label>
-                            {colorState.data.length > 0 && (
+                            {colorState.data && colorState.data.length > 0 && (
                                 <ColorInput
                                     colorState={colorState}
                                     selectedColor={selectedColor}
