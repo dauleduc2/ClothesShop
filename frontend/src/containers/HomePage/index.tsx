@@ -50,7 +50,7 @@ const HomePage: React.FunctionComponent<HomePageProps> = ({ location }) => {
                     {/* Decorative image and overlay */}
                     <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                         <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-01-hero-full-width.jpg"
+                            src="https://wallpaper.dog/large/10907455.jpg"
                             alt=""
                             className="object-cover object-center w-full h-full"
                         />
