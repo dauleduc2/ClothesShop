@@ -40,7 +40,6 @@ const AvatarInput: React.FunctionComponent<AvatarInputProps> = ({
                             className="absolute z-20 text-white cursor-pointer -top-4 left-24"
                             onClick={(e) => {
                                 if (typeof setInitAvatar !== 'undefined') {
-                                    console.log('clicked');
                                     setInitAvatar('');
                                 }
                             }}

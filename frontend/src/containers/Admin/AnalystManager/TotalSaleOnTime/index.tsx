@@ -74,7 +74,6 @@ const TotalSaleOnTime: React.FunctionComponent<TotalSaleOnTimeProps> = () => {
     }, [analystState.totalSale]);
 
     React.useEffect(() => {
-        console.log('dispatching...');
         store.dispatch(
             analystThunk.getTotalSaleOnTime({
                 from: `${new Date().getFullYear()}-01-01`,
