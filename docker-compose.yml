@@ -15,19 +15,19 @@ services:
     ports:
       - 3000:3000
 
-  db:
-    hostname: mysql
-    restart: always
-    image: mysql:8.0.26
-    command: --default-authentication-plugin=mysql_native_password
-    expose:
-      - 3306
-    environment:
-      MYSQL_ROOT_PASSWORD: "123456"
-      MYSQL_DATABASE: clothesshop
-      MYSQL_USER: "user"
-      MYSQL_PASS: "123456"
-    volumes:
-      - clothesshop:/var/lib/mysql
+  # db:
+  #   hostname: mysql
+  #   restart: always
+  #   image: mysql:8.0.26
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   expose:
+  #     - 3306
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: "123456"
+  #     MYSQL_DATABASE: clothesshop
+  #     MYSQL_USER: "user"
+  #     MYSQL_PASS: "123456"
+  #   volumes:
+  #     - clothesshop:/var/lib/mysql
 volumes:
   clothesshop:

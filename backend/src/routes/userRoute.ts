@@ -21,6 +21,7 @@ import {
 } from "../interfaces/DTO/user";
 import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
 import * as statusCode from "../constants/statusConstants";
+import Joi = require("joi");
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -116,6 +117,7 @@ router.post(
         const user: User = await userRepo.findByUsername(username);
         //validate
         const { error } = validateLoginUser(req.body);
+        
         if (error) {
             let errorToSend = {};
             error.details.forEach((detailError) => {

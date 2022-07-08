@@ -12,7 +12,6 @@ import { featureList } from '../../../consts/UI';
 interface FormManagerProps {}
 
 const FormManager: React.FunctionComponent<FormManagerProps> = () => {
-    console.log('rerendered');
     //calling api to get all size, color, type
     React.useLayoutEffect(() => {
         store.dispatch(sizeThunk.adminGetAllSize());

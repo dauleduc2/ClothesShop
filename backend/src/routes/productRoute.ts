@@ -220,7 +220,6 @@ router.post(
         } else if (typeof images === "string") {
             images = [...images];
         }
-        console.log(typeof images);
         const updateProduct: UpdateProductDTO = {
             name,
             quantity,
