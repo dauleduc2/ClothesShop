@@ -5,26 +5,12 @@ services:
     ports:
       - 4002:4002
     env_file:
-      - ./.env.production
+      - .env.production
     volumes:
       - images:/uploads
   client:
     image: dauleduc2/clothesshopweb
     ports:
       - 3002:3002
-
-  # db:
-  #   hostname: mysql
-  #   restart: always
-  #   image: mysql:8.0.26
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   ports:
-  #     - 3306:3306
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: 123456
-  #     MYSQL_DATABASE: clothesshop
-  #   volumes:
-  #     - dbdata:/var/lib/mysql
 volumes:
-  # dbdata:
   images:

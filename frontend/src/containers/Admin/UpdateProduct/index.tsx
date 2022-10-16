@@ -73,7 +73,7 @@ const UpdateProductForm: React.FunctionComponent<UpdateProductFormProps> = ({ ma
     const [selectedSizeList, setSelectedSizeList] = React.useState<Size[]>([]);
     const [selectedStatus, setSelectedStatus] = React.useState<ProductStatusString>('AVAILABLE');
     const [isRendered, setIsRendered] = React.useState<Boolean>(false);
-    const { handleSubmit, register, setValue } = useForm<ProductAddFormDTO>();
+    const { handleSubmit, register, setValue } = useForm<UpdateProductDTO>();
 
     //calling api to get all size, color, type
     React.useLayoutEffect(() => {
